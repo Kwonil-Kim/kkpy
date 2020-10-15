@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   kkpy.io
    kkpy.util
 
 Module contents
@@ -16,3 +17,11 @@ Module contents
    :members:
    :undoc-members:
    :show-inheritance:
+   
+   Modules
+   -------
+
+   ..automodule:: kkpy.io
+       :members:
+   ..automodule:: kkpy.util
+       :members:
