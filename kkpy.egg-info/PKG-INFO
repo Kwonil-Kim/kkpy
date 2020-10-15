@@ -1,0 +1,21 @@
+Metadata-Version: 1.0
+Name: kkpy
+Version: 0.1
+Summary: My python package
+Home-page: https://github.com/Kwonil-Kim/kkpy
+Author: Kwonil Kim
+Author-email: kwonil.kim.0@gmail.com
+License: MIT
+Description: # KKpy
+        This library .....
+        
+        ## Building this package locally
+        `python setup.py sdist`
+        
+        ## installing this package from GitHub
+        `pip install git+https://github.com/Kwonil-Kim/kkpy`
+        
+        ## Updating this package from GitHub
+        `pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy`
+        
+Platform: UNKNOWN
