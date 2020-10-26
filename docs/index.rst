@@ -5,6 +5,8 @@
 
 Welcome to kkpy's documentation!
 ================================
+.. warning::
+   THIS PACKAGE AND DOCUMENTATION ARE UNDER DEVELOPMENT. This package is not complete and it is expected that the contents and documentation will change.
 
 .. toctree::
    :maxdepth: 2
@@ -12,6 +14,7 @@ Welcome to kkpy's documentation!
    
    kkpy.io
    kkpy.util
+   kkpy.cm
 
 
 Indices and tables
