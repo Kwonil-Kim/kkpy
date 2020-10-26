@@ -18,8 +18,8 @@ from kkpy import __version__ as VERSION
 
 # -- Project information -----------------------------------------------------
 
-project = 'kkpy'
-copyright = '2020, kwonil'
+project = 'KKpy'
+copyright = '2020, Kwonil Kim'
 author = 'kwonil'
 
 # The full version, including alpha/beta/rc tags
