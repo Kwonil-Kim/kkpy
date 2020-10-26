@@ -129,7 +129,9 @@ def precip(levels=None):
     dict_cmap = {}
     dict_cmap['cmap'] = rain_color()
     dict_cmap['norm'] = col.BoundaryNorm(level, ncolors=rain_color().N)
-    dict_cmap['ticks'] = rain_tick()
+    dict_cmap['ticks'] = level[1:-1]
+    if coarse:
+        [0, 0.4, 1, 2, 5, 7, 10, 14, 20, 30, 50, 70, 100]
     
     return dict_cmap
         
