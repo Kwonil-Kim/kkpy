@@ -6,17 +6,21 @@
 Welcome to KKpy's documentation!
 ================================
 .. warning::
-   THIS PACKAGE AND DOCUMENTATION ARE UNDER DEVELOPMENT. This package is not complete and it is expected that the contents and documentation will change.
+   | THIS PACKAGE AND DOCUMENTATION ARE UNDER DEVELOPMENT.
+   | This package is not complete and it is expected that the contents and documentation will change.
 
 .. toctree::
    :maxdepth: 4
    :caption: Table of Contents:
    
-   kkpy
+   install
+   io
+   util
+   cm
+   
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
