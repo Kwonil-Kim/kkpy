@@ -1,15 +1,6 @@
 kkpy package
 ============
 
-Submodules
-----------
-
-.. toctree::
-   :maxdepth: 4
-
-   kkpy.io
-   kkpy.util
-
 Module contents
 ---------------
 
@@ -20,8 +11,9 @@ Module contents
    
    Modules
    -------
+   .. toctree::
+       :maxdepth: 1
 
-   ..automodule:: kkpy.io
-       :members:
-   ..automodule:: kkpy.util
-       :members:
+       kkpy.io
+       kkpy.util
+       kkpy.cm
