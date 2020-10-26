@@ -48,9 +48,14 @@ def refl(levels=None, snow=True):
             level = z_level_snow()
     else:
         level = levels
+        
+    if snow:
+        cmap = ref_color_snow()
+    else:
+        cmap = ref_color()
     
     dict_cmap = {}
-    dict_cmap['cmap'] = ref_color()
+    dict_cmap['cmap'] = cmap
     dict_cmap['norm'] = col.BoundaryNorm(level, ncolors=ref_color().N)
     dict_cmap['ticks'] = level[1:-1]
     
@@ -140,6 +145,17 @@ def ref_color():
     plt.cm.register_cmap(name='knuref', cmap=cmap_colors)
     return cmap_colors
 
+def ref_color_snow():
+    colors = ['#ffffff',
+     '#c8c8c8', '#00c8ff', '#009bf5', '#0000f5',
+     '#00f500', '#00be00', '#008c00', '#005a00',
+     '#FFFF00', '#E6B400', '#ff9600', '#ff0000',
+     '#b40000', '#7828a0',
+     '#000000']
+    cmap_colors = col.ListedColormap(colors)
+    plt.cm.register_cmap(name='knuref', cmap=cmap_colors)
+    return cmap_colors
+
 def rain_color():
     colors = ['#e0e0e0',
      '#87d9ff', '#3ec1ff', '#07abff', '#008dde', '#0077b3',
@@ -160,16 +176,29 @@ def vel_color():
     plt.cm.register_cmap(name='knuvel', cmap=cmap_colors)
     return cmap_colors
     
+def vel_color_vpr_snow():
+    colors =['#e6e6e6', '#005a00', '#007300', '#008c00', '#00be02', '#00f500', '#0000f5', '#0051f8', '#009bf5',
+     '#00b2fa', '#00c8ff', '#646464', '#ffff00', '#ff9600', '#ff0000', '#b50000', '#7828a0']
+    cmap_colors = col.ListedColormap(colors)
+    plt.cm.register_cmap(name='knuvel', cmap=cmap_colors)
+    return cmap_colors
+
 
 # LEVELS
 def z_level_rain():
     return [-100.0, -32.0, -10.0, 0.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 500.0]
+
+def z_level_snow():
+    return [-100.0, -30.0, -25.0, -20.0, -15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 40.0, 50.0, 500.0]
 
 def rain_level(scale=1):
     return [x*scale for x in [-10000, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 1000]]
 
 def vel_level():
     return [-100, -64, -42, -32, -24, -16, -8, -2, -0.5, 0.5, 2, 8, 16, 24, 32, 42, 64, 100]
+
+def vel_level_vpr_snow():
+    return [-100, -10, -5, -3, -2, -1.6, -1.2, -1.0, -0.8, -0.6, -0.4, -0.2, 0.2, 0.5, 1.0, 3.0, 5.0, 100]
 
 # TICKS
 def rain_tick(scale=1, coarse=False):
