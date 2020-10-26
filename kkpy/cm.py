@@ -98,7 +98,7 @@ def doppler(levels=None):
     
     return dict_cmap
         
-def precip(levels=None):
+def precip(levels=None, coarse_ticks=False):
     """
     KNU Precipitation colors.
     
@@ -112,6 +112,8 @@ def precip(levels=None):
     ----------
     levels : array_like
         Array containing user-defined color tick levels. It should have lower and upper bounds.
+    coarse_ticks : boolean
+        True if colorbar levels are too dense.
         
     Returns
     ---------
@@ -130,8 +132,8 @@ def precip(levels=None):
     dict_cmap['cmap'] = rain_color()
     dict_cmap['norm'] = col.BoundaryNorm(level, ncolors=rain_color().N)
     dict_cmap['ticks'] = level[1:-1]
-    if coarse:
-        [0, 0.4, 1, 2, 5, 7, 10, 14, 20, 30, 50, 70, 100]
+    if coarse_ticks:
+        dict_cmap['ticks'] = [0, 0.4, 1, 2, 5, 7, 10, 14, 20, 30, 50, 70, 100]
     
     return dict_cmap
         
