@@ -15,9 +15,10 @@ wind
 
 """
 import numpy as np
+import matplotlib.pyplot as plt
 import matplotlib.colors as col
 
-def refl(levels=None, snow=True):
+def refl(levels=None, snow=False):
     """
     KNU reflectivity colors.
     
@@ -126,8 +127,8 @@ def precip(levels=None):
         level = levels
     
     dict_cmap = {}
-    dict_cmap['cmap'] = ref_color()
-    dict_cmap['norm'] = col.BoundaryNorm(level, ncolors=ref_color().N)
+    dict_cmap['cmap'] = rain_color()
+    dict_cmap['norm'] = col.BoundaryNorm(level, ncolors=rain_color().N)
     dict_cmap['ticks'] = rain_tick()
     
     return dict_cmap
