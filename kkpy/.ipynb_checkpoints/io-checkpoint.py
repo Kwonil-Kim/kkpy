@@ -171,7 +171,9 @@ def read_mxpol_rhi_with_hc(rhifile_nc, hcfile_mat):
     
     Examples
     ---------
-    >>> radar_mxp = kkpy.io.read_mxpol_rhi_with_hc(glob.glob('/path/to/rhi/*.nc'), glob.glob('/path/to/hc/*.mat'))
+    >>> rhifile = '/disk/WORKSPACE/kwonil/MXPOL/RAW/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8.nc'
+    >>> hidfile = '/disk/WORKSPACE/kwonil/MXPOL/HID/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8_zdrcorr_demix.mat'
+    >>> radar_mxp = kkpy.io.read_mxpol_rhi_with_hc(rhifile, hcfile)
     
     Parameters
     ----------
@@ -190,6 +192,7 @@ def read_mxpol_rhi_with_hc(rhifile_nc, hcfile_mat):
     os.environ['PYART_QUIET'] = "True"
     import pyart
     import scipy.io
+    from netCDF4 import Dataset
     
     # HC file
     HC_proportion = scipy.io.loadmat(hcfile_mat)
@@ -301,11 +304,11 @@ def read_dem(file=None, area='pyeongchang'):
         
     Returns
     ---------
-    dem : float array
+    dem : float 2D array
         Return DEM elevation.
-    lon_dem : float array
+    lon_dem : float 2D array
         Return longitude of each DEM pixel.
-    lat_dem : float array
+    lat_dem : float 2D array
         Return latitude of each DEM pixel.
     proj_dem : osr object
         Spatial reference system of the used coordinates.
