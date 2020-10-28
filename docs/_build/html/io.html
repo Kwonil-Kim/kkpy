@@ -274,9 +274,9 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>dem</strong> (<em>float array</em>) – Return DEM elevation.</p></li>
-<li><p><strong>lon_dem</strong> (<em>float array</em>) – Return longitude of each DEM pixel.</p></li>
-<li><p><strong>lat_dem</strong> (<em>float array</em>) – Return latitude of each DEM pixel.</p></li>
+<li><p><strong>dem</strong> (<em>float 2D array</em>) – Return DEM elevation.</p></li>
+<li><p><strong>lon_dem</strong> (<em>float 2D array</em>) – Return longitude of each DEM pixel.</p></li>
+<li><p><strong>lat_dem</strong> (<em>float 2D array</em>) – Return latitude of each DEM pixel.</p></li>
 <li><p><strong>proj_dem</strong> (<em>osr object</em>) – Spatial reference system of the used coordinates.</p></li>
 </ul>
 </p>
@@ -289,7 +289,9 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 <code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_mxpol_rhi_with_hc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rhifile_nc</span></em>, <em class="sig-param"><span class="n">hcfile_mat</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_mxpol_rhi_with_hc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">radar_mxp</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_mxpol_rhi_with_hc</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;/path/to/rhi/*.nc&#39;</span><span class="p">),</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;/path/to/hc/*.mat&#39;</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rhifile</span> <span class="o">=</span> <span class="s1">&#39;/disk/WORKSPACE/kwonil/MXPOL/RAW/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8.nc&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hidfile</span> <span class="o">=</span> <span class="s1">&#39;/disk/WORKSPACE/kwonil/MXPOL/HID/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8_zdrcorr_demix.mat&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">radar_mxp</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_mxpol_rhi_with_hc</span><span class="p">(</span><span class="n">rhifile</span><span class="p">,</span> <span class="n">hcfile</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
