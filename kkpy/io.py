@@ -14,11 +14,11 @@ Functions to read and write files
 
 """
 import numpy as np
+import pandas as pd
 import datetime
 import glob
-import scipy.io
-import pyart
-import wradlib as wrl
+import os
+import sys
 
 def read_aws(time=None, datadir='/disk/STORAGE/OBS/AWS/', date_range=True):
     """
@@ -36,9 +36,9 @@ def read_aws(time=None, datadir='/disk/STORAGE/OBS/AWS/', date_range=True):
     time : datetime or array_like of datetime
         Datetime of the data you want to read.
         If this is array of two elements, it will read all data within two datetimes by default.
-        If this is array of elements and keyword *range* is False, it will read the data of specific time of each element.
+        If this is array of elements and keyword *date_range* is False, it will read the data of specific time of each element.
     datadir : str, optional
-        Directory of the data.
+        Directory of data.
     date_range : bool, optional
         False if argument *time* contains element of specific time you want to read.
         
@@ -69,55 +69,77 @@ def read_aws(time=None, datadir='/disk/STORAGE/OBS/AWS/', date_range=True):
 
     df_aws = pd.DataFrame(list_aws, columns=names)
     
-    
     return df_aws
 
 
 
-def read_2dvd_rho(time=None, datadir='/disk/STORAGE/OBS/AWS/', date_range=True):
+def read_2dvd_rho(time=None, date_range=True, datadir='/disk/common/kwonil_rainy/RHO_2DVD/', filename='2DVD_Dapp_v_rho_201*Deq.txt'):
     """
-    Read AWS_MIN files into dataframe.
+    Read 2DVD density files into dataframe.
     
     Examples
     ---------
     >>> import datetime
-    >>> df_aws = kkpy.io.read_aws(time=datetime.datetime(2018,2,28,6,0))
+    >>> df_2dvd_drop = kkpy.io.read_2dvd_rho(time=datetime.datetime(2018,2,28)) # automatically date_range=False
     
-    >>> df_aws = kkpy.io.read_aws(time=[datetime.datetime(2018,2,28,6,0),datetime.datetime(2018,3,1,12,0)], datadir='/path/to/aws/files/')
+    >>> df_2dvd_drop = kkpy.io.read_2dvd_rho(time=[datetime.datetime(2018,2,28,6),datetime.datetime(2018,3,1,12)], datadir='/path/to/2dvd/files/')
+    
+    >>> df_2dvd_drop = kkpy.io.read_2dvd_rho(time=list_of_many_datetimes, date_range=False)
+    
+    >>> df_2dvd_drop = kkpy.io.read_2dvd_rho(time=datetime.datetime(2018,2,28), filename='2DVD_rho_test_*.txt')
     
     Parameters
     ----------
     time : datetime or array_like of datetime
         Datetime of the data you want to read.
         If this is array of two elements, it will read all data within two datetimes by default.
-        If this is array of elements and keyword *range* is False, it will read the data of specific time of each element.
-    datadir : str, optional
-        Directory of the data.
+        If this is array of elements and keyword *date_range* is False, it will read the data of specific time of each element.
     date_range : bool, optional
         False if argument *time* contains element of specific time you want to read.
+    datadir : str, optional
+        Directory of data.
+    filename : str, optional
+        File naming of data.
         
     Returns
     ---------
-    df_aws : dataframe
-        Return dataframe of aws data.
+    df_2dvd_drop : dataframe
+        Return dataframe of 2dvd data.
     """
     # Get file list
-    filearr = np.array(np.sort(glob.glob(f'{datadir}/**/2DVD_Dapp_v_rho_201*Deq.txt', recursive=True)))
+    filearr = np.array(np.sort(glob.glob(f'{datadir}/**/{filename}', recursive=True)))
     yyyy_filearr = [np.int(os.path.basename(x)[-27:-23]) for x in filearr]
     mm_filearr = [np.int(os.path.basename(x)[-23:-21]) for x in filearr]
     dd_filearr = [np.int(os.path.basename(x)[-21:-19]) for x in filearr]
     dt_filearr = np.array([datetime.datetime(yyyy,mm,dd) for (yyyy, mm, dd) in zip(yyyy_filearr, mm_filearr, dd_filearr)])
 
-    # Select file within time range
-    if ((len(time) == 2) & date_range):
-        dt_start = time[0]
-        dt_finis = time[1]
-        # dt_start = datetime.datetime(2017,12,24)
-        # dt_finis = datetime.datetime(2017,12,25)
-        filearr = filearr[(dt_filearr >= dt_start) & (dt_filearr < dt_finis)]
-        dt_filearr = dt_filearr[(dt_filearr >= dt_start) & (dt_filearr < dt_finis)]
+    if time is None:
+        sys.exit(f'{__name__}: Check time argument')
     
+    if len(time) == 1:
+        date_range = False
     
+    if date_range:
+        if len(time) != 2:
+            sys.exit(f'{__name__}: Check time and date_range arguments')
+        if time[0] >= time[1]:
+            sys.exit(f'{__name__}: time[1] must be greater than time[0]')
+        
+        dt_start = datetime.datetime(time[0].year, time[0].month, time[0].day)
+        dt_finis = datetime.datetime(time[1].year, time[1].month, time[1].day)
+        
+        
+        filearr = filearr[(dt_filearr >= dt_start) & (dt_filearr <= dt_finis)]
+        dt_filearr = dt_filearr[(dt_filearr >= dt_start) & (dt_filearr <= dt_finis)]
+    else:
+        list_dt_yyyymmdd = np.unique(np.array([datetime.datetime(_time.year, _time.month, _time.day) for _time in time]))
+        
+        filearr = filearr[np.isin(dt_filearr, list_dt_yyyymmdd)]
+        dt_filearr = dt_filearr[np.isin(dt_filearr, list_dt_yyyymmdd)]
+    
+    if len(filearr) == 0:
+        sys.exit(f'{__name__}: No matched data for the given time period')
+        
     # # READ DATA
     columns = ['hhmm', 'Dapp', 'VEL', 'RHO', 'AREA', 'WA', 'HA', 'WB', 'HB', 'Deq']
     dflist = []
@@ -129,15 +151,17 @@ def read_2dvd_rho(time=None, datadir='/disk/STORAGE/OBS/AWS/', date_range=True):
         _df['hour'] = np.int_(_df['hhmm'] / 100)
         _df['minute'] = _df['hhmm'] % 100
         _df['jultime'] = pd.to_datetime(_df[['year','month','day','hour','minute']])
-        _df['jultime_minute'] = _df['jultime']
         _df = _df.drop(['hhmm','year','month','day','hour','minute'], axis=1)
-        _df = _df.drop(['Dapp', 'RHO', 'WA', 'HA', 'WB', 'HB'], axis=1)
         dflist.append(_df)
         print(i_file+1, filearr.size, file)
 
     df_2dvd_drop = pd.concat(dflist, sort=False, ignore_index=True)
     df_2dvd_drop.set_index('jultime', inplace=True)
 
+    if date_range:
+        if np.sum([np.sum([_time.hour, _time.minute, _time.second]) for _time in time]) != 0:
+            df_2dvd_drop = df_2dvd_drop.loc[time[0]:time[1]]
+    
     return df_2dvd_drop
 
 
@@ -163,6 +187,10 @@ def read_mxpol_rhi_with_hc(rhifile_nc, hcfile_mat):
     radar : py-ART radar object
         Return py-ART radar object.
     """
+    os.environ['PYART_QUIET'] = "True"
+    import pyart
+    import scipy.io
+    
     # HC file
     HC_proportion = scipy.io.loadmat(hcfile_mat)
     # RHI file
@@ -282,6 +310,8 @@ def read_dem(file=None, area='pyeongchang'):
     proj_dem : osr object
         Spatial reference system of the used coordinates.
     """
+    
+    import wradlib as wrl
     
     if file is not None:
         ds = wrl.io.open_raster(file)

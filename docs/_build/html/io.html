@@ -172,6 +172,12 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd_rho" title="kkpy.io.read_2dvd_rho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd_rho</span></code></a>([time, datadir, …])</p></td>
 <td><p>Read AWS_MIN files into dataframe.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_mxpol_rhi_with_hc" title="kkpy.io.read_mxpol_rhi_with_hc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_mxpol_rhi_with_hc</span></code></a>(rhifile_nc, …)</p></td>
+<td><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_dem" title="kkpy.io.read_dem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_dem</span></code></a>([file, area])</p></td>
+<td><p>Read NASA SRTM 3-arcsec (90 meters) digital elevation model in South Korea.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -232,6 +238,67 @@ If this is array of elements and keyword <em>range</em> is False, it will read t
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_dem">
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_dem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">area</span><span class="o">=</span><span class="default_value">'pyeongchang'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_dem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read NASA SRTM 3-arcsec (90 meters) digital elevation model in South Korea.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon_dem</span><span class="p">,</span> <span class="n">lat_dem</span><span class="p">,</span> <span class="n">proj_dem</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;pyeongchang&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon_dem</span><span class="p">,</span> <span class="n">lat_dem</span><span class="p">,</span> <span class="n">dem</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon_dem</span><span class="p">,</span> <span class="n">lat_dem</span><span class="p">,</span> <span class="n">proj_dem</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;korea&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon_dem</span><span class="p">,</span> <span class="n">lat_dem</span><span class="p">,</span> <span class="n">proj_dem</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;./pyeongchang_90m.tif&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str</em><em>, </em><em>optional</em>) – Filepath of .tif DEM file to read.</p></li>
+<li><p><strong>area</strong> (<em>str</em><em>, </em><em>optional</em>) – Region of interest. Possible options are ‘pyeongchang’ and ‘korea’. Default is ‘pyeongchang’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>dem</strong> (<em>float array</em>) – Return DEM elevation.</p></li>
+<li><p><strong>lon_dem</strong> (<em>float array</em>) – Return longitude of each DEM pixel.</p></li>
+<li><p><strong>lat_dem</strong> (<em>float array</em>) – Return latitude of each DEM pixel.</p></li>
+<li><p><strong>proj_dem</strong> (<em>osr object</em>) – Spatial reference system of the used coordinates.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_mxpol_rhi_with_hc">
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_mxpol_rhi_with_hc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rhifile_nc</span></em>, <em class="sig-param"><span class="n">hcfile_mat</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_mxpol_rhi_with_hc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">radar_mxp</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_mxpol_rhi_with_hc</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;/path/to/rhi/*.nc&#39;</span><span class="p">),</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;/path/to/hc/*.mat&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rhifile_nc</strong> (<em>str</em><em> or </em><em>array_like of str</em>) – Filepath of RHI data to read.
+The number and the order of elements should match with <cite>hcfile_mat</cite>.</p></li>
+<li><p><strong>hcfile_mat</strong> (<em>str</em><em> or </em><em>array_like of str</em>) – Filepath of hydrometeor classification file to read.
+The number and the order of elements should match with <cite>rhifile_nc</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>radar</strong> – Return py-ART radar object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>py-ART radar object</p>
 </dd>
 </dl>
 </dd></dl>
