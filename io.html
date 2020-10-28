@@ -169,8 +169,8 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_aws" title="kkpy.io.read_aws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_aws</span></code></a>([time, datadir, date_range])</p></td>
 <td><p>Read AWS_MIN files into dataframe.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd_rho" title="kkpy.io.read_2dvd_rho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd_rho</span></code></a>([time, datadir, …])</p></td>
-<td><p>Read AWS_MIN files into dataframe.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd_rho" title="kkpy.io.read_2dvd_rho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd_rho</span></code></a>([time, date_range, …])</p></td>
+<td><p>Read 2DVD density files into dataframe.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_mxpol_rhi_with_hc" title="kkpy.io.read_mxpol_rhi_with_hc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_mxpol_rhi_with_hc</span></code></a>(rhifile_nc, …)</p></td>
 <td><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p></td>
@@ -182,14 +182,20 @@
 </table>
 <dl class="py function">
 <dt id="kkpy.io.read_2dvd_rho">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_2dvd_rho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/STORAGE/OBS/AWS/'</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_2dvd_rho" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read AWS_MIN files into dataframe.</p>
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_2dvd_rho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/common/kwonil_rainy/RHO_2DVD/'</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">'2DVD_Dapp_v_rho_201*Deq.txt'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_2dvd_rho" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read 2DVD density files into dataframe.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df_aws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_aws</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_2dvd_drop</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_2dvd_rho</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">))</span> <span class="c1"># automatically date_range=False</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df_aws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_aws</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span><span class="p">)],</span> <span class="n">datadir</span><span class="o">=</span><span class="s1">&#39;/path/to/aws/files/&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df_2dvd_drop</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_2dvd_rho</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">)],</span> <span class="n">datadir</span><span class="o">=</span><span class="s1">&#39;/path/to/2dvd/files/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df_2dvd_drop</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_2dvd_rho</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">list_of_many_datetimes</span><span class="p">,</span> <span class="n">date_range</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df_2dvd_drop</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_2dvd_rho</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;2DVD_rho_test_*.txt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -197,13 +203,14 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time</strong> (<em>datetime</em><em> or </em><em>array_like of datetime</em>) – Datetime of the data you want to read.
 If this is array of two elements, it will read all data within two datetimes by default.
-If this is array of elements and keyword <em>range</em> is False, it will read the data of specific time of each element.</p></li>
-<li><p><strong>datadir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory of the data.</p></li>
+If this is array of elements and keyword <em>date_range</em> is False, it will read the data of specific time of each element.</p></li>
 <li><p><strong>date_range</strong> (<em>bool</em><em>, </em><em>optional</em>) – False if argument <em>time</em> contains element of specific time you want to read.</p></li>
+<li><p><strong>datadir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory of data.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – File naming of data.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>df_aws</strong> – Return dataframe of aws data.</p>
+<dd class="field-even"><p><strong>df_2dvd_drop</strong> – Return dataframe of 2dvd data.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>dataframe</p>
@@ -228,8 +235,8 @@ If this is array of elements and keyword <em>range</em> is False, it will read t
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time</strong> (<em>datetime</em><em> or </em><em>array_like of datetime</em>) – Datetime of the data you want to read.
 If this is array of two elements, it will read all data within two datetimes by default.
-If this is array of elements and keyword <em>range</em> is False, it will read the data of specific time of each element.</p></li>
-<li><p><strong>datadir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory of the data.</p></li>
+If this is array of elements and keyword <em>date_range</em> is False, it will read the data of specific time of each element.</p></li>
+<li><p><strong>datadir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory of data.</p></li>
 <li><p><strong>date_range</strong> (<em>bool</em><em>, </em><em>optional</em>) – False if argument <em>time</em> contains element of specific time you want to read.</p></li>
 </ul>
 </dd>
