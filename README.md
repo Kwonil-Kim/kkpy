@@ -1,10 +1,8 @@
 # KKpy
 This library .....
 
-## Building this package locally
-`git clone git+https://github.com/Kwonil-Kim/kkpy`
-`cd kkpy/`
-`python setup.py sdist`
+## Documentation
+https://kwonil-kim.github.io/kkpy/
 
 ## installing this package from GitHub
 `pip install git+https://github.com/Kwonil-Kim/kkpy`
