@@ -44,7 +44,7 @@ def wind2uv(wd=None, ws=None, radians=False, knots=False):
     v : ndarray
         Return v component of wind in **m/s**.
     """
-    if not radian:
+    if not radians:
         wd = np.radians(wd)
     
     if knots:
