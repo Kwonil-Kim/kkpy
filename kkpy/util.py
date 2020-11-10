@@ -13,7 +13,7 @@ wind
     kkpy.util.uv2wind
     kkpy.util.ms2knot
     kkpy.util.knot2ms
-    kkpy.util.cross_section
+    kkpy.util.cross_section_2d
     kkpy.util.proj_dfs
 
 """
