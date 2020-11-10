@@ -172,7 +172,7 @@ def cross_section_2d(dict_start, dict_end, lon2d, lat2d, value2d, avg_halfwidth=
         Return a dictionary contatining the indicies of starting point and ending point of the transect.
     """
     
-    if np.abs(lon[1,0] - lon[0,0]) > np.abs(lon[0,1] - lon[0,0]):
+    if np.abs(lon2d[1,0] - lon2d[0,0]) > np.abs(lon2d[0,1] - lon2d[0,0]):
         lon_is_first_order = True
     else:
         lon_is_first_order = False
