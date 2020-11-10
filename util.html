@@ -88,6 +88,7 @@
             
               <p class="caption"><span class="caption-text">Table of Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">How to install KKpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io.html">kkpy.io</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.util</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cm.html">kkpy.cm</a></li>
@@ -178,8 +179,49 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.knot2ms" title="kkpy.util.knot2ms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.knot2ms</span></code></a>(ws_knot)</p></td>
 <td><p>Convert unit of wind speed from knots to meter per seconds.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.cross_section_2d" title="kkpy.util.cross_section_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.cross_section_2d</span></code></a>(dict_start, …)</p></td>
+<td><p>Get mean values along the transect of two points (lon/lat).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.proj_dfs" title="kkpy.util.proj_dfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.proj_dfs</span></code></a>()</p></td>
+<td><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p></td>
+</tr>
 </tbody>
 </table>
+<dl class="py function">
+<dt id="kkpy.util.cross_section_2d">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">cross_section_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_start</span></em>, <em class="sig-param"><span class="n">dict_end</span></em>, <em class="sig-param"><span class="n">lon2d</span></em>, <em class="sig-param"><span class="n">lat2d</span></em>, <em class="sig-param"><span class="n">value2d</span></em>, <em class="sig-param"><span class="n">avg_halfwidth</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">along</span><span class="o">=</span><span class="default_value">'longitude'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.cross_section_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get mean values along the transect of two points (lon/lat).</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dict_start</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lon&#39;</span><span class="p">:</span><span class="mf">128.2</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">:</span><span class="mf">37.24</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dict_end</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lon&#39;</span><span class="p">:</span><span class="mf">129.35</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">:</span><span class="mf">38.2</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xaxis_cross</span><span class="p">,</span> <span class="n">value_cross</span><span class="p">,</span> <span class="n">index_cross</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">cross_section_2d</span><span class="p">(</span><span class="n">dict_start</span><span class="p">,</span> <span class="n">dict_end</span><span class="p">,</span> <span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">value2d</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xaxis_cross</span><span class="p">,</span> <span class="n">value_cross</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dict_start</strong> (<em>dict</em>) – Dictionary with lon and lat keys of starting points.</p></li>
+<li><p><strong>dict_end</strong> (<em>dict</em>) – Dictionary with lon and lat keys of ending points.</p></li>
+<li><p><strong>lon2d</strong> (<em>2D array</em>) – Numpy 2D array containing longitude of each grid point. The shape of lon2d, lat2d, and value2d should be same.</p></li>
+<li><p><strong>lat2d</strong> (<em>2D array</em>) – Numpy 2D array containing latitude of each grid point. The shape of lon2d, lat2d, and value2d should be same.</p></li>
+<li><p><strong>value2d</strong> (<em>2D array</em>) – Numpy 2D array containing value of each grid point. The shape of lon2d, lat2d, and value2d should be same.</p></li>
+<li><p><strong>avg_halfwidth</strong> (<em>int</em>) – The half width used in average over perpendicular direction along the transect. Default is zero (i.e. no average).</p></li>
+<li><p><strong>along</strong> (<em>str</em>) – Return xaxis_cross as longitude if it is set to ‘longitude’, otherwise return it as latitude if ‘latitude’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>xaxis_cross</strong> (<em>1D array</em>) – Return xaxis of cross-section in longitude or latitude unit. The unit is determined by along keyword.</p></li>
+<li><p><strong>value_cross</strong> (<em>1D array</em>) – Return averaged value along the cross-section.</p></li>
+<li><p><strong>index_cross</strong> (<em>dict</em>) – Return a dictionary contatining the indicies of starting point and ending point of the transect.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt id="kkpy.util.knot2ms">
 <code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">knot2ms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_knot</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.knot2ms" title="Permalink to this definition">¶</a></dt>
@@ -218,6 +260,26 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.proj_dfs">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">proj_dfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.proj_dfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">126</span><span class="p">],</span> <span class="p">[</span><span class="mi">38</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>proj</strong> – Return a map projection of DFS.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>cartopy projection</p>
 </dd>
 </dl>
 </dd></dl>
