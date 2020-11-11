@@ -90,7 +90,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">How to install KKpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io.html">kkpy.io</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.util</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.util</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#winds">winds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maps">maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spatial-calculations">spatial calculations</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="cm.html">kkpy.cm</a></li>
 </ul>
 
@@ -160,7 +165,8 @@
   <span class="target" id="module-kkpy.util"></span><div class="section" id="kkpy-util">
 <h1>kkpy.util<a class="headerlink" href="#kkpy-util" title="Permalink to this headline">¶</a></h1>
 <p>Utility functions for my research</p>
-<p>wind</p>
+<div class="section" id="winds">
+<h2>winds<a class="headerlink" href="#winds" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -179,14 +185,36 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.knot2ms" title="kkpy.util.knot2ms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.knot2ms</span></code></a>(ws_knot)</p></td>
 <td><p>Convert unit of wind speed from knots to meter per seconds.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.cross_section_2d" title="kkpy.util.cross_section_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.cross_section_2d</span></code></a>(dict_start, …)</p></td>
-<td><p>Get mean values along the transect of two points (lon/lat).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.proj_dfs" title="kkpy.util.proj_dfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.proj_dfs</span></code></a>()</p></td>
+</tbody>
+</table>
+</div>
+<div class="section" id="maps">
+<h2>maps<a class="headerlink" href="#maps" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.proj_dfs" title="kkpy.util.proj_dfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.proj_dfs</span></code></a>()</p></td>
 <td><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.dist_bearing" title="kkpy.util.dist_bearing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.dist_bearing</span></code></a>(lonlat0, lonlat1[, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.dist_bearing" title="kkpy.util.dist_bearing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.dist_bearing</span></code></a>(lonlat0, lonlat1[, …])</p></td>
 <td><p>Get distance [km] and bearing [deg] between two lon/lat points.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="spatial-calculations">
+<h2>spatial calculations<a class="headerlink" href="#spatial-calculations" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.cross_section_2d" title="kkpy.util.cross_section_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.cross_section_2d</span></code></a>(dict_start, …)</p></td>
+<td><p>Get mean values along the transect of two points (lon/lat).</p></td>
 </tr>
 </tbody>
 </table>
@@ -365,6 +393,7 @@
 </dl>
 </dd></dl>
 
+</div>
 </div>
 
 
