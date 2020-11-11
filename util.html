@@ -185,6 +185,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.proj_dfs" title="kkpy.util.proj_dfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.proj_dfs</span></code></a>()</p></td>
 <td><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.dist_bearing" title="kkpy.util.dist_bearing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.dist_bearing</span></code></a>(lonlat0, lonlat1[, …])</p></td>
+<td><p>Get distance [km] and bearing [deg] between two lon/lat points.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
@@ -216,6 +219,32 @@
 <li><p><strong>xaxis_cross</strong> (<em>1D array</em>) – Return xaxis of cross-section in longitude or latitude unit. The unit is determined by along keyword.</p></li>
 <li><p><strong>value_cross</strong> (<em>1D array</em>) – Return averaged value along the cross-section.</p></li>
 <li><p><strong>index_cross</strong> (<em>dict</em>) – Return a dictionary contatining the indicies of starting point and ending point of the transect.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.dist_bearing">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">dist_bearing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lonlat0</span></em>, <em class="sig-param"><span class="n">lonlat1</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.dist_bearing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get distance [km] and bearing [deg] between two lon/lat points.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist_km</span><span class="p">,</span> <span class="n">bearing_deg</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dist_bearing</span><span class="p">([</span><span class="mf">127.5</span><span class="p">,</span><span class="mi">36</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span><span class="mi">37</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lonlat0</strong> (<em>1D Array</em>) – Array containing longitude and latitude of the first point. Longitude (latitude) should be at the first (second) element.</p></li>
+<li><p><strong>lonlat1</strong> (<em>1D Array</em>) – Array containing longitude and latitude of the second point. Longitude (latitude) should be at the first (second) element.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>bearing</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>distance</strong> (<em>float</em>) – Return distance between two points in <strong>km</strong>.</p></li>
+<li><p><strong>bearing</strong> (<em>ndarray</em>) – Return bearing of two points in <strong>degree</strong>. If radians is True, the unit is <strong>radians</strong>.</p></li>
 </ul>
 </p>
 </dd>
