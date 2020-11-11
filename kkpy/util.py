@@ -15,6 +15,7 @@ wind
     kkpy.util.knot2ms
     kkpy.util.cross_section_2d
     kkpy.util.proj_dfs
+    kkpy.util.dist_bearing
 
 """
 import numpy as np
@@ -258,3 +259,51 @@ def proj_dfs():
                                  false_northing=789000,
                                  globe=globe)
     return proj
+
+def dist_bearing(lonlat0, lonlat1, radians=False):
+    """
+    Get distance [km] and bearing [deg] between two lon/lat points.
+    
+    Examples
+    ---------
+    >>> dist_km, bearing_deg = kkpy.util.dist_bearing([127.5,36], [130,37])
+    
+    Parameters
+    ----------
+    lonlat0 : 1D Array
+        Array containing longitude and latitude of the first point. Longitude (latitude) should be at the first (second) element.
+    lonlat1 : 1D Array
+        Array containing longitude and latitude of the second point. Longitude (latitude) should be at the first (second) element.
+    radians : bool, optional
+        If this is set to True, the unit of *bearing* is **radian**. The default is False (i.e. **degree**).
+        
+    Returns
+    ---------
+    distance : float
+        Return distance between two points in **km**.
+    bearing : ndarray
+        Return bearing of two points in **degree**. If radians is True, the unit is **radians**.
+    """
+    from haversine import haversine
+    from math import sin, cos, atan2
+    lon0 = lonlat0[0]
+    lat0 = lonlat0[1]
+    lon1 = lonlat1[0]
+    lat1 = lonlat1[1]
+    
+    dist = haversine((lat0,lon0),(lat1,lon1)) # km
+    
+    rlat0, rlon0, rlat1, rlon1 = np.radians((lat0, lon0, lat1, lon1))
+    coslt0,  sinlt0  = cos(rlat0), sin(rlat0)
+    coslt1,  sinlt1  = cos(rlat1), sin(rlat1)
+    cosl0l1, sinl0l1 = cos(rlon1-rlon0), sin(rlon1-rlon0)
+    cosc = sinlt0*sinlt1 + coslt0*coslt1*cosl0l1
+    sinc = np.sqrt(1.0 - cosc**2)
+    cosaz = (coslt0*sinlt1 - sinlt0*coslt1*cosl0l1) / sinc
+    sinaz = sinl0l1*coslt1/sinc
+    
+    bearing = np.arctan(sinaz/cosaz)
+    if not radians:
+        bearing = np.degrees(bearing)
+    
+    return dist, bearing

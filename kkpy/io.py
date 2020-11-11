@@ -20,7 +20,7 @@ import glob
 import os
 import sys
 
-def read_aws(time=None, datadir='/disk/STORAGE/OBS/AWS/', date_range=True):
+def read_aws(time, date_range=True, datadir='/disk/STORAGE/OBS/AWS/', stnid=None, dask=True):
     """
     Read AWS_MIN files into dataframe.
     
@@ -37,43 +37,99 @@ def read_aws(time=None, datadir='/disk/STORAGE/OBS/AWS/', date_range=True):
         Datetime of the data you want to read.
         If this is array of two elements, it will read all data within two datetimes by default.
         If this is array of elements and keyword *date_range* is False, it will read the data of specific time of each element.
-    datadir : str, optional
-        Directory of data.
     date_range : bool, optional
         False if argument *time* contains element of specific time you want to read.
+    datadir : str, optional
+        Directory of data.
+    stnid : list, optional
+        List of station id you want to read. Read all site if None.
+    dask : boolean, optional
+        Return a dask dataframe if True, otherwise return a pandas dataframe.
         
     Returns
     ---------
     df_aws : dataframe
         Return dataframe of aws data.
     """
+    import dask.dataframe as dd
     
-    list_aws = []
+    if time is None:
+        sys.exit(f'{__name__}: Check time argument')
     
-    filearr_1d = np.sort(glob.glob(aws_dir+YYYYMMDD[:6]+'/'+YYYYMMDD[6:8]+'/'+'AWS_MIN_'+YYYYMMDD+'*'))
-    for file in filearr_1d:
-        data = pd.read_csv(file, delimiter='#', names=names)
-        data.wd         = data.wd/10.
-        data.ws         = data.ws/10.
-        data.t          = data.t/10.
-        data.rh         = data.rh/10.
-        data.pa         = data.pa/10.
-        data.ps         = data.ps/10.
-        data.rn60m_acc  = data.rn60m_acc/10.
-        data.rn1d       = data.rn1d/10.
-        data.rn15m      = data.rn15m/10.
-        data.rn60m      = data.rn60m/10.
-        data.wds        = data.wds/10.
-        data.wss        = data.wss/10.
-        list_aws.append(data[data.stn == 100].values.tolist()[0])
-
-    df_aws = pd.DataFrame(list_aws, columns=names)
+    if len(time) == 1:
+        date_range = False
     
-    return df_aws
+    if date_range:
+        if len(time) != 2:
+            sys.exit(f'{__name__}: Check time and date_range arguments')
+        if time[0] >= time[1]:
+            sys.exit(f'{__name__}: time[1] must be greater than time[0]')
+        
+        dt_start = datetime.datetime(time[0].year, time[0].month, time[0].day, time[0].hour, time[0].minute)
+        dt_finis = datetime.datetime(time[1].year, time[1].month, time[1].day, time[1].hour, time[1].minute)
+        
+        # Get file list
+        filearr = np.array([])
+        _dt = dt_start
+        while _dt <= dt_finis:
+            _filearr = np.sort(glob.glob(f'{datadir}/{_dt:%Y%m}/{_dt:%d}/AWS_MIN_*'))
+            filearr = np.append(filearr, _filearr)
+            _dt = _dt + datetime.timedelta(days=1)
+        yyyy_filearr = [np.int(os.path.basename(x)[-12:-8]) for x in filearr]
+        mm_filearr = [np.int(os.path.basename(x)[-8:-6]) for x in filearr]
+        dd_filearr = [np.int(os.path.basename(x)[-6:-4]) for x in filearr]
+        hh_filearr = [np.int(os.path.basename(x)[-4:-2]) for x in filearr]
+        ii_filearr = [np.int(os.path.basename(x)[-2:]) for x in filearr]
+        dt_filearr = np.array([datetime.datetime(yyyy,mm,dd,hh,ii) for (yyyy,mm,dd,hh,ii) in zip(yyyy_filearr, mm_filearr, dd_filearr, hh_filearr, ii_filearr)])
+
+        filearr = filearr[(dt_filearr >= dt_start) & (dt_filearr <= dt_finis)]
+        dt_filearr = dt_filearr[(dt_filearr >= dt_start) & (dt_filearr <= dt_finis)]
+        
+    else:
+        list_dt_yyyymmddhhii = np.unique(np.array([datetime.datetime(_time.year, _time.month, _time.day, _time.hour, _time.minute) for _time in time]))
+        
+        filearr = np.array([f'{datadir}/{_dt:%Y%m}/{_dt:%d}/AWS_MIN_{_dt:%Y%m%d%H%M}' for _dt in list_dt_yyyymmddhhii])
+        dt_filearr = list_dt_yyyymmddhhii
+    
+    if len(filearr) == 0:
+        sys.exit(f'{__name__}: No matched data for the given time period')
+    
+    
+    df_list = []
+    names = ['ID', 'YMDHI', 'LON', 'LAT', 'HGT',
+             'WD', 'WS', 'T', 'RH',
+             'PA', 'PS', 'RE',
+             'R60mAcc', 'R1d', 'R15m', 'R60m',
+             'WDS', 'WSS', 'dummy']
+    
+    df_aws = dd.read_csv(filearr.tolist(), delimiter='#', names=names, header=None, na_values=[-999,-997])
+    df_aws = df_aws.drop('dummy', axis=1)
+    df_aws.WD      = df_aws.WD/10.
+    df_aws.WS      = df_aws.WS/10.
+    df_aws.T       = df_aws['T']/10.
+    df_aws.RH      = df_aws.RH/10.
+    df_aws.PA      = df_aws.PA/10.
+    df_aws.PS      = df_aws.PS/10.
+    df_aws.RE      = df_aws.RE/10.
+    df_aws.R60mAcc = df_aws.R60mAcc/10.
+    df_aws.R1d     = df_aws.R1d/10.
+    df_aws.R15m    = df_aws.R15m/10.
+    df_aws.R60m    = df_aws.R60m/10.
+    df_aws.WDS     = df_aws.WDS/10.
+    df_aws.WSS     = df_aws.WSS/10.
+    if stnid:
+        df_aws = df_aws[df_aws['ID'].isin(stnid)]
+
+    df_aws = df_aws.set_index(dd.to_datetime(df_aws['YMDHI'], format='%Y%m%d%H%M'))
+    df_aws = df_aws.drop('YMDHI', axis=1)
+    
+    if dask:
+        return df_aws
+    else:
+        return df_aws.compute()
 
 
-
-def read_2dvd_rho(time=None, date_range=True, datadir='/disk/common/kwonil_rainy/RHO_2DVD/', filename='2DVD_Dapp_v_rho_201*Deq.txt'):
+def read_2dvd_rho(time, date_range=True, datadir='/disk/common/kwonil_rainy/RHO_2DVD/', filename='2DVD_Dapp_v_rho_201*Deq.txt'):
     """
     Read 2DVD density files into dataframe.
     
