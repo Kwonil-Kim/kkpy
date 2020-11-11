@@ -103,3 +103,4 @@ html_theme = 'sphinx_rtd_theme'
 
 autodoc_default_flags = ['members']
 autosummary_generate = True
+autodoc_member_order = 'bysource'
