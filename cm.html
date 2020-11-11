@@ -36,7 +36,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to KKpy’s documentation!" href="index.html" /> 
+    <link rel="prev" title="kkpy.util" href="util.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,6 +87,9 @@
             
               <p class="caption"><span class="caption-text">Table of Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">How to install KKpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">kkpy.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">kkpy.util</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.cm</a></li>
 </ul>
 
@@ -175,6 +178,34 @@
 </tbody>
 </table>
 <dl class="py function">
+<dt id="kkpy.cm.refl">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">refl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">snow</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.refl" title="Permalink to this definition">¶</a></dt>
+<dd><p>KNU reflectivity colors.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">refl</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">ref2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;tick&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
+<li><p><strong>snow</strong> (<em>boolean</em>) – Return broader tick levels suitable for snow. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
+‘norm’: color tick levels for plot
+‘ticks’: color tick levels for colorbar</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="kkpy.cm.doppler">
 <code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">doppler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.doppler" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU Doppler velocity colors.</p>
@@ -228,21 +259,6 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="kkpy.cm.rain_color">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">rain_color</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.rain_color" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="kkpy.cm.rain_level">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">rain_level</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.rain_level" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="kkpy.cm.rain_tick">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">rain_tick</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">coarse</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.rain_tick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt id="kkpy.cm.ref_color">
 <code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">ref_color</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.ref_color" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -253,32 +269,9 @@
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="kkpy.cm.refl">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">refl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">snow</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.refl" title="Permalink to this definition">¶</a></dt>
-<dd><p>KNU reflectivity colors.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">refl</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">ref2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;tick&#39;</span><span class="p">])</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
-<li><p><strong>snow</strong> (<em>boolean</em>) – Return broader tick levels suitable for snow. Default is False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
-‘norm’: color tick levels for plot
-‘ticks’: color tick levels for colorbar</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dictionary</p>
-</dd>
-</dl>
-</dd></dl>
+<dt id="kkpy.cm.rain_color">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">rain_color</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.rain_color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt id="kkpy.cm.vel_color">
@@ -288,6 +281,21 @@
 <dl class="py function">
 <dt id="kkpy.cm.vel_color_vpr_snow">
 <code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">vel_color_vpr_snow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.vel_color_vpr_snow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.cm.z_level_rain">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">z_level_rain</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.z_level_rain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.cm.z_level_snow">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">z_level_snow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.z_level_snow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.cm.rain_level">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">rain_level</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.rain_level" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -301,13 +309,8 @@
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="kkpy.cm.z_level_rain">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">z_level_rain</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.z_level_rain" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="kkpy.cm.z_level_snow">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">z_level_snow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.z_level_snow" title="Permalink to this definition">¶</a></dt>
+<dt id="kkpy.cm.rain_tick">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">rain_tick</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">coarse</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.rain_tick" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -321,7 +324,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to KKpy’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="util.html" class="btn btn-neutral float-left" title="kkpy.util" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

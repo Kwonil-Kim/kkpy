@@ -181,6 +181,39 @@
 </tbody>
 </table>
 <dl class="py function">
+<dt id="kkpy.io.read_aws">
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_aws</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/STORAGE/OBS/AWS/'</span></em>, <em class="sig-param"><span class="n">stnid</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dask</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_aws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read AWS_MIN files into dataframe.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_aws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_aws</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df_aws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_aws</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span><span class="p">)],</span> <span class="n">datadir</span><span class="o">=</span><span class="s1">&#39;/path/to/aws/files/&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>datetime</em><em> or </em><em>array_like of datetime</em>) – Datetime of the data you want to read.
+If this is array of two elements, it will read all data within two datetimes by default.
+If this is array of elements and keyword <em>date_range</em> is False, it will read the data of specific time of each element.</p></li>
+<li><p><strong>date_range</strong> (<em>bool</em><em>, </em><em>optional</em>) – False if argument <em>time</em> contains element of specific time you want to read.</p></li>
+<li><p><strong>datadir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory of data.</p></li>
+<li><p><strong>stnid</strong> (<em>list</em><em>, </em><em>optional</em>) – List of station id you want to read. Read all site if None.</p></li>
+<li><p><strong>dask</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Return a dask dataframe if True, otherwise return a pandas dataframe.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df_aws</strong> – Return dataframe of aws data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="kkpy.io.read_2dvd_rho">
 <code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_2dvd_rho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/common/kwonil_rainy/RHO_2DVD/'</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">'2DVD_Dapp_v_rho_201*Deq.txt'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_2dvd_rho" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 2DVD density files into dataframe.</p>
@@ -219,34 +252,29 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 </dd></dl>
 
 <dl class="py function">
-<dt id="kkpy.io.read_aws">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_aws</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/STORAGE/OBS/AWS/'</span></em>, <em class="sig-param"><span class="n">stnid</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dask</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_aws" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read AWS_MIN files into dataframe.</p>
+<dt id="kkpy.io.read_mxpol_rhi_with_hc">
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_mxpol_rhi_with_hc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rhifile_nc</span></em>, <em class="sig-param"><span class="n">hcfile_mat</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_mxpol_rhi_with_hc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df_aws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_aws</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df_aws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_aws</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span><span class="p">)],</span> <span class="n">datadir</span><span class="o">=</span><span class="s1">&#39;/path/to/aws/files/&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rhifile</span> <span class="o">=</span> <span class="s1">&#39;/disk/WORKSPACE/kwonil/MXPOL/RAW/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8.nc&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hidfile</span> <span class="o">=</span> <span class="s1">&#39;/disk/WORKSPACE/kwonil/MXPOL/HID/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8_zdrcorr_demix.mat&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">radar_mxp</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_mxpol_rhi_with_hc</span><span class="p">(</span><span class="n">rhifile</span><span class="p">,</span> <span class="n">hcfile</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>time</strong> (<em>datetime</em><em> or </em><em>array_like of datetime</em>) – Datetime of the data you want to read.
-If this is array of two elements, it will read all data within two datetimes by default.
-If this is array of elements and keyword <em>date_range</em> is False, it will read the data of specific time of each element.</p></li>
-<li><p><strong>date_range</strong> (<em>bool</em><em>, </em><em>optional</em>) – False if argument <em>time</em> contains element of specific time you want to read.</p></li>
-<li><p><strong>datadir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory of data.</p></li>
-<li><p><strong>stnid</strong> (<em>list</em><em>, </em><em>optional</em>) – List of station id you want to read. Read all site if None.</p></li>
-<li><p><strong>dask</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Return a dask dataframe if True, otherwise return a pandas dataframe.</p></li>
+<li><p><strong>rhifile_nc</strong> (<em>str</em><em> or </em><em>array_like of str</em>) – Filepath of RHI data to read.
+The number and the order of elements should match with <cite>hcfile_mat</cite>.</p></li>
+<li><p><strong>hcfile_mat</strong> (<em>str</em><em> or </em><em>array_like of str</em>) – Filepath of hydrometeor classification file to read.
+The number and the order of elements should match with <cite>rhifile_nc</cite>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>df_aws</strong> – Return dataframe of aws data.</p>
+<dd class="field-even"><p><strong>radar</strong> – Return py-ART radar object.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dataframe</p>
+<dd class="field-odd"><p>py-ART radar object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -282,34 +310,6 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 <li><p><strong>proj_dem</strong> (<em>osr object</em>) – Spatial reference system of the used coordinates.</p></li>
 </ul>
 </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="kkpy.io.read_mxpol_rhi_with_hc">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_mxpol_rhi_with_hc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rhifile_nc</span></em>, <em class="sig-param"><span class="n">hcfile_mat</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_mxpol_rhi_with_hc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rhifile</span> <span class="o">=</span> <span class="s1">&#39;/disk/WORKSPACE/kwonil/MXPOL/RAW/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8.nc&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">hidfile</span> <span class="o">=</span> <span class="s1">&#39;/disk/WORKSPACE/kwonil/MXPOL/HID/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8_zdrcorr_demix.mat&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">radar_mxp</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_mxpol_rhi_with_hc</span><span class="p">(</span><span class="n">rhifile</span><span class="p">,</span> <span class="n">hcfile</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rhifile_nc</strong> (<em>str</em><em> or </em><em>array_like of str</em>) – Filepath of RHI data to read.
-The number and the order of elements should match with <cite>hcfile_mat</cite>.</p></li>
-<li><p><strong>hcfile_mat</strong> (<em>str</em><em> or </em><em>array_like of str</em>) – Filepath of hydrometeor classification file to read.
-The number and the order of elements should match with <cite>rhifile_nc</cite>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>radar</strong> – Return py-ART radar object.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>py-ART radar object</p>
 </dd>
 </dl>
 </dd></dl>

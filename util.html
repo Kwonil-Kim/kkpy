@@ -191,6 +191,100 @@
 </tbody>
 </table>
 <dl class="py function">
+<dt id="kkpy.util.wind2uv">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">wind2uv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wd</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">knots</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.wind2uv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert wind direction and speed to u and v wind components.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">wind2uv</span><span class="p">(</span><span class="n">wd</span><span class="p">,</span> <span class="n">ws</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wd</strong> (<em>array_like</em>) – Array containing wind direction in <strong>degree</strong>. It should be <strong>meteorological</strong> direction, not mathematical.</p></li>
+<li><p><strong>ws</strong> (<em>array_like</em>) – Array containing wind speed in <strong>m/s</strong>.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>wd</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
+<li><p><strong>knots</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>ws</em> is <strong>knots</strong>. The default is False (i.e. <strong>m/s</strong>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – Return u component of wind in <strong>m/s</strong>.</p></li>
+<li><p><strong>v</strong> (<em>ndarray</em>) – Return v component of wind in <strong>m/s</strong>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.uv2wind">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">uv2wind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.uv2wind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert u and v wind components to wind direction and speed.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wd</span><span class="p">,</span> <span class="n">ws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">uv2wind</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>array_like</em>) – Array containing u component of wind in <strong>m/s</strong>.</p></li>
+<li><p><strong>v</strong> (<em>array_like</em>) – Array containing v component of wind in <strong>m/s</strong>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>wd</strong> (<em>ndarray</em>) – Return wind direction in <strong>degree</strong>.</p></li>
+<li><p><strong>ws</strong> (<em>ndarray</em>) – Return wind speed in <strong>m/s</strong>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.ms2knot">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">ms2knot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_ms</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.ms2knot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert unit of wind speed from meter per seconds to knots.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ws_knot</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">ws_ms</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ws_ms</strong> (<em>array_like</em>) – Array containing wind speed in <strong>m/s</strong>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ws_knot</strong> – Return wind speed in <strong>knots</strong>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.knot2ms">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">knot2ms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_knot</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.knot2ms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert unit of wind speed from knots to meter per seconds.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ws_ms</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">knot2ms</span><span class="p">(</span><span class="n">ws_knot</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ws_knot</strong> (<em>array_like</em>) – Array containing wind speed in <strong>knots</strong>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ws_ms</strong> – Return wind speed in <strong>m/s</strong>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="kkpy.util.cross_section_2d">
 <code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">cross_section_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_start</span></em>, <em class="sig-param"><span class="n">dict_end</span></em>, <em class="sig-param"><span class="n">lon2d</span></em>, <em class="sig-param"><span class="n">lat2d</span></em>, <em class="sig-param"><span class="n">value2d</span></em>, <em class="sig-param"><span class="n">avg_halfwidth</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">along</span><span class="o">=</span><span class="default_value">'longitude'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.cross_section_2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get mean values along the transect of two points (lon/lat).</p>
@@ -226,74 +320,6 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="kkpy.util.dist_bearing">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">dist_bearing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lonlat0</span></em>, <em class="sig-param"><span class="n">lonlat1</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.dist_bearing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get distance [km] and bearing [deg] between two lon/lat points.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist_km</span><span class="p">,</span> <span class="n">bearing_deg</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dist_bearing</span><span class="p">([</span><span class="mf">127.5</span><span class="p">,</span><span class="mi">36</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span><span class="mi">37</span><span class="p">])</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>lonlat0</strong> (<em>1D Array</em>) – Array containing longitude and latitude of the first point. Longitude (latitude) should be at the first (second) element.</p></li>
-<li><p><strong>lonlat1</strong> (<em>1D Array</em>) – Array containing longitude and latitude of the second point. Longitude (latitude) should be at the first (second) element.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>bearing</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>distance</strong> (<em>float</em>) – Return distance between two points in <strong>km</strong>.</p></li>
-<li><p><strong>bearing</strong> (<em>ndarray</em>) – Return bearing of two points in <strong>degree</strong>. If radians is True, the unit is <strong>radians</strong>.</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="kkpy.util.knot2ms">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">knot2ms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_knot</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.knot2ms" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert unit of wind speed from knots to meter per seconds.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ws_ms</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">knot2ms</span><span class="p">(</span><span class="n">ws_knot</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ws_knot</strong> (<em>array_like</em>) – Array containing wind speed in <strong>knots</strong>.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ws_ms</strong> – Return wind speed in <strong>m/s</strong>.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="kkpy.util.ms2knot">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">ms2knot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_ms</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.ms2knot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert unit of wind speed from meter per seconds to knots.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ws_knot</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">ws_ms</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ws_ms</strong> (<em>array_like</em>) – Array containing wind speed in <strong>m/s</strong>.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>ws_knot</strong> – Return wind speed in <strong>knots</strong>.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="kkpy.util.proj_dfs">
 <code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">proj_dfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.proj_dfs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p>
@@ -314,51 +340,25 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="kkpy.util.uv2wind">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">uv2wind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.uv2wind" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert u and v wind components to wind direction and speed.</p>
+<dt id="kkpy.util.dist_bearing">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">dist_bearing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lonlat0</span></em>, <em class="sig-param"><span class="n">lonlat1</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.dist_bearing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get distance [km] and bearing [deg] between two lon/lat points.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wd</span><span class="p">,</span> <span class="n">ws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">uv2wind</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist_km</span><span class="p">,</span> <span class="n">bearing_deg</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dist_bearing</span><span class="p">([</span><span class="mf">127.5</span><span class="p">,</span><span class="mi">36</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span><span class="mi">37</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>u</strong> (<em>array_like</em>) – Array containing u component of wind in <strong>m/s</strong>.</p></li>
-<li><p><strong>v</strong> (<em>array_like</em>) – Array containing v component of wind in <strong>m/s</strong>.</p></li>
+<li><p><strong>lonlat0</strong> (<em>1D Array</em>) – Array containing longitude and latitude of the first point. Longitude (latitude) should be at the first (second) element.</p></li>
+<li><p><strong>lonlat1</strong> (<em>1D Array</em>) – Array containing longitude and latitude of the second point. Longitude (latitude) should be at the first (second) element.</p></li>
+<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>bearing</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>wd</strong> (<em>ndarray</em>) – Return wind direction in <strong>degree</strong>.</p></li>
-<li><p><strong>ws</strong> (<em>ndarray</em>) – Return wind speed in <strong>m/s</strong>.</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="kkpy.util.wind2uv">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">wind2uv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wd</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">knots</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.wind2uv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert wind direction and speed to u and v wind components.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">wind2uv</span><span class="p">(</span><span class="n">wd</span><span class="p">,</span> <span class="n">ws</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>wd</strong> (<em>array_like</em>) – Array containing wind direction in <strong>degree</strong>. It should be <strong>meteorological</strong> direction, not mathematical.</p></li>
-<li><p><strong>ws</strong> (<em>array_like</em>) – Array containing wind speed in <strong>m/s</strong>.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>wd</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
-<li><p><strong>knots</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>ws</em> is <strong>knots</strong>. The default is False (i.e. <strong>m/s</strong>).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>u</strong> (<em>ndarray</em>) – Return u component of wind in <strong>m/s</strong>.</p></li>
-<li><p><strong>v</strong> (<em>ndarray</em>) – Return v component of wind in <strong>m/s</strong>.</p></li>
+<li><p><strong>distance</strong> (<em>float</em>) – Return distance between two points in <strong>km</strong>.</p></li>
+<li><p><strong>bearing</strong> (<em>ndarray</em>) – Return bearing of two points in <strong>degree</strong>. If radians is True, the unit is <strong>radians</strong>.</p></li>
 </ul>
 </p>
 </dd>
