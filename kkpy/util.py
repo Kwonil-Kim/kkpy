@@ -17,7 +17,7 @@ wind
     kkpy.util.proj_dfs
     kkpy.util.dist_bearing
 
-"""
+"""                                                   
 import numpy as np
 
 def wind2uv(wd=None, ws=None, radians=False, knots=False):
@@ -85,8 +85,6 @@ def uv2wind(u, v):
     wd = wd % 360
     
     return wd, ws
-
-
 
 def ms2knot(ws_ms):
     """
