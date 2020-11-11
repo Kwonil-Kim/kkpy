@@ -6,17 +6,24 @@ Utility functions for my research
 
 .. currentmodule:: util
 
-wind
-
+winds
+-------
 .. autosummary::
     kkpy.util.wind2uv
     kkpy.util.uv2wind
     kkpy.util.ms2knot
     kkpy.util.knot2ms
-    kkpy.util.cross_section_2d
+
+maps
+-------
+.. autosummary::
     kkpy.util.proj_dfs
     kkpy.util.dist_bearing
 
+spatial calculations
+----------------------
+.. autosummary::
+    kkpy.util.cross_section_2d
 """                                                   
 import numpy as np
 
