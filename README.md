@@ -1,4 +1,4 @@
-cence](https://img.shields.io/github/license/Kwonil-Kim/kkpy)](https://github.com/Kwonil-Kim/kkpy/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/Kwonil-Kim/kkpy)](https://github.com/Kwonil-Kim/kkpy/blob/master/LICENSE)
 [![stars](https://img.shields.io/github/stars/Kwonil-Kim/kkpy)](https://github.com/Kwonil-Kim/kkpy/stargazers)
 [![forks](https://img.shields.io/github/forks/Kwonil-Kim/kkpy)](https://github.com/Kwonil-Kim/kkpy/network/members)
 
