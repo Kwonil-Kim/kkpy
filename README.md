@@ -1,6 +1,6 @@
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Kwonil-Kim/kkpy/blob/master/LICENSE)
 [![license](https://img.shields.io/github/license/Kwonil-Kim/kkpy)](https://github.com/Kwonil-Kim/kkpy/blob/master/LICENSE)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Kwonil-Kim/kkpy/graphs/commit-activity)
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://Kwonil-Kim.github.io/kkpy/)
 [![stars](https://img.shields.io/github/stars/Kwonil-Kim/kkpy)](https://github.com/Kwonil-Kim/kkpy/stargazers)
 [![forks](https://img.shields.io/github/forks/Kwonil-Kim/kkpy)](https://github.com/Kwonil-Kim/kkpy/network/members)
