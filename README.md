@@ -1,3 +1,9 @@
+![licence](https://img.shields.io/github/license/Kwonil-Kim/kkpy)
+![commits](https://img.shields.io/github/last-commit/Kwonil-Kim/kkpy)
+![stars](https://img.shields.io/github/stars/Kwonil-Kim/kkpy)
+![forks](https://img.shields.io/github/forks/Kwonil-Kim/kkpy)
+![issues](https://img.shields.io/github/issues/Kwonil-Kim/kkpy)
+
 # KKpy
 This library .....
 
