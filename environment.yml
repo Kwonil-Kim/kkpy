@@ -1,0 +1,15 @@
+name: kkpy
+dependencies:
+- numpy
+- pandas
+- scipy
+- matplotlib
+- dask
+- Cartopy
+- arm_pyart
+- wradlib
+- netCDF4
+- pip
+- pip:
+    haversine
+
