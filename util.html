@@ -419,16 +419,20 @@
 <code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanconvolve2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">slab</span></em>, <em class="sig-param"><span class="n">kernel</span></em>, <em class="sig-param"><span class="n">max_missing</span><span class="o">=</span><span class="default_value">0.99</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.nanconvolve2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get 2D convolution with missings ignored.</p>
 <p class="rubric">Examples</p>
-<p>Moving 2D standard deviation
-&gt;&gt;&gt; import astropy.convolution
-&gt;&gt;&gt; kernel = np.array(astropy.convolution.Box2DKernel(5))
-&gt;&gt;&gt; c1 = kkpy.util.nanconvolve2d(arr2d, kernel)
-&gt;&gt;&gt; c2 = kkpy.util.nanconvolve2d(arr2d*arr2d, kernel)
-&gt;&gt;&gt; stddev2d = np.sqrt(c2 - c1*c1)</p>
-<p>Moving 2D average
-&gt;&gt;&gt; import astropy.convolution
-&gt;&gt;&gt; kernel = np.array(astropy.convolution.Box2DKernel(5))
-&gt;&gt;&gt; avg2d = kkpy.util.nanconvolve2d(arr2d, kernel)</p>
+<p>Moving 2D standard deviation</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astropy.convolution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">astropy</span><span class="o">.</span><span class="n">convolution</span><span class="o">.</span><span class="n">Box2DKernel</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c1</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nanconvolve2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c2</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nanconvolve2d</span><span class="p">(</span><span class="n">arr2d</span><span class="o">*</span><span class="n">arr2d</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stddev2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">c2</span> <span class="o">-</span> <span class="n">c1</span><span class="o">*</span><span class="n">c1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Moving 2D average</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astropy.convolution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">astropy</span><span class="o">.</span><span class="n">convolution</span><span class="o">.</span><span class="n">Box2DKernel</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">avg2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nanconvolve2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
