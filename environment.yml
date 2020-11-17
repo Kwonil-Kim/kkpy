@@ -1,4 +1,6 @@
 name: kkpy
+channels:
+- conda-forge
 dependencies:
 - numpy
 - pandas

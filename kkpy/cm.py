@@ -26,7 +26,7 @@ def refl(levels=None, snow=False):
     ---------
     >>> cmap = kkpy.cm.refl()
     >>> pm = ax.pcolormesh(lon2d, lat2d, ref2d.T, cmap=cmap['cmap'], norm=cmap['norm'])
-    >>> plt.colorbar(pm, cmap=cmap['cmap'], ticks=cmap['tick'])
+    >>> plt.colorbar(pm, cmap=cmap['cmap'], ticks=cmap['ticks'])
     
     Parameters
     ----------
@@ -71,7 +71,7 @@ def doppler(levels=None):
     ---------
     >>> cmap = kkpy.cm.doppler()
     >>> pm = ax.pcolormesh(lon2d, lat2d, VD2d.T, cmap=cmap['cmap'], norm=cmap['norm'])
-    >>> plt.colorbar(pm, cmap=cmap['cmap'], ticks=cmap['tick'])
+    >>> plt.colorbar(pm, cmap=cmap['cmap'], ticks=cmap['ticks'])
     
     Parameters
     ----------
@@ -106,7 +106,7 @@ def precip(levels=None, coarse_ticks=False):
     ---------
     >>> cmap = kkpy.cm.precip()
     >>> pm = ax.pcolormesh(lon2d, lat2d, prec2d.T, cmap=cmap['cmap'], norm=cmap['norm'])
-    >>> plt.colorbar(pm, cmap=cmap['cmap'], ticks=cmap['tick'])
+    >>> plt.colorbar(pm, cmap=cmap['cmap'], ticks=cmap['ticks'])
     
     Parameters
     ----------
