@@ -28,8 +28,8 @@ spatial calculations
 Miscellaneous
 ---------------
 .. autosummary::
-    kkpy.std2d
-    kkpy.nanstd2d
+    kkpy.util.std2d
+    kkpy.util.nanstd2d
     kkpy.util.nanconvolve2d
 """                                                   
 import numpy as np
