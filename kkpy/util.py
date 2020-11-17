@@ -24,6 +24,13 @@ spatial calculations
 ----------------------
 .. autosummary::
     kkpy.util.cross_section_2d
+
+Miscellaneous
+---------------
+.. autosummary::
+    kkpy.std2d
+    kkpy.nanstd2d
+    kkpy.util.nanconvolve2d
 """                                                   
 import numpy as np
 
@@ -312,3 +319,184 @@ def dist_bearing(lonlat0, lonlat1, radians=False):
         bearing = np.degrees(bearing)
     
     return dist, bearing
+
+def nanconvolve2d(slab, kernel, max_missing=0.99):
+    """
+    Get 2D convolution with missings ignored.
+    
+    Examples
+    ---------
+    >>> import astropy.convolution
+    >>> kernel = np.array(astropy.convolution.Box2DKernel(5))
+    >>> conv2d = kkpy.util.nancolvolve2d(arr2d, kernel)
+    >>> stddev2d = np.sqrt((arr2d - conv2d)**2)
+    
+    Parameters
+    ----------
+    slab : 2D Array
+        Input array to convolve. Can have numpy.nan or masked values.
+    kernel : 1D Array
+        Convolution kernel, must have sizes as odd numbers.
+    max_missing : float, optional
+        Float in (0,1), max percentage of missing in each convolution window is tolerated before a missing is placed in the result.
+        
+    Returns
+    ---------
+    result : 2D Array
+        Return convolution result. Missings are represented as numpy.nans if they are in slab, or masked if they are masked in slab.
+    
+    Notes
+    ---------
+    This code is from Stack Overflow answer (https://stackoverflow.com/a/40416633/12272819), written by Jason (https://stackoverflow.com/users/2005415/jason).
+    This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).
+    Modified by Kwonil Kim in November 2020: modify docstring format, remove verbose argument, modify default value of max_missing, change numpy to np
+    """
+    from scipy.ndimage import convolve as sciconvolve
+
+    assert np.ndim(slab)==2, "<slab> needs to be 2D."
+    assert np.ndim(kernel)==2, "<kernel> needs to be 2D."
+    assert kernel.shape[0]%2==1 and kernel.shape[1]%2==1, "<kernel> shape needs to be an odd number."
+    assert max_missing > 0 and max_missing < 1, "<max_missing> needs to be a float in (0,1)."
+
+    #--------------Get mask for missings--------------
+    if not hasattr(slab,'mask') and np.any(np.isnan(slab))==False:
+        has_missing=False
+        slab2=slab.copy()
+
+    elif not hasattr(slab,'mask') and np.any(np.isnan(slab)):
+        has_missing=True
+        slabmask=np.where(np.isnan(slab),1,0)
+        slab2=slab.copy()
+        missing_as='nan'
+
+    elif (slab.mask.size==1 and slab.mask==False) or np.any(slab.mask)==False:
+        has_missing=False
+        slab2=slab.copy()
+
+    elif not (slab.mask.size==1 and slab.mask==False) and np.any(slab.mask):
+        has_missing=True
+        slabmask=np.where(slab.mask,1,0)
+        slab2=np.where(slabmask==1,np.nan,slab)
+        missing_as='mask'
+
+    else:
+        has_missing=False
+        slab2=slab.copy()
+
+    #--------------------No missing--------------------
+    if not has_missing:
+        result=sciconvolve(slab2,kernel,mode='constant',cval=0.)
+    else:
+        H,W=slab.shape
+        hh=int((kernel.shape[0]-1)/2)  # half height
+        hw=int((kernel.shape[1]-1)/2)  # half width
+        min_valid=(1-max_missing)*kernel.shape[0]*kernel.shape[1]
+
+        # dont forget to flip the kernel
+        kernel_flip=kernel[::-1,::-1]
+
+        result=sciconvolve(slab2,kernel,mode='constant',cval=0.)
+        slab2=np.where(slabmask==1,0,slab2)
+
+        #------------------Get nan holes------------------
+        miss_idx=zip(*np.where(slabmask==1))
+
+        if missing_as=='mask':
+            mask=np.zeros([H,W])
+
+        for yii,xii in miss_idx:
+
+            #-------Recompute at each new nan in result-------
+            hole_ys=range(max(0,yii-hh),min(H,yii+hh+1))
+            hole_xs=range(max(0,xii-hw),min(W,xii+hw+1))
+
+            for hi in hole_ys:
+                for hj in hole_xs:
+                    hi1=max(0,hi-hh)
+                    hi2=min(H,hi+hh+1)
+                    hj1=max(0,hj-hw)
+                    hj2=min(W,hj+hw+1)
+
+                    slab_window=slab2[hi1:hi2,hj1:hj2]
+                    mask_window=slabmask[hi1:hi2,hj1:hj2]
+                    kernel_ij=kernel_flip[max(0,hh-hi):min(hh*2+1,hh+H-hi), 
+                                     max(0,hw-hj):min(hw*2+1,hw+W-hj)]
+                    kernel_ij=np.where(mask_window==1,0,kernel_ij)
+
+                    #----Fill with missing if not enough valid data----
+                    ksum=np.sum(kernel_ij)
+                    if ksum<min_valid:
+                        if missing_as=='nan':
+                            result[hi,hj]=np.nan
+                        elif missing_as=='mask':
+                            result[hi,hj]=0.
+                            mask[hi,hj]=True
+                    else:
+                        result[hi,hj]=np.sum(slab_window*kernel_ij)
+
+        if missing_as=='mask':
+            result=np.ma.array(result)
+            result.mask=mask
+
+    return result
+
+def nanstd2d(X, window_size):
+    """
+    Get 2D standard deviation of 2D array efficiently with missings ignored.
+    
+    Examples
+    ---------
+    >>> std2d = kkpy.util.nanstd2d(arr2d, 3)
+    
+    Parameters
+    ----------
+    X : 2D Array
+        Array containing the data.
+    window_size : float
+        Window size of x and y. Window sizes of x and y should be same.
+        
+    Returns
+    ---------
+    std2d : 2D Array
+        Return 2D standard deviation.
+    """
+    import astropy.convolution
+    kernel = np.array(astropy.convolution.Box2DKernel(window_size))
+    #conv2d = nanconvolve2d(X, kernel)
+    #std2d = np.sqrt((X - conv2d)**2)
+    c1 = nanconvolve2d(X, kernel)
+    c2 = nanconvolve2d(X*X, kernel)
+    return np.sqrt(c2 - c1*c1)
+
+def std2d(X, window_size):
+    """
+    Get 2D standard deviation of 2D array efficiently.
+    
+    Examples
+    ---------
+    >>> std2d = kkpy.util.std2d(arr2d, 3)
+    
+    Parameters
+    ----------
+    X : 2D Array
+        Array containing the data.
+    window_size : float or 1D array
+        Window size. If array of two elements, window sizes of x and y will be window_size[0] and window_size[1], respectively.
+        
+    Returns
+    ---------
+    std2d : 2D Array
+        Return 2D standard deviation.
+    
+    Notes
+    ---------
+    This code is from https://nickc1.github.io/python,/matlab/2016/05/17/Standard-Deviation-(Filters)-in-Matlab-and-Python.html, written by Nick Cortale.
+    Modified by Kwonil Kim in November 2020: add docstring, modify function name
+    """
+    from scipy.ndimage.filters import uniform_filter
+
+    r,c = X.shape
+    X+=np.random.rand(r,c)*1e-6
+    c1 = uniform_filter(X, window_size, mode='reflect')
+    c2 = uniform_filter(X*X, window_size, mode='reflect')
+    return np.sqrt(c2 - c1*c1)
