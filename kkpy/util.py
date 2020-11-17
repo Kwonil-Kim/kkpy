@@ -326,10 +326,17 @@ def nanconvolve2d(slab, kernel, max_missing=0.99):
     
     Examples
     ---------
+    Moving 2D standard deviation
     >>> import astropy.convolution
     >>> kernel = np.array(astropy.convolution.Box2DKernel(5))
-    >>> conv2d = kkpy.util.nancolvolve2d(arr2d, kernel)
-    >>> stddev2d = np.sqrt((arr2d - conv2d)**2)
+    >>> c1 = kkpy.util.nanconvolve2d(arr2d, kernel)
+    >>> c2 = kkpy.util.nanconvolve2d(arr2d*arr2d, kernel)
+    >>> stddev2d = np.sqrt(c2 - c1*c1)
+    
+    Moving 2D average
+    >>> import astropy.convolution
+    >>> kernel = np.array(astropy.convolution.Box2DKernel(5))
+    >>> avg2d = kkpy.util.nanconvolve2d(arr2d, kernel)
     
     Parameters
     ----------
@@ -462,8 +469,6 @@ def nanstd2d(X, window_size):
     """
     import astropy.convolution
     kernel = np.array(astropy.convolution.Box2DKernel(window_size))
-    #conv2d = nanconvolve2d(X, kernel)
-    #std2d = np.sqrt((X - conv2d)**2)
     c1 = nanconvolve2d(X, kernel)
     c2 = nanconvolve2d(X*X, kernel)
     return np.sqrt(c2 - c1*c1)
