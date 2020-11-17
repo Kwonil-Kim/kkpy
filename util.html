@@ -94,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#winds">winds</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#maps">maps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#spatial-calculations">spatial calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cm.html">kkpy.cm</a></li>
@@ -215,6 +216,26 @@
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.cross_section_2d" title="kkpy.util.cross_section_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.cross_section_2d</span></code></a>(dict_start, …)</p></td>
 <td><p>Get mean values along the transect of two points (lon/lat).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.std2d" title="kkpy.util.std2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.std2d</span></code></a>(X, window_size)</p></td>
+<td><p>Get 2D standard deviation of 2D array efficiently.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.nanstd2d" title="kkpy.util.nanstd2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.nanstd2d</span></code></a>(X, window_size)</p></td>
+<td><p>Get 2D standard deviation of 2D array efficiently with missings ignored.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.nanconvolve2d" title="kkpy.util.nanconvolve2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.nanconvolve2d</span></code></a>(slab, kernel[, …])</p></td>
+<td><p>Get 2D convolution with missings ignored.</p></td>
 </tr>
 </tbody>
 </table>
@@ -391,6 +412,89 @@
 </p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.nanconvolve2d">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanconvolve2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">slab</span></em>, <em class="sig-param"><span class="n">kernel</span></em>, <em class="sig-param"><span class="n">max_missing</span><span class="o">=</span><span class="default_value">0.99</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.nanconvolve2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D convolution with missings ignored.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astropy.convolution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">astropy</span><span class="o">.</span><span class="n">convolution</span><span class="o">.</span><span class="n">Box2DKernel</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">conv2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nancolvolve2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stddev2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">arr2d</span> <span class="o">-</span> <span class="n">conv2d</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>slab</strong> (<em>2D Array</em>) – Input array to convolve. Can have numpy.nan or masked values.</p></li>
+<li><p><strong>kernel</strong> (<em>1D Array</em>) – Convolution kernel, must have sizes as odd numbers.</p></li>
+<li><p><strong>max_missing</strong> (<em>float</em><em>, </em><em>optional</em>) – Float in (0,1), max percentage of missing in each convolution window is tolerated before a missing is placed in the result.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – Return convolution result. Missings are represented as numpy.nans if they are in slab, or masked if they are masked in slab.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>2D Array</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This code is from Stack Overflow answer (<a class="reference external" href="https://stackoverflow.com/a/40416633/12272819">https://stackoverflow.com/a/40416633/12272819</a>), written by Jason (<a class="reference external" href="https://stackoverflow.com/users/2005415/jason">https://stackoverflow.com/users/2005415/jason</a>).
+This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).
+Modified by Kwonil Kim in November 2020: modify docstring format, remove verbose argument, modify default value of max_missing, change numpy to np</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.nanstd2d">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanstd2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.nanstd2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D standard deviation of 2D array efficiently with missings ignored.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nanstd2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>2D Array</em>) – Array containing the data.</p></li>
+<li><p><strong>window_size</strong> (<em>float</em>) – Window size of x and y. Window sizes of x and y should be same.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>std2d</strong> – Return 2D standard deviation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>2D Array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.std2d">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">std2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.std2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D standard deviation of 2D array efficiently.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">std2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>2D Array</em>) – Array containing the data.</p></li>
+<li><p><strong>window_size</strong> (<em>float</em><em> or </em><em>1D array</em>) – Window size. If array of two elements, window sizes of x and y will be window_size[0] and window_size[1], respectively.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>std2d</strong> – Return 2D standard deviation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>2D Array</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This code is from <a class="reference external" href="https://nickc1.github.io/python,/matlab/2016/05/17/Standard-Deviation-(Filters)-in-Matlab-and-Python.html">https://nickc1.github.io/python,/matlab/2016/05/17/Standard-Deviation-(Filters)-in-Matlab-and-Python.html</a>, written by Nick Cortale.
+Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 </dd></dl>
 
 </div>
