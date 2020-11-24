@@ -72,9 +72,9 @@ def read_aws(time, date_range=True, datadir='/disk/STORAGE/OBS/AWS/', stnid=None
         filearr = np.array([])
         _dt = dt_start
         while _dt <= dt_finis:
-            _filearr = np.sort(glob.glob(f'{datadir}/{_dt:%Y%m}/{_dt:%d}/AWS_MIN_*'))
+            _filearr = np.sort(glob.glob(f'{datadir}/{_dt:%Y%m}/{_dt:%d}/AWS_MIN_{_dt:%Y%m%d%H%M}'))
             filearr = np.append(filearr, _filearr)
-            _dt = _dt + datetime.timedelta(days=1)
+            _dt = _dt + datetime.timedelta(minutes=1)
         yyyy_filearr = [np.int(os.path.basename(x)[-12:-8]) for x in filearr]
         mm_filearr = [np.int(os.path.basename(x)[-8:-6]) for x in filearr]
         dd_filearr = [np.int(os.path.basename(x)[-6:-4]) for x in filearr]
