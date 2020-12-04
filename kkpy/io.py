@@ -387,6 +387,5 @@ def read_dem(file=None, area='pyeongchang'):
     lat_dem = coord[:,:,1]
     dem = dem.astype(float)
     dem[dem <= 0] = np.nan
-    dem = dem.T
 
     return dem, lon_dem, lat_dem, proj_dem
