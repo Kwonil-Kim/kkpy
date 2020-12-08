@@ -1,6 +1,8 @@
 README.md
 setup.py
 kkpy/__init__.py
+kkpy/cm.py
+kkpy/io.py
 kkpy/util.py
 kkpy.egg-info/PKG-INFO
 kkpy.egg-info/SOURCES.txt

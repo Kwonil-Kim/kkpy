@@ -1,1 +1,10 @@
 numpy
+Cartopy
+wradlib
+arm_pyart
+matplotlib
+haversine
+scipy
+dask
+pandas
+netCDF4
