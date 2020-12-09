@@ -220,7 +220,7 @@ def cross_section_2d(dict_start, dict_end, lon2d, lat2d, value2d, avg_halfwidth=
     xaxis_cross = _get_xaxis_cross(dict_start, dict_end, cnt_cross_idx, along_lon)
     
     # dictionary for return value
-    index_cross = _get_index_cross(i1d_x, i1d_y, avg_halfwidth)
+    index_cross = _get_index_cross(i1d_x, i1d_y, avg_halfwidth, lon_is_first_order)
     
     return xaxis_cross, value_cross, index_cross
 
@@ -298,7 +298,7 @@ def cross_section_3d(dict_start, dict_end, lon2d, lat2d, value3d, avg_halfwidth=
     xaxis_cross = _get_xaxis_cross(dict_start, dict_end, cnt_cross_idx, along_lon)
     
     # dictionary for return value
-    index_cross = _get_index_cross(i1d_x, i1d_y, avg_halfwidth)
+    index_cross = _get_index_cross(i1d_x, i1d_y, avg_halfwidth, lon_is_first_order)
     
     return xaxis_cross, value_cross, index_cross
 
