@@ -363,7 +363,7 @@ def _get_xaxis_cross(dict_start, dict_end, cnt_cross_idx, along_lon):
                                   cnt_cross_idx)
     return xaxis_cross
 
-def _get_index_cross(i1d_x, i1d_y, avg_halfwidth):
+def _get_index_cross(i1d_x, i1d_y, avg_halfwidth, lon_is_first_order):
     idx_lon = {'start':i1d_x[0],
                'end':i1d_x[-1],
                'lower_start':i1d_x[0]+avg_halfwidth+1,
@@ -376,8 +376,12 @@ def _get_index_cross(i1d_x, i1d_y, avg_halfwidth):
                'lower_end':i1d_y[-1]-avg_halfwidth,
                'upper_start':i1d_y[0]+avg_halfwidth+1,
                'upper_end':i1d_y[-1]+avg_halfwidth+1}
-    index_cross = {'lon':idx_lon,
-                   'lat':idx_lat}
+    if lon_is_first_order:
+        index_cross = {'lon':idx_lon,
+                       'lat':idx_lat}
+    else:
+        index_cross = {'lon':idx_lat,
+                       'lat':idx_lon}
     
     return index_cross
 
