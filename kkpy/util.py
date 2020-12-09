@@ -24,6 +24,7 @@ Spatial calculations
 ----------------------
 .. autosummary::
     kkpy.util.cross_section_2d
+    kkpy.util.cross_section_3d
 
 Miscellaneous
 ---------------
