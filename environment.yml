@@ -7,10 +7,12 @@ dependencies:
 - scipy
 - matplotlib
 - dask
-- Cartopy
-- arm_pyart
+- netcdf4
+- cartopy
 - wradlib
-- netCDF4
+- arm_pyart
+- xarray
+- bottleneck
 - pip
 - pip:
     haversine

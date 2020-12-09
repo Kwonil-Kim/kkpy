@@ -148,7 +148,7 @@ def knot2ms(ws_knot):
 
 def cross_section_2d(dict_start, dict_end, lon2d, lat2d, value2d, avg_halfwidth=0, along='longitude'):
     """
-    Get mean values along the transect of two points (lon/lat) for 2D array.
+    Get mean values along the transect of two points (lon/lat).
     
     Examples
     ---------
@@ -184,54 +184,14 @@ def cross_section_2d(dict_start, dict_end, lon2d, lat2d, value2d, avg_halfwidth=
     index_cross : dict
         Return a dictionary contatining the indicies of starting point and ending point of the transect.
     """
-    import bottleneck as bn
     
     # check if longitude is the first dimension
-    lon_is_first_order = _get_lon_is_first_order(lon2d)
-    
-    # check if data is stored from south to north
-    lat_south_to_north = _get_lat_south_to_north(lat2d, lon_is_first_order)
-    
-    # check if output will be along longitude (E-W direction)
-    along_lon = _get_along_lon(along, __name__)
-    
-    # find index of end point for cross section
-    i1d_x, i1d_y, cnt_cross_idx = _get_i1d_for_cross(lon2d, lat2d, dict_start, dict_end, lon_is_first_order)
-    
-    # Get averaged value along cross section
-    value_cross = np.empty((cnt_cross_idx))
-    for ii, _i1d_y in enumerate(i1d_y):
-        slicex = slice(i1d_x[ii]-avg_halfwidth, i1d_x[ii]+avg_halfwidth+1)
-        if lat_south_to_north:
-            slicey = slice(i1d_y[ii]+avg_halfwidth+1, i1d_y[ii]-avg_halfwidth, -1)
-        else:
-            slicey = slice(i1d_y[ii]-avg_halfwidth, i1d_y[ii]+avg_halfwidth+1)
-        
-        try:
-            # perpendicular to cross line
-            target = value2d[slicex,slicey]
-            target = target.diagonal()
-            value_cross[ii] = bn.nanmean(target)
-        except RuntimeWarning:
-            value_cross[ii] = np.nan
-    
-    # lon or lat values along cross section
-    xaxis_cross = _get_xaxis_cross(dict_start, dict_end, cnt_cross_idx, along_lon)
-    
-    # dictionary for return value
-    index_cross = _get_index_cross(i1d_x, i1d_y, avg_halfwidth)
-    
-    return xaxis_cross, value_cross, index_cross
-
-def _get_lon_is_first_order(lon2d):
-    if (lon2d[1,0] - lon2d[0,0])**2 > (lon2d[0,1] - lon2d[0,0])**2:
+    if np.abs(lon2d[1,0] - lon2d[0,0]) > np.abs(lon2d[0,1] - lon2d[0,0]):
         lon_is_first_order = True # lon2d[lon,lat], lat2d[lon,lat], value2d[lon,lat]
     else:
         lon_is_first_order = False # lon2d[lat,lon], lat2d[lat,lon], value2d[lat,lon]
     
-    return lon_is_first_order
-
-def _get_lat_south_to_north(lat2d, lon_is_first_order):
+    # check if data is stored from south to north
     if lon_is_first_order:
         if lat2d[0,1] - lat2d[0,0] > 0:
             lat_south_to_north = True # data is stored from south to north
@@ -242,25 +202,18 @@ def _get_lat_south_to_north(lat2d, lon_is_first_order):
             lat_south_to_north = True # data is stored from south to north
         else:
             lat_south_to_north = False # data is stored from north to south
-    
-    return lat_south_to_north
 
-def _get_along_lon(along, parent_funcname):
+    # check if output will be along longitude (E-W direction)
     if 'LONGITUDE' in along.upper():
         along_lon = True
     elif 'LATITUDE' in along.upper():
         along_lon = False
     else:
-        sys.exit(f'{parent_funcname}: along keyword should be LONGITUDE or LATITUDE')
-    
-    return along_lon
-
-def _get_i1d_for_cross(lon2d, lat2d, dict_start, dict_end, lon_is_first_order):
-    import bottleneck as bn
-    diff_start = np.asfortranarray((lon2d - dict_start['lon'])**2 + (lat2d - dict_start['lat'])**2)
-    diff_end = np.asfortranarray((lon2d - dict_end['lon'])**2 + (lat2d - dict_end['lat'])**2)
-    idx_start = np.unravel_index(bn.nanargmin(diff_start), lon2d.shape)
-    idx_end = np.unravel_index(bn.nanargmin(diff_end), lon2d.shape)
+        sys.exit(f'{__name__}: along keyword should be LONGITUDE or LATITUDE')
+        
+    # find index of end point for cross section
+    idx_start = np.unravel_index(np.argmin((lon2d - dict_start['lon'])**2 + (lat2d - dict_start['lat'])**2), lon2d.shape)
+    idx_end = np.unravel_index(np.argmin((lon2d - dict_end['lon'])**2 + (lat2d - dict_end['lat'])**2), lon2d.shape)
     
     # find indices along cross section
     cnt_cross_idx = np.max([np.abs(idx_end[0]-idx_start[0]), np.abs(idx_end[1]-idx_start[1])])
@@ -270,10 +223,21 @@ def _get_i1d_for_cross(lon2d, lat2d, dict_start, dict_end, lon_is_first_order):
     else:
         i1d_y = np.int_(np.round(np.linspace(idx_start[0], idx_end[0], cnt_cross_idx)))
         i1d_x = np.int_(np.round(np.linspace(idx_start[1], idx_end[1], cnt_cross_idx)))
+        
+    # Get averaged value along cross section
+    value_cross = np.empty((cnt_cross_idx))
+    for ii, _i1d_y in enumerate(i1d_y):
+        # perpendicular to cross line
+        if lat_south_to_north:
+            value_cross[ii] = np.nanmean(value2d[i1d_x[ii]-avg_halfwidth:i1d_x[ii]+avg_halfwidth+1, \
+                                                 i1d_y[ii]+avg_halfwidth+1:i1d_y[ii]-avg_halfwidth:-1] \
+                                                [np.arange(avg_halfwidth*2+1),np.arange(avg_halfwidth*2+1)])
+        else:
+            value_cross[ii] = np.nanmean(value2d[i1d_x[ii]-avg_halfwidth:i1d_x[ii]+avg_halfwidth+1, \
+                                                 i1d_y[ii]-avg_halfwidth+1:i1d_y[ii]+avg_halfwidth:-1] \
+                                                [np.arange(avg_halfwidth*2+1),np.arange(avg_halfwidth*2+1)])
     
-    return i1d_x, i1d_y, cnt_cross_idx
-
-def _get_xaxis_cross(dict_start, dict_end, cnt_cross_idx, along_lon):
+    # lon or lat values along cross section
     if along_lon:
         xaxis_cross = np.linspace(dict_start['lon'],
                                   dict_end['lon'],
@@ -282,11 +246,10 @@ def _get_xaxis_cross(dict_start, dict_end, cnt_cross_idx, along_lon):
         xaxis_cross = np.linspace(dict_start['lat'],
                                   dict_end['lat'],
                                   cnt_cross_idx)
-    return xaxis_cross
-
-def _get_index_cross(i1d_x, i1d_y, avg_halfwidth):
-    idx_lon = {'start':i1d_x[0],
-               'end':i1d_x[-1],
+    
+    # dictionary for return value
+    idx_lon = {'start':i1d_lon[0],
+               'end':i1d_lon[-1],
                'lower_start':i1d_x[0]+avg_halfwidth+1,
                'lower_end':i1d_x[-1]+avg_halfwidth+1,
                'upper_start':i1d_x[0]-avg_halfwidth,
@@ -300,7 +263,7 @@ def _get_index_cross(i1d_x, i1d_y, avg_halfwidth):
     index_cross = {'lon':idx_lon,
                    'lat':idx_lat}
     
-    return index_cross
+    return xaxis_cross, value_cross, index_cross
 
 def proj_dfs():
     """
