@@ -11,6 +11,9 @@ wind
 .. autosummary::
     kkpy.cm.refl
     kkpy.cm.doppler
+    kkpy.cm.zdr
+    kkpy.cm.kdp
+    kkpy.cm.rhohv
     kkpy.cm.precip
 
 """
