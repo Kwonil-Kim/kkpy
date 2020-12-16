@@ -18,13 +18,18 @@ Python library for my meteorological research
 ## Documentation
 https://kwonil-kim.github.io/kkpy/
 
-## installing this package from GitHub
-`pip install git+https://github.com/Kwonil-Kim/kkpy`
+## Install
+- Replace `${env_name}` to the name of the conda environment you want
+```
+conda create -n ${env_name} python=3.7
+conda activate ${env_name}
+conda install -c conda-forge cartopy arm_pyart gdal
+pip install git+https://github.com/Kwonil-Kim/kkpy
+```
 
-## Updating this package from GitHub
+## Update
 `pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy`
 
 ## List of colormap
 https://www.notion.so/Colormap-8acd230b8dcd42b9953d0bafb93e7e61
-
 
