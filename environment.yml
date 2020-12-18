@@ -12,6 +12,7 @@ dependencies:
 - wradlib
 - arm_pyart
 - xarray
+- geopandas
 - bottleneck
 - pip
 - pip:
