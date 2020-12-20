@@ -41,9 +41,12 @@ def koreamap(ax=None, edgecolor='k', linewidth1=1, linewidth2=0.3, city=True):
         Draw city if True. Draw province only if False.
     """
     import geopandas as gpd
+    from pathlib import Path
     
-    kor1 = gpd.read_file('./SHP/gadm36_KOR_1.shp')
-    kor2 = gpd.read_file('./SHP/gadm36_KOR_2.shp')
+    shpdir = f'{Path(__file__).parent}/SHP'
+
+    kor1 = gpd.read_file(f'{shpdir}/gadm36_KOR_1.shp')
+    kor2 = gpd.read_file(f'{shpdir}/gadm36_KOR_2.shp')
     
     kor1.to_crs(ax.projection.proj4_init).plot(color=(1,1,1,0), edgecolor=edgecolor, ax=ax, zorder=2, linewidth=linewidth1)
     if city:
