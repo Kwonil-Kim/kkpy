@@ -1,4 +1,5 @@
 docs/*
 kkpy/.ipynb_checkpoints
 kkpy/__pycache__
+kkpy.egg-info/
 .ipynb_checkpoints
