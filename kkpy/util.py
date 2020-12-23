@@ -215,6 +215,7 @@ def cross_section_2d(xy0, xy1, x2d, y2d, value2d, linewidth=1, along='x'):
     vcross : 1D array
         Return averaged value along the cross-section.
     """
+    import skimage.measure
     minx, maxx = np.nanmin(x2d), np.nanmax(x2d)
     miny, maxy = np.nanmin(y2d), np.nanmax(y2d)
     
