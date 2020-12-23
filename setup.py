@@ -4,8 +4,8 @@ setup(
     name='kkpy',
     version='0.1',
     packages=find_packages(exclude=['tests*']),
-    package_dir={'kkpy': './kkpy'}
-    package_data={'kkpy': 'SHP/*'}
+    package_dir={'kkpy': './kkpy'},
+    package_data={'kkpy': 'SHP/*'},
     license='MIT',
     description='My python package',
     long_description=open('README.md').read(),
