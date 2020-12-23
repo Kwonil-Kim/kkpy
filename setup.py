@@ -17,7 +17,12 @@ setup(
         'scipy',
         'dask',
         'pandas',
-        'netCDF4'],
+        'netCDF4',
+        'geopandas',
+        'descartes',
+        'xarray',
+        'bottleneck',
+        'scikit-image'],
     url='https://github.com/Kwonil-Kim/kkpy',
     author='Kwonil Kim',
     author_email='kwonil.kim.0@gmail.com'

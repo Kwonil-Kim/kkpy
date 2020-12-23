@@ -13,7 +13,9 @@ dependencies:
 - arm_pyart
 - xarray
 - geopandas
+- descartes
 - bottleneck
+- scikit-image
 - pip
 - pip:
     haversine
