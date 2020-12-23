@@ -13,6 +13,10 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-rendered-html.css" type="text/css" />
 
   
   
@@ -36,6 +40,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example Gallery" href="auto_examples/index.html" />
     <link rel="prev" title="kkpy.util" href="util.html" /> 
 </head>
 
@@ -91,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="io.html">kkpy.io</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">kkpy.util</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.cm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Example Gallery</a></li>
 </ul>
 
             
@@ -172,14 +178,23 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.cm.doppler" title="kkpy.cm.doppler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.cm.doppler</span></code></a>([levels])</p></td>
 <td><p>KNU Doppler velocity colors.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.cm.precip" title="kkpy.cm.precip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.cm.precip</span></code></a>([levels, coarse_ticks])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.cm.zdr" title="kkpy.cm.zdr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.cm.zdr</span></code></a>([levels])</p></td>
+<td><p>KNU differential reflectivity colors.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.cm.kdp" title="kkpy.cm.kdp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.cm.kdp</span></code></a>([levels])</p></td>
+<td><p>KNU specific differential phase colors.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.cm.rhohv" title="kkpy.cm.rhohv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.cm.rhohv</span></code></a>([levels])</p></td>
+<td><p>KNU cross correlation coefficient colors.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.cm.precip" title="kkpy.cm.precip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.cm.precip</span></code></a>([levels, coarse_ticks])</p></td>
 <td><p>KNU Precipitation colors.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt id="kkpy.cm.refl">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">refl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">snow</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.refl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">refl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">snow</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#refl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.refl" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU reflectivity colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">refl</span><span class="p">()</span>
@@ -207,7 +222,7 @@
 
 <dl class="py function">
 <dt id="kkpy.cm.doppler">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">doppler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.doppler" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">doppler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#doppler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.doppler" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU Doppler velocity colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">doppler</span><span class="p">()</span>
@@ -231,8 +246,83 @@
 </dd></dl>
 
 <dl class="py function">
+<dt id="kkpy.cm.zdr">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">zdr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#zdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.zdr" title="Permalink to this definition">¶</a></dt>
+<dd><p>KNU differential reflectivity colors.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">zdr</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">zdr2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
+‘norm’: color tick levels for plot
+‘ticks’: color tick levels for colorbar</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.cm.kdp">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">kdp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#kdp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.kdp" title="Permalink to this definition">¶</a></dt>
+<dd><p>KNU specific differential phase colors.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">kdp</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">kdp2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
+‘norm’: color tick levels for plot
+‘ticks’: color tick levels for colorbar</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.cm.rhohv">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">rhohv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#rhohv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.rhohv" title="Permalink to this definition">¶</a></dt>
+<dd><p>KNU cross correlation coefficient colors.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rhohv</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">rhohv2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
+‘norm’: color tick levels for plot
+‘ticks’: color tick levels for colorbar</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="kkpy.cm.precip">
-<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">precip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coarse_ticks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.cm.precip" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">precip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coarse_ticks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#precip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.precip" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU Precipitation colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">precip</span><span class="p">()</span>
@@ -267,6 +357,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="auto_examples/index.html" class="btn btn-neutral float-right" title="Example Gallery" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="util.html" class="btn btn-neutral float-left" title="kkpy.util" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

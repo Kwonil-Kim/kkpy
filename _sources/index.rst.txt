@@ -17,6 +17,7 @@ Welcome to KKpy's documentation!
    io
    util
    cm
+   auto_examples/index
    
 
 Indices and tables

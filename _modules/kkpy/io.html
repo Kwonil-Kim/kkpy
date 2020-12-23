@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>kkpy.io &mdash; KKpy 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> KKpy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">How to install KKpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">kkpy.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../util.html">kkpy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cm.html">kkpy.cm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Example Gallery</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">KKpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>kkpy.io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for kkpy.io</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">kkpy.io</span>
+<span class="sd">========================</span>
+
+<span class="sd">Functions to read and write files</span>
+
+<span class="sd">.. currentmodule:: io</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">    kkpy.io.read_aws</span>
+<span class="sd">    kkpy.io.read_2dvd_rho</span>
+<span class="sd">    kkpy.io.read_mxpol_rhi_with_hc</span>
+<span class="sd">    kkpy.io.read_dem</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<div class="viewcode-block" id="read_aws"><a class="viewcode-back" href="../../io.html#kkpy.io.read_aws">[docs]</a><span class="k">def</span> <span class="nf">read_aws</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">date_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">datadir</span><span class="o">=</span><span class="s1">&#39;/disk/STORAGE/OBS/AWS/&#39;</span><span class="p">,</span> <span class="n">stnid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dask</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read AWS_MIN files into dataframe.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import datetime</span>
+<span class="sd">    &gt;&gt;&gt; df_aws = kkpy.io.read_aws(time=datetime.datetime(2018,2,28,6,0))</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; df_aws = kkpy.io.read_aws(time=[datetime.datetime(2018,2,28,6,0),datetime.datetime(2018,3,1,12,0)], datadir=&#39;/path/to/aws/files/&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : datetime or array_like of datetime</span>
+<span class="sd">        Datetime of the data you want to read.</span>
+<span class="sd">        If this is array of two elements, it will read all data within two datetimes by default.</span>
+<span class="sd">        If this is array of elements and keyword *date_range* is False, it will read the data of specific time of each element.</span>
+<span class="sd">    date_range : bool, optional</span>
+<span class="sd">        False if argument *time* contains element of specific time you want to read.</span>
+<span class="sd">    datadir : str, optional</span>
+<span class="sd">        Directory of data.</span>
+<span class="sd">    stnid : list, optional</span>
+<span class="sd">        List of station id you want to read. Read all site if None.</span>
+<span class="sd">    dask : boolean, optional</span>
+<span class="sd">        Return a dask dataframe if True, otherwise return a pandas dataframe.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    df_aws : dataframe</span>
+<span class="sd">        Return dataframe of aws data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">dask.dataframe</span> <span class="k">as</span> <span class="nn">dd</span>
+    
+    <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: Check time argument&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">date_range</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="k">if</span> <span class="n">date_range</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: Check time and date_range arguments&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: time[1] must be greater than time[0]&#39;</span><span class="p">)</span>
+        
+        <span class="n">dt_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">minute</span><span class="p">)</span>
+        <span class="n">dt_finis</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">minute</span><span class="p">)</span>
+        
+        <span class="c1"># Get file list</span>
+        <span class="n">filearr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="n">_dt</span> <span class="o">=</span> <span class="n">dt_start</span>
+        <span class="k">while</span> <span class="n">_dt</span> <span class="o">&lt;=</span> <span class="n">dt_finis</span><span class="p">:</span>
+            <span class="n">_filearr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datadir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_dt</span><span class="si">:</span><span class="s1">%Y%m</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_dt</span><span class="si">:</span><span class="s1">%d</span><span class="si">}</span><span class="s1">/AWS_MIN_</span><span class="si">{</span><span class="n">_dt</span><span class="si">:</span><span class="s1">%Y%m%d%H%M</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+            <span class="n">filearr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filearr</span><span class="p">,</span> <span class="n">_filearr</span><span class="p">)</span>
+            <span class="n">_dt</span> <span class="o">=</span> <span class="n">_dt</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">yyyy_filearr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">12</span><span class="p">:</span><span class="o">-</span><span class="mi">8</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filearr</span><span class="p">]</span>
+        <span class="n">mm_filearr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">8</span><span class="p">:</span><span class="o">-</span><span class="mi">6</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filearr</span><span class="p">]</span>
+        <span class="n">dd_filearr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">6</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filearr</span><span class="p">]</span>
+        <span class="n">hh_filearr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filearr</span><span class="p">]</span>
+        <span class="n">ii_filearr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filearr</span><span class="p">]</span>
+        <span class="n">dt_filearr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">yyyy</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="n">dd</span><span class="p">,</span><span class="n">hh</span><span class="p">,</span><span class="n">ii</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">yyyy</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="n">dd</span><span class="p">,</span><span class="n">hh</span><span class="p">,</span><span class="n">ii</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">yyyy_filearr</span><span class="p">,</span> <span class="n">mm_filearr</span><span class="p">,</span> <span class="n">dd_filearr</span><span class="p">,</span> <span class="n">hh_filearr</span><span class="p">,</span> <span class="n">ii_filearr</span><span class="p">)])</span>
+
+        <span class="n">filearr</span> <span class="o">=</span> <span class="n">filearr</span><span class="p">[(</span><span class="n">dt_filearr</span> <span class="o">&gt;=</span> <span class="n">dt_start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dt_filearr</span> <span class="o">&lt;=</span> <span class="n">dt_finis</span><span class="p">)]</span>
+        <span class="n">dt_filearr</span> <span class="o">=</span> <span class="n">dt_filearr</span><span class="p">[(</span><span class="n">dt_filearr</span> <span class="o">&gt;=</span> <span class="n">dt_start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dt_filearr</span> <span class="o">&lt;=</span> <span class="n">dt_finis</span><span class="p">)]</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">list_dt_yyyymmddhhii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">_time</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">_time</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">_time</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">_time</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">_time</span><span class="o">.</span><span class="n">minute</span><span class="p">)</span> <span class="k">for</span> <span class="n">_time</span> <span class="ow">in</span> <span class="n">time</span><span class="p">]))</span>
+        
+        <span class="n">filearr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datadir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_dt</span><span class="si">:</span><span class="s1">%Y%m</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_dt</span><span class="si">:</span><span class="s1">%d</span><span class="si">}</span><span class="s1">/AWS_MIN_</span><span class="si">{</span><span class="n">_dt</span><span class="si">:</span><span class="s1">%Y%m%d%H%M</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">_dt</span> <span class="ow">in</span> <span class="n">list_dt_yyyymmddhhii</span><span class="p">])</span>
+        <span class="n">dt_filearr</span> <span class="o">=</span> <span class="n">list_dt_yyyymmddhhii</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filearr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: No matched data for the given time period&#39;</span><span class="p">)</span>
+    
+    
+    <span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="s1">&#39;YMDHI&#39;</span><span class="p">,</span> <span class="s1">&#39;LON&#39;</span><span class="p">,</span> <span class="s1">&#39;LAT&#39;</span><span class="p">,</span> <span class="s1">&#39;HGT&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;WD&#39;</span><span class="p">,</span> <span class="s1">&#39;WS&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;RH&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;PA&#39;</span><span class="p">,</span> <span class="s1">&#39;PS&#39;</span><span class="p">,</span> <span class="s1">&#39;RE&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;R60mAcc&#39;</span><span class="p">,</span> <span class="s1">&#39;R1d&#39;</span><span class="p">,</span> <span class="s1">&#39;R15m&#39;</span><span class="p">,</span> <span class="s1">&#39;R60m&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;WDS&#39;</span><span class="p">,</span> <span class="s1">&#39;WSS&#39;</span><span class="p">,</span> <span class="s1">&#39;dummy&#39;</span><span class="p">]</span>
+    
+    <span class="n">df_aws</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filearr</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">999</span><span class="p">,</span><span class="o">-</span><span class="mi">997</span><span class="p">])</span>
+    <span class="n">df_aws</span> <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;dummy&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">WD</span>      <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">WD</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">WS</span>      <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">WS</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">T</span>       <span class="o">=</span> <span class="n">df_aws</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">RH</span>      <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">RH</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">PA</span>      <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">PA</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">PS</span>      <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">PS</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">RE</span>      <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">RE</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">R60mAcc</span> <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">R60mAcc</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">R1d</span>     <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">R1d</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">R15m</span>    <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">R15m</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">R60m</span>    <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">R60m</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">WDS</span>     <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">WDS</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="n">df_aws</span><span class="o">.</span><span class="n">WSS</span>     <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">WSS</span><span class="o">/</span><span class="mf">10.</span>
+    <span class="k">if</span> <span class="n">stnid</span><span class="p">:</span>
+        <span class="n">df_aws</span> <span class="o">=</span> <span class="n">df_aws</span><span class="p">[</span><span class="n">df_aws</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">stnid</span><span class="p">)]</span>
+
+    <span class="n">df_aws</span> <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_aws</span><span class="p">[</span><span class="s1">&#39;YMDHI&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">%H%M&#39;</span><span class="p">))</span>
+    <span class="n">df_aws</span> <span class="o">=</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;YMDHI&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">dask</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df_aws</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df_aws</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="read_2dvd_rho"><a class="viewcode-back" href="../../io.html#kkpy.io.read_2dvd_rho">[docs]</a><span class="k">def</span> <span class="nf">read_2dvd_rho</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">date_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">datadir</span><span class="o">=</span><span class="s1">&#39;/disk/common/kwonil_rainy/RHO_2DVD/&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;2DVD_Dapp_v_rho_201*Deq.txt&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read 2DVD density files into dataframe.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import datetime</span>
+<span class="sd">    &gt;&gt;&gt; df_2dvd_drop = kkpy.io.read_2dvd_rho(time=datetime.datetime(2018,2,28)) # automatically date_range=False</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; df_2dvd_drop = kkpy.io.read_2dvd_rho(time=[datetime.datetime(2018,2,28,6),datetime.datetime(2018,3,1,12)], datadir=&#39;/path/to/2dvd/files/&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; df_2dvd_drop = kkpy.io.read_2dvd_rho(time=list_of_many_datetimes, date_range=False)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; df_2dvd_drop = kkpy.io.read_2dvd_rho(time=datetime.datetime(2018,2,28), filename=&#39;2DVD_rho_test_*.txt&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : datetime or array_like of datetime</span>
+<span class="sd">        Datetime of the data you want to read.</span>
+<span class="sd">        If this is array of two elements, it will read all data within two datetimes by default.</span>
+<span class="sd">        If this is array of elements and keyword *date_range* is False, it will read the data of specific time of each element.</span>
+<span class="sd">    date_range : bool, optional</span>
+<span class="sd">        False if argument *time* contains element of specific time you want to read.</span>
+<span class="sd">    datadir : str, optional</span>
+<span class="sd">        Directory of data.</span>
+<span class="sd">    filename : str, optional</span>
+<span class="sd">        File naming of data.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    df_2dvd_drop : dataframe</span>
+<span class="sd">        Return dataframe of 2dvd data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get file list</span>
+    <span class="n">filearr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">datadir</span><span class="si">}</span><span class="s1">/**/</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
+    <span class="n">yyyy_filearr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">27</span><span class="p">:</span><span class="o">-</span><span class="mi">23</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filearr</span><span class="p">]</span>
+    <span class="n">mm_filearr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">23</span><span class="p">:</span><span class="o">-</span><span class="mi">21</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filearr</span><span class="p">]</span>
+    <span class="n">dd_filearr</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="o">-</span><span class="mi">21</span><span class="p">:</span><span class="o">-</span><span class="mi">19</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">filearr</span><span class="p">]</span>
+    <span class="n">dt_filearr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">yyyy</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="n">dd</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">yyyy</span><span class="p">,</span> <span class="n">mm</span><span class="p">,</span> <span class="n">dd</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">yyyy_filearr</span><span class="p">,</span> <span class="n">mm_filearr</span><span class="p">,</span> <span class="n">dd_filearr</span><span class="p">)])</span>
+
+    <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: Check time argument&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">date_range</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="k">if</span> <span class="n">date_range</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: Check time and date_range arguments&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: time[1] must be greater than time[0]&#39;</span><span class="p">)</span>
+        
+        <span class="n">dt_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+        <span class="n">dt_finis</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+        
+        
+        <span class="n">filearr</span> <span class="o">=</span> <span class="n">filearr</span><span class="p">[(</span><span class="n">dt_filearr</span> <span class="o">&gt;=</span> <span class="n">dt_start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dt_filearr</span> <span class="o">&lt;=</span> <span class="n">dt_finis</span><span class="p">)]</span>
+        <span class="n">dt_filearr</span> <span class="o">=</span> <span class="n">dt_filearr</span><span class="p">[(</span><span class="n">dt_filearr</span> <span class="o">&gt;=</span> <span class="n">dt_start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">dt_filearr</span> <span class="o">&lt;=</span> <span class="n">dt_finis</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">list_dt_yyyymmdd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">_time</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">_time</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">_time</span><span class="o">.</span><span class="n">day</span><span class="p">)</span> <span class="k">for</span> <span class="n">_time</span> <span class="ow">in</span> <span class="n">time</span><span class="p">]))</span>
+        
+        <span class="n">filearr</span> <span class="o">=</span> <span class="n">filearr</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">dt_filearr</span><span class="p">,</span> <span class="n">list_dt_yyyymmdd</span><span class="p">)]</span>
+        <span class="n">dt_filearr</span> <span class="o">=</span> <span class="n">dt_filearr</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">dt_filearr</span><span class="p">,</span> <span class="n">list_dt_yyyymmdd</span><span class="p">)]</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filearr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: No matched data for the given time period&#39;</span><span class="p">)</span>
+        
+    <span class="c1"># # READ DATA</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hhmm&#39;</span><span class="p">,</span> <span class="s1">&#39;Dapp&#39;</span><span class="p">,</span> <span class="s1">&#39;VEL&#39;</span><span class="p">,</span> <span class="s1">&#39;RHO&#39;</span><span class="p">,</span> <span class="s1">&#39;AREA&#39;</span><span class="p">,</span> <span class="s1">&#39;WA&#39;</span><span class="p">,</span> <span class="s1">&#39;HA&#39;</span><span class="p">,</span> <span class="s1">&#39;WB&#39;</span><span class="p">,</span> <span class="s1">&#39;HB&#39;</span><span class="p">,</span> <span class="s1">&#39;Deq&#39;</span><span class="p">]</span>
+    <span class="n">dflist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i_file</span><span class="p">,</span> <span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">filearr</span><span class="p">,</span> <span class="n">dt_filearr</span><span class="p">)):</span>
+        <span class="n">_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+        <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+        <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">day</span>
+        <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">(</span><span class="n">_df</span><span class="p">[</span><span class="s1">&#39;hhmm&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;minute&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;hhmm&#39;</span><span class="p">]</span> <span class="o">%</span> <span class="mi">100</span>
+        <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;jultime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">_df</span><span class="p">[[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span><span class="s1">&#39;month&#39;</span><span class="p">,</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="s1">&#39;hour&#39;</span><span class="p">,</span><span class="s1">&#39;minute&#39;</span><span class="p">]])</span>
+        <span class="n">_df</span> <span class="o">=</span> <span class="n">_df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;hhmm&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">,</span><span class="s1">&#39;month&#39;</span><span class="p">,</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="s1">&#39;hour&#39;</span><span class="p">,</span><span class="s1">&#39;minute&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">dflist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i_file</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">filearr</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+    <span class="n">df_2dvd_drop</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dflist</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_2dvd_drop</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;jultime&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">date_range</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">_time</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">_time</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">_time</span><span class="o">.</span><span class="n">second</span><span class="p">])</span> <span class="k">for</span> <span class="n">_time</span> <span class="ow">in</span> <span class="n">time</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">df_2dvd_drop</span> <span class="o">=</span> <span class="n">df_2dvd_drop</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    
+    <span class="k">return</span> <span class="n">df_2dvd_drop</span></div>
+
+
+<div class="viewcode-block" id="read_mxpol_rhi_with_hc"><a class="viewcode-back" href="../../io.html#kkpy.io.read_mxpol_rhi_with_hc">[docs]</a><span class="k">def</span> <span class="nf">read_mxpol_rhi_with_hc</span><span class="p">(</span><span class="n">rhifile_nc</span><span class="p">,</span> <span class="n">hcfile_mat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read MXPOL RHI with hydrometeor classification into py-ART radar object.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; rhifile = &#39;/disk/WORKSPACE/kwonil/MXPOL/RAW/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8.nc&#39;</span>
+<span class="sd">    &gt;&gt;&gt; hidfile = &#39;/disk/WORKSPACE/kwonil/MXPOL/HID/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8_zdrcorr_demix.mat&#39;</span>
+<span class="sd">    &gt;&gt;&gt; radar_mxp = kkpy.io.read_mxpol_rhi_with_hc(rhifile, hcfile)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rhifile_nc : str or array_like of str</span>
+<span class="sd">        Filepath of RHI data to read.</span>
+<span class="sd">        The number and the order of elements should match with `hcfile_mat`.</span>
+<span class="sd">    hcfile_mat : str or array_like of str</span>
+<span class="sd">        Filepath of hydrometeor classification file to read.</span>
+<span class="sd">        The number and the order of elements should match with `rhifile_nc`.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    radar : py-ART radar object</span>
+<span class="sd">        Return py-ART radar object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PYART_QUIET&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;True&quot;</span>
+    <span class="kn">import</span> <span class="nn">pyart</span>
+    <span class="kn">import</span> <span class="nn">scipy.io</span>
+    <span class="kn">from</span> <span class="nn">netCDF4</span> <span class="kn">import</span> <span class="n">Dataset</span>
+    
+    <span class="c1"># HC file</span>
+    <span class="n">HC_proportion</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">hcfile_mat</span><span class="p">)</span>
+    <span class="c1"># RHI file</span>
+    <span class="n">mxpol</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">rhifile_nc</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">El</span> <span class="o">=</span> <span class="n">mxpol</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;Elevation&#39;</span><span class="p">][:]</span>
+    <span class="n">wh_hc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">El</span><span class="o">&gt;</span><span class="mi">5</span><span class="p">,</span><span class="n">El</span><span class="o">&lt;</span><span class="mi">175</span><span class="p">)</span>
+    <span class="n">El</span> <span class="o">=</span> <span class="n">El</span><span class="p">[</span><span class="n">wh_hc</span><span class="p">]</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">mxpol</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;Range&#39;</span><span class="p">][:]</span>
+
+    <span class="n">radar</span> <span class="o">=</span> <span class="n">pyart</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">make_empty_rhi_radar</span><span class="p">(</span><span class="n">HC_proportion</span><span class="p">[</span><span class="s1">&#39;AG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">HC_proportion</span><span class="p">[</span><span class="s1">&#39;AG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1">######## HIDs ########</span>
+    <span class="c1"># find most probable habit</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_HC</span> <span class="ow">in</span> <span class="n">HC_proportion</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s1">&#39;_&#39;</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span> <span class="k">continue</span>
+            
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="s1">&#39;AG&#39;</span><span class="p">:</span>
+            <span class="n">HC3d_proportion</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">HC_proportion</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">HC3d_proportion</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">HC3d_proportion</span><span class="p">,</span> <span class="n">HC_proportion</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+    <span class="n">HC</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">HC3d_proportion</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">HC</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">HC3d_proportion</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    
+    <span class="c1"># add to PYART radar fields</span>
+    <span class="n">list_str</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;AG&#39;</span><span class="p">,</span> <span class="s1">&#39;CR&#39;</span><span class="p">,</span> <span class="s1">&#39;IH&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;LR&#39;</span><span class="p">,</span> <span class="s1">&#39;MH&#39;</span><span class="p">,</span> <span class="s1">&#39;RN&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;RP&#39;</span><span class="p">,</span> <span class="s1">&#39;WS&#39;</span><span class="p">]</span>
+    <span class="n">list_standard</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;Aggregation&#39;</span><span class="p">,</span> <span class="s1">&#39;Crystal&#39;</span><span class="p">,</span> <span class="s1">&#39;Ice hail / Graupel&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Light rain&#39;</span><span class="p">,</span> <span class="s1">&#39;Melting hail&#39;</span><span class="p">,</span> <span class="s1">&#39;Rain&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Rimed particles&#39;</span><span class="p">,</span> <span class="s1">&#39;Wet snow&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">_str</span><span class="p">,</span> <span class="n">_standard</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">list_str</span><span class="p">,</span> <span class="n">list_standard</span><span class="p">):</span>
+        <span class="n">mask_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span><span class="n">HC_proportion</span><span class="p">[</span><span class="n">_str</span><span class="p">],</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;long_name&#39;</span><span class="p">:</span><span class="sa">f</span><span class="s1">&#39;Proportion of the </span><span class="si">{</span><span class="n">_str</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_FillValue&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span><span class="n">_standard</span><span class="p">}</span>
+        <span class="n">radar</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">_str</span><span class="p">,</span> <span class="n">mask_dict</span><span class="p">,</span> <span class="n">replace_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="n">radar</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s1">&#39;HC&#39;</span><span class="p">,</span>
+                    <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span><span class="n">HC</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;long_name&#39;</span><span class="p">:</span><span class="sa">f</span><span class="s1">&#39;Most probable habit. AG(0), CR(1), IH(2), LR(3), MH(4), RN(5), RP(6), WS(7)&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;_FillValue&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span><span class="s1">&#39;Hydrometeor classification&#39;</span><span class="p">},</span>
+                    <span class="n">replace_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1">######## Radar variables ########</span>
+    <span class="n">ZDR</span> <span class="o">=</span> <span class="n">mxpol</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;Zdr&#39;</span><span class="p">][:]</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">wh_hc</span><span class="p">]</span>
+    <span class="n">Z</span>   <span class="o">=</span> <span class="n">mxpol</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;Zh&#39;</span><span class="p">][:]</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">wh_hc</span><span class="p">]</span>
+    <span class="n">KDP</span> <span class="o">=</span> <span class="n">mxpol</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;Kdp&#39;</span><span class="p">][:]</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">wh_hc</span><span class="p">]</span>
+
+    <span class="n">mask_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;data&#39;</span><span class="p">:</span><span class="n">KDP</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span><span class="s1">&#39;deg/km&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;differential phase shift&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_FillValue&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span><span class="s1">&#39;KDP&#39;</span>
+    <span class="p">}</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s1">&#39;KDP&#39;</span><span class="p">,</span> <span class="n">mask_dict</span><span class="p">)</span>
+
+    <span class="n">mask_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;data&#39;</span><span class="p">:</span><span class="n">ZDR</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span><span class="s1">&#39;dB&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;differential reflectivity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_FillValue&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span><span class="s1">&#39;ZDR&#39;</span>
+    <span class="p">}</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s1">&#39;ZDR&#39;</span><span class="p">,</span> <span class="n">mask_dict</span><span class="p">)</span>
+
+    <span class="n">mask_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;data&#39;</span><span class="p">:</span><span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span><span class="s1">&#39;dBZ&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;long_name&#39;</span><span class="p">:</span> <span class="s1">&#39;horizontal reflectivity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_FillValue&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">9999</span><span class="p">,</span> <span class="s1">&#39;standard_name&#39;</span><span class="p">:</span><span class="s1">&#39;ZHH&#39;</span>
+    <span class="p">}</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s1">&#39;ZHH&#39;</span><span class="p">,</span> <span class="n">mask_dict</span><span class="p">)</span>
+
+
+    <span class="n">radar</span><span class="o">.</span><span class="n">range</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">elevation</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">El</span>
+    <span class="n">azimuth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mxpol</span><span class="p">[</span><span class="s1">&#39;Azimuth&#39;</span><span class="p">][:][</span><span class="n">wh_hc</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">azimuth</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">azimuth</span> <span class="o">+=</span> <span class="mi">360</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">azimuth</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">azimuth</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">fixed_angle</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">azimuth</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mxpol</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">][:])</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;seconds since 1970-01-01T00:00:00Z&quot;</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">longitude</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mxpol</span><span class="o">.</span><span class="n">getncattr</span><span class="p">(</span><span class="s1">&#39;Longitude-value&#39;</span><span class="p">)])</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">latitude</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mxpol</span><span class="o">.</span><span class="n">getncattr</span><span class="p">(</span><span class="s1">&#39;Latitude-value&#39;</span><span class="p">)])</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;instrument_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MXPol&#39;</span>
+    <span class="n">radar</span><span class="o">.</span><span class="n">altitude</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mxpol</span><span class="o">.</span><span class="n">getncattr</span><span class="p">(</span><span class="s1">&#39;Altitude-value&#39;</span><span class="p">)])</span>
+    
+    <span class="k">return</span> <span class="n">radar</span></div>
+
+<div class="viewcode-block" id="read_dem"><a class="viewcode-back" href="../../io.html#kkpy.io.read_dem">[docs]</a><span class="k">def</span> <span class="nf">read_dem</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area</span><span class="o">=</span><span class="s1">&#39;pyeongchang&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read NASA SRTM 3-arcsec (90 meters) digital elevation model in South Korea.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; dem, lon_dem, lat_dem, proj_dem = kkpy.io.read_dem(area=&#39;pyeongchang&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(projection=ccrs.PlateCarree())</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon_dem, lat_dem, dem.T, cmap=cmap, vmin=0, transform=ccrs.PlateCarree())</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; dem, lon_dem, lat_dem, proj_dem = kkpy.io.read_dem(area=&#39;korea&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; dem, lon_dem, lat_dem, proj_dem = kkpy.io.read_dem(file=&#39;./pyeongchang_90m.tif&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file : str, optional</span>
+<span class="sd">        Filepath of .tif DEM file to read.</span>
+<span class="sd">    area : str, optional</span>
+<span class="sd">        Region of interest. Possible options are &#39;pyeongchang&#39; and &#39;korea&#39;. Default is &#39;pyeongchang&#39;.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dem : float 2D array</span>
+<span class="sd">        Return DEM elevation.</span>
+<span class="sd">    lon_dem : float 2D array</span>
+<span class="sd">        Return longitude of each DEM pixel.</span>
+<span class="sd">    lat_dem : float 2D array</span>
+<span class="sd">        Return latitude of each DEM pixel.</span>
+<span class="sd">    proj_dem : osr object</span>
+<span class="sd">        Spatial reference system of the used coordinates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="kn">import</span> <span class="nn">wradlib</span> <span class="k">as</span> <span class="nn">wrl</span>
+    
+    <span class="k">if</span> <span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">wrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open_raster</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">area</span> <span class="ow">in</span> <span class="s1">&#39;pyeongchang&#39;</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">wrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open_raster</span><span class="p">(</span><span class="s1">&#39;/disk/WORKSPACE/kwonil/SRTM3_V2.1/TIF/pyeongchang_90m.tif&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">area</span> <span class="ow">in</span> <span class="s1">&#39;korea&#39;</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">wrl</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">open_raster</span><span class="p">(</span><span class="s1">&#39;/disk/WORKSPACE/kwonil/SRTM3_V2.1/TIF/korea_90m.tif&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Please check area argument&#39;</span><span class="p">)</span>
+            
+    <span class="n">dem</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">proj_dem</span> <span class="o">=</span> <span class="n">wrl</span><span class="o">.</span><span class="n">georef</span><span class="o">.</span><span class="n">extract_raster_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="n">lon_dem</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lat_dem</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dem</span> <span class="o">=</span> <span class="n">dem</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">dem</span><span class="p">[</span><span class="n">dem</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="n">dem</span><span class="p">,</span> <span class="n">lon_dem</span><span class="p">,</span> <span class="n">lat_dem</span><span class="p">,</span> <span class="n">proj_dem</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Kwonil Kim
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

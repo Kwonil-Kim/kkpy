@@ -13,6 +13,10 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-rendered-html.css" type="text/css" />
 
   
   
@@ -92,6 +96,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.io</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">kkpy.util</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cm.html">kkpy.cm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Example Gallery</a></li>
 </ul>
 
             
@@ -182,7 +187,7 @@
 </table>
 <dl class="py function">
 <dt id="kkpy.io.read_aws">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_aws</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/STORAGE/OBS/AWS/'</span></em>, <em class="sig-param"><span class="n">stnid</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dask</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_aws" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_aws</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/STORAGE/OBS/AWS/'</span></em>, <em class="sig-param"><span class="n">stnid</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dask</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_aws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.io.read_aws" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read AWS_MIN files into dataframe.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
@@ -215,7 +220,7 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 
 <dl class="py function">
 <dt id="kkpy.io.read_2dvd_rho">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_2dvd_rho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/common/kwonil_rainy/RHO_2DVD/'</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">'2DVD_Dapp_v_rho_201*Deq.txt'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_2dvd_rho" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_2dvd_rho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/common/kwonil_rainy/RHO_2DVD/'</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">'2DVD_Dapp_v_rho_201*Deq.txt'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_2dvd_rho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.io.read_2dvd_rho" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 2DVD density files into dataframe.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
@@ -253,7 +258,7 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 
 <dl class="py function">
 <dt id="kkpy.io.read_mxpol_rhi_with_hc">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_mxpol_rhi_with_hc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rhifile_nc</span></em>, <em class="sig-param"><span class="n">hcfile_mat</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_mxpol_rhi_with_hc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_mxpol_rhi_with_hc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rhifile_nc</span></em>, <em class="sig-param"><span class="n">hcfile_mat</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_mxpol_rhi_with_hc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.io.read_mxpol_rhi_with_hc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rhifile</span> <span class="o">=</span> <span class="s1">&#39;/disk/WORKSPACE/kwonil/MXPOL/RAW/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8.nc&#39;</span>
@@ -281,7 +286,7 @@ The number and the order of elements should match with <cite>rhifile_nc</cite>.<
 
 <dl class="py function">
 <dt id="kkpy.io.read_dem">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_dem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">area</span><span class="o">=</span><span class="default_value">'pyeongchang'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.io.read_dem" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_dem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">area</span><span class="o">=</span><span class="default_value">'pyeongchang'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_dem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.io.read_dem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read NASA SRTM 3-arcsec (90 meters) digital elevation model in South Korea.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon_dem</span><span class="p">,</span> <span class="n">lat_dem</span><span class="p">,</span> <span class="n">proj_dem</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;pyeongchang&#39;</span><span class="p">)</span>

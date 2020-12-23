@@ -1,0 +1,534 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>kkpy.cm &mdash; KKpy 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> KKpy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">How to install KKpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">kkpy.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../util.html">kkpy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cm.html">kkpy.cm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Example Gallery</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">KKpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>kkpy.cm</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for kkpy.cm</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">kkpy.cm</span>
+<span class="sd">========================</span>
+
+<span class="sd">Colormaps for my research</span>
+
+<span class="sd">.. currentmodule:: cm</span>
+
+<span class="sd">wind</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">    kkpy.cm.refl</span>
+<span class="sd">    kkpy.cm.doppler</span>
+<span class="sd">    kkpy.cm.zdr</span>
+<span class="sd">    kkpy.cm.kdp</span>
+<span class="sd">    kkpy.cm.rhohv</span>
+<span class="sd">    kkpy.cm.precip</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">col</span>
+
+<div class="viewcode-block" id="refl"><a class="viewcode-back" href="../../cm.html#kkpy.cm.refl">[docs]</a><span class="k">def</span> <span class="nf">refl</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">snow</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KNU reflectivity colors.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.refl()</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, ref2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    levels : array_like</span>
+<span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
+<span class="sd">    snow : boolean</span>
+<span class="sd">        Return broader tick levels suitable for snow. Default is False.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_cmap : dictionary</span>
+<span class="sd">        &#39;cmap&#39;: matplotlib colormap</span>
+<span class="sd">        &#39;norm&#39;: color tick levels for plot</span>
+<span class="sd">        &#39;ticks&#39;: color tick levels for colorbar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">_z_level_rain</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">snow</span><span class="p">:</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="n">_z_level_snow</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">levels</span>
+        
+    <span class="k">if</span> <span class="n">snow</span><span class="p">:</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="n">_ref_color_snow</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="n">_ref_color</span><span class="p">()</span>
+    
+    <span class="n">dict_cmap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cmap</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="n">_ref_color</span><span class="p">()</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">dict_cmap</span></div>
+        
+
+<div class="viewcode-block" id="doppler"><a class="viewcode-back" href="../../cm.html#kkpy.cm.doppler">[docs]</a><span class="k">def</span> <span class="nf">doppler</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KNU Doppler velocity colors.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.doppler()</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, VD2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    levels : array_like</span>
+<span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_cmap : dictionary</span>
+<span class="sd">        &#39;cmap&#39;: matplotlib colormap</span>
+<span class="sd">        &#39;norm&#39;: color tick levels for plot</span>
+<span class="sd">        &#39;ticks&#39;: color tick levels for colorbar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">_vel_level</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">levels</span>
+    
+    <span class="n">dict_cmap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_vel_color</span><span class="p">()</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="n">_vel_color</span><span class="p">()</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">dict_cmap</span></div>
+        
+<div class="viewcode-block" id="zdr"><a class="viewcode-back" href="../../cm.html#kkpy.cm.zdr">[docs]</a><span class="k">def</span> <span class="nf">zdr</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KNU differential reflectivity colors.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.zdr()</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, zdr2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    levels : array_like</span>
+<span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_cmap : dictionary</span>
+<span class="sd">        &#39;cmap&#39;: matplotlib colormap</span>
+<span class="sd">        &#39;norm&#39;: color tick levels for plot</span>
+<span class="sd">        &#39;ticks&#39;: color tick levels for colorbar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">_zdr_level</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">levels</span>
+        
+    <span class="n">dict_cmap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_ref_color</span><span class="p">()</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="n">_ref_color</span><span class="p">()</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">dict_cmap</span></div>
+        
+<div class="viewcode-block" id="kdp"><a class="viewcode-back" href="../../cm.html#kkpy.cm.kdp">[docs]</a><span class="k">def</span> <span class="nf">kdp</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KNU specific differential phase colors.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.kdp()</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, kdp2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    levels : array_like</span>
+<span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_cmap : dictionary</span>
+<span class="sd">        &#39;cmap&#39;: matplotlib colormap</span>
+<span class="sd">        &#39;norm&#39;: color tick levels for plot</span>
+<span class="sd">        &#39;ticks&#39;: color tick levels for colorbar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">_kdp_level</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">levels</span>
+        
+    <span class="n">dict_cmap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_ref_color</span><span class="p">()</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="n">_ref_color</span><span class="p">()</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">dict_cmap</span></div>
+
+<div class="viewcode-block" id="rhohv"><a class="viewcode-back" href="../../cm.html#kkpy.cm.rhohv">[docs]</a><span class="k">def</span> <span class="nf">rhohv</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KNU cross correlation coefficient colors.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.rhohv()</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, rhohv2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    levels : array_like</span>
+<span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_cmap : dictionary</span>
+<span class="sd">        &#39;cmap&#39;: matplotlib colormap</span>
+<span class="sd">        &#39;norm&#39;: color tick levels for plot</span>
+<span class="sd">        &#39;ticks&#39;: color tick levels for colorbar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">_rhv_level</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">levels</span>
+        
+    <span class="n">dict_cmap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_ref_color</span><span class="p">()</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="n">_ref_color</span><span class="p">()</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">dict_cmap</span></div>
+
+<div class="viewcode-block" id="precip"><a class="viewcode-back" href="../../cm.html#kkpy.cm.precip">[docs]</a><span class="k">def</span> <span class="nf">precip</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">coarse_ticks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KNU Precipitation colors.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.precip()</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, prec2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    levels : array_like</span>
+<span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
+<span class="sd">    coarse_ticks : boolean</span>
+<span class="sd">        True if colorbar levels are too dense.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_cmap : dictionary</span>
+<span class="sd">        &#39;cmap&#39;: matplotlib colormap</span>
+<span class="sd">        &#39;norm&#39;: color tick levels for plot</span>
+<span class="sd">        &#39;ticks&#39;: color tick levels for colorbar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">_rain_level</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">levels</span>
+    
+    <span class="n">dict_cmap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_rain_color</span><span class="p">()</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="n">_rain_color</span><span class="p">()</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">coarse_ticks</span><span class="p">:</span>
+        <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">dict_cmap</span></div>
+        
+
+
+<span class="k">def</span> <span class="nf">_ref_color</span><span class="p">():</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#c8c8c8&#39;</span><span class="p">,</span> <span class="s1">&#39;#00c8ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#009bf5&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000f5&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#00f500&#39;</span><span class="p">,</span> <span class="s1">&#39;#00be00&#39;</span><span class="p">,</span> <span class="s1">&#39;#008c00&#39;</span><span class="p">,</span> <span class="s1">&#39;#005a00&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#FFFF00&#39;</span><span class="p">,</span> <span class="s1">&#39;#E6B400&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff9600&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#b40000&#39;</span><span class="p">,</span> <span class="s1">&#39;#E6468C&#39;</span><span class="p">,</span> <span class="s1">&#39;#7828a0&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#000000&#39;</span><span class="p">]</span>
+    <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuref&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmap_colors</span>
+
+<span class="k">def</span> <span class="nf">_ref_color_snow</span><span class="p">():</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#c8c8c8&#39;</span><span class="p">,</span> <span class="s1">&#39;#00c8ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#009bf5&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000f5&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#00f500&#39;</span><span class="p">,</span> <span class="s1">&#39;#00be00&#39;</span><span class="p">,</span> <span class="s1">&#39;#008c00&#39;</span><span class="p">,</span> <span class="s1">&#39;#005a00&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#FFFF00&#39;</span><span class="p">,</span> <span class="s1">&#39;#E6B400&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff9600&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#b40000&#39;</span><span class="p">,</span> <span class="s1">&#39;#7828a0&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#000000&#39;</span><span class="p">]</span>
+    <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuref&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmap_colors</span>
+
+<span class="k">def</span> <span class="nf">_rain_color</span><span class="p">():</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#87d9ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#3ec1ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#07abff&#39;</span><span class="p">,</span> <span class="s1">&#39;#008dde&#39;</span><span class="p">,</span> <span class="s1">&#39;#0077b3&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#69fc69&#39;</span><span class="p">,</span> <span class="s1">&#39;#1ef269&#39;</span><span class="p">,</span> <span class="s1">&#39;#00d500&#39;</span><span class="p">,</span> <span class="s1">&#39;#00a400&#39;</span><span class="p">,</span> <span class="s1">&#39;#008000&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#fff26f&#39;</span><span class="p">,</span> <span class="s1">&#39;#ffe256&#39;</span><span class="p">,</span> <span class="s1">&#39;#ffd039&#39;</span><span class="p">,</span> <span class="s1">&#39;#ffbc1e&#39;</span><span class="p">,</span> <span class="s1">&#39;#ffaa09&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#ff9c00&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff8b1b&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff8051&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff6e6e&#39;</span><span class="p">,</span> <span class="s1">&#39;#f65e67&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#e84a56&#39;</span><span class="p">,</span> <span class="s1">&#39;#d9343e&#39;</span><span class="p">,</span> <span class="s1">&#39;#c91f25&#39;</span><span class="p">,</span> <span class="s1">&#39;#bc0d0f&#39;</span><span class="p">,</span> <span class="s1">&#39;#b30000&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#c55aff&#39;</span><span class="p">,</span> <span class="s1">&#39;#c234ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#ad07ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#9200e4&#39;</span><span class="p">,</span> <span class="s1">&#39;#7f00bf&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#333333&#39;</span><span class="p">]</span>
+    <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knurain&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmap_colors</span>
+
+<span class="k">def</span> <span class="nf">_vel_color</span><span class="p">():</span>
+    <span class="n">colors</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;#d2d2d2&#39;</span><span class="p">,</span> <span class="s1">&#39;#00c8ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#009bf5&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000f5&#39;</span><span class="p">,</span> <span class="s1">&#39;#00f500&#39;</span><span class="p">,</span> <span class="s1">&#39;#00be00&#39;</span><span class="p">,</span> <span class="s1">&#39;#008c00&#39;</span><span class="p">,</span> <span class="s1">&#39;#004f00&#39;</span><span class="p">,</span> <span class="s1">&#39;#646464&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#ffff00&#39;</span><span class="p">,</span> <span class="s1">&#39;#e6b400&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff9600&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span> <span class="s1">&#39;#b40000&#39;</span><span class="p">,</span> <span class="s1">&#39;#e6468c&#39;</span><span class="p">,</span> <span class="s1">&#39;#7828a0&#39;</span><span class="p">,</span> <span class="s1">&#39;#000000&#39;</span><span class="p">]</span>
+    <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuvel&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmap_colors</span>
+    
+<span class="k">def</span> <span class="nf">_vel_color_vpr_snow</span><span class="p">():</span>
+    <span class="n">colors</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;#e6e6e6&#39;</span><span class="p">,</span> <span class="s1">&#39;#005a00&#39;</span><span class="p">,</span> <span class="s1">&#39;#007300&#39;</span><span class="p">,</span> <span class="s1">&#39;#008c00&#39;</span><span class="p">,</span> <span class="s1">&#39;#00be02&#39;</span><span class="p">,</span> <span class="s1">&#39;#00f500&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000f5&#39;</span><span class="p">,</span> <span class="s1">&#39;#0051f8&#39;</span><span class="p">,</span> <span class="s1">&#39;#009bf5&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;#00b2fa&#39;</span><span class="p">,</span> <span class="s1">&#39;#00c8ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#646464&#39;</span><span class="p">,</span> <span class="s1">&#39;#ffff00&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff9600&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span> <span class="s1">&#39;#b50000&#39;</span><span class="p">,</span> <span class="s1">&#39;#7828a0&#39;</span><span class="p">]</span>
+    <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuvel&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmap_colors</span>
+
+
+<span class="c1"># LEVELS</span>
+<span class="k">def</span> <span class="nf">_z_level_rain</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mf">100.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">32.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">,</span> <span class="mf">45.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mf">65.0</span><span class="p">,</span> <span class="mf">70.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_zdr_level</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mf">100.0</span><span class="p">,</span>  <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span>  <span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">0.4</span><span class="p">,</span>  <span class="mf">0.6</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.4</span><span class="p">,</span>  <span class="mf">1.8</span><span class="p">,</span>  <span class="mf">2.2</span><span class="p">,</span>  <span class="mf">2.6</span><span class="p">,</span>  <span class="mf">3.0</span><span class="p">,</span>  <span class="mf">4.0</span><span class="p">,</span>  <span class="mf">5.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_kdp_level</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mf">100.0</span><span class="p">,</span>  <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span>  <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">0.5</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span>  <span class="mf">1.5</span><span class="p">,</span>  <span class="mf">2.0</span><span class="p">,</span>  <span class="mf">2.5</span><span class="p">,</span>  <span class="mf">3.0</span><span class="p">,</span>  <span class="mf">3.5</span><span class="p">,</span>  <span class="mf">4.0</span><span class="p">,</span>  <span class="mf">4.5</span><span class="p">,</span>  <span class="mf">5.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_rhv_level</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mf">100.0</span><span class="p">,</span>   <span class="mf">0.0</span><span class="p">,</span>   <span class="mf">0.5</span><span class="p">,</span>  <span class="mf">0.6</span><span class="p">,</span>  <span class="mf">0.7</span><span class="p">,</span>  <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.82</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">,</span>  <span class="mf">0.88</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">,</span>  <span class="mf">0.94</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="mf">0.97</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_vel_level</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">64</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">,</span> <span class="o">-</span><span class="mi">32</span><span class="p">,</span> <span class="o">-</span><span class="mi">24</span><span class="p">,</span> <span class="o">-</span><span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_rain_level</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="n">scale</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]]</span>
+
+<span class="k">def</span> <span class="nf">_z_level_snow</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mf">100.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">30.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">25.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">20.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">_vel_level_vpr_snow</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Kwonil Kim
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

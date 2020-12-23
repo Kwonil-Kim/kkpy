@@ -13,6 +13,10 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-rendered-html.css" type="text/css" />
 
   
   
@@ -91,13 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">How to install KKpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io.html">kkpy.io</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.util</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#winds">winds</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#maps">maps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#spatial-calculations">spatial calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#winds">Winds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maps">Maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spatial-calculations">Spatial calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cm.html">kkpy.cm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Example Gallery</a></li>
 </ul>
 
             
@@ -167,7 +172,7 @@
 <h1>kkpy.util<a class="headerlink" href="#kkpy-util" title="Permalink to this headline">¶</a></h1>
 <p>Utility functions for my research</p>
 <div class="section" id="winds">
-<h2>winds<a class="headerlink" href="#winds" title="Permalink to this headline">¶</a></h2>
+<h2>Winds<a class="headerlink" href="#winds" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -190,7 +195,7 @@
 </table>
 </div>
 <div class="section" id="maps">
-<h2>maps<a class="headerlink" href="#maps" title="Permalink to this headline">¶</a></h2>
+<h2>Maps<a class="headerlink" href="#maps" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -207,15 +212,18 @@
 </table>
 </div>
 <div class="section" id="spatial-calculations">
-<h2>spatial calculations<a class="headerlink" href="#spatial-calculations" title="Permalink to this headline">¶</a></h2>
+<h2>Spatial calculations<a class="headerlink" href="#spatial-calculations" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.cross_section_2d" title="kkpy.util.cross_section_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.cross_section_2d</span></code></a>(dict_start, …)</p></td>
-<td><p>Get mean values along the transect of two points (lon/lat).</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.nn_idx_2d" title="kkpy.util.nn_idx_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.nn_idx_2d</span></code></a>(xtarget, ytarget, x2d, y2d)</p></td>
+<td><p>Get nearest indices of the x and y values of target if 2D array is given.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.cross_section_2d" title="kkpy.util.cross_section_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.cross_section_2d</span></code></a>(xy0, xy1, x2d, …)</p></td>
+<td><p>Get values along the transect of two points (lon/lat) for 2D array.</p></td>
 </tr>
 </tbody>
 </table>
@@ -241,7 +249,7 @@
 </table>
 <dl class="py function">
 <dt id="kkpy.util.wind2uv">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">wind2uv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wd</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">knots</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.wind2uv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">wind2uv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wd</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">knots</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#wind2uv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.wind2uv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert wind direction and speed to u and v wind components.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">wind2uv</span><span class="p">(</span><span class="n">wd</span><span class="p">,</span> <span class="n">ws</span><span class="p">)</span>
@@ -268,7 +276,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.uv2wind">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">uv2wind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.uv2wind" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">uv2wind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#uv2wind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.uv2wind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert u and v wind components to wind direction and speed.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wd</span><span class="p">,</span> <span class="n">ws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">uv2wind</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
@@ -293,7 +301,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.ms2knot">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">ms2knot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_ms</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.ms2knot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">ms2knot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_ms</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#ms2knot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.ms2knot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert unit of wind speed from meter per seconds to knots.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ws_knot</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">ws_ms</span><span class="p">)</span>
@@ -314,7 +322,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.knot2ms">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">knot2ms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_knot</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.knot2ms" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">knot2ms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_knot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#knot2ms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.knot2ms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert unit of wind speed from knots to meter per seconds.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ws_ms</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">knot2ms</span><span class="p">(</span><span class="n">ws_knot</span><span class="p">)</span>
@@ -334,34 +342,62 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="kkpy.util.cross_section_2d">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">cross_section_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_start</span></em>, <em class="sig-param"><span class="n">dict_end</span></em>, <em class="sig-param"><span class="n">lon2d</span></em>, <em class="sig-param"><span class="n">lat2d</span></em>, <em class="sig-param"><span class="n">value2d</span></em>, <em class="sig-param"><span class="n">avg_halfwidth</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">along</span><span class="o">=</span><span class="default_value">'longitude'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.cross_section_2d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get mean values along the transect of two points (lon/lat).</p>
+<dt id="kkpy.util.nn_idx_2d">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nn_idx_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xtarget</span></em>, <em class="sig-param"><span class="n">ytarget</span></em>, <em class="sig-param"><span class="n">x2d</span></em>, <em class="sig-param"><span class="n">y2d</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nn_idx_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.nn_idx_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get nearest indices of the x and y values of target if 2D array is given.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dict_start</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lon&#39;</span><span class="p">:</span><span class="mf">128.2</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">:</span><span class="mf">37.24</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dict_end</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lon&#39;</span><span class="p">:</span><span class="mf">129.35</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">:</span><span class="mf">38.2</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xaxis_cross</span><span class="p">,</span> <span class="n">value_cross</span><span class="p">,</span> <span class="n">index_cross</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">cross_section_2d</span><span class="p">(</span><span class="n">dict_start</span><span class="p">,</span> <span class="n">dict_end</span><span class="p">,</span> <span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">value2d</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xaxis_cross</span><span class="p">,</span> <span class="n">value_cross</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">idx2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nn_idx_2d</span><span class="p">(</span><span class="mf">128.35</span><span class="p">,</span> <span class="mf">37.65</span><span class="p">,</span> <span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x2d</span><span class="p">[</span><span class="n">idx2d</span><span class="p">],</span> <span class="n">y2d</span><span class="p">[</span><span class="n">idx2d</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xtarget</strong> (<em>float</em>) – Target value of x.</p></li>
+<li><p><strong>ytarget</strong> (<em>float</em>) – Target value of y.</p></li>
+<li><p><strong>x2d</strong> (<em>2D array</em>) – Numpy 2D array containing x value of each grid point. The shape of <strong>x2d</strong> and <strong>y2d</strong> should be same.</p></li>
+<li><p><strong>y2d</strong> (<em>2D array</em>) – Numpy 2D array containing y value of each grid point. The shape of <strong>x2d</strong> and <strong>y2d</strong> should be same.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>idx2d</strong> – Return an array of nearest x and y indicies.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1D array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.cross_section_2d">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">cross_section_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xy0</span></em>, <em class="sig-param"><span class="n">xy1</span></em>, <em class="sig-param"><span class="n">x2d</span></em>, <em class="sig-param"><span class="n">y2d</span></em>, <em class="sig-param"><span class="n">value2d</span></em>, <em class="sig-param"><span class="n">linewidth</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">along</span><span class="o">=</span><span class="default_value">'x'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#cross_section_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.cross_section_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get values along the transect of two points (lon/lat) for 2D array.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">proj</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;pyeongchang&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="p">[</span><span class="mf">127.52</span><span class="p">,</span> <span class="mf">37.3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">end</span> <span class="o">=</span> <span class="p">[</span><span class="mi">129</span><span class="p">,</span> <span class="mf">36.52</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xaxis</span><span class="p">,</span> <span class="n">vcross</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">cross_section_2d</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">dem</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">vcross</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dict_start</strong> (<em>dict</em>) – Dictionary with lon and lat keys of starting points.</p></li>
-<li><p><strong>dict_end</strong> (<em>dict</em>) – Dictionary with lon and lat keys of ending points.</p></li>
-<li><p><strong>lon2d</strong> (<em>2D array</em>) – Numpy 2D array containing longitude of each grid point. The shape of lon2d, lat2d, and value2d should be same.</p></li>
-<li><p><strong>lat2d</strong> (<em>2D array</em>) – Numpy 2D array containing latitude of each grid point. The shape of lon2d, lat2d, and value2d should be same.</p></li>
-<li><p><strong>value2d</strong> (<em>2D array</em>) – Numpy 2D array containing value of each grid point. The shape of lon2d, lat2d, and value2d should be same.</p></li>
-<li><p><strong>avg_halfwidth</strong> (<em>int</em>) – The half width used in average over perpendicular direction along the transect. Default is zero (i.e. no average).</p></li>
-<li><p><strong>along</strong> (<em>str</em>) – Return xaxis_cross as longitude if it is set to ‘longitude’, otherwise return it as latitude if ‘latitude’.</p></li>
+<li><p><strong>xy0</strong> (<em>array_like</em>) – Array of x and y values of starting point.</p></li>
+<li><p><strong>xy1</strong> (<em>array_like</em>) – Array of x and y values of ending point.</p></li>
+<li><p><strong>x2d</strong> (<em>2D array</em>) – Numpy 2D array containing x value of each grid point. The shape of <strong>x2d</strong>, <strong>y2d</strong>, and <strong>value2d</strong> should be same.</p></li>
+<li><p><strong>y2d</strong> (<em>2D array</em>) – Numpy 2D array containing y value of each grid point. The shape of <strong>x2d</strong>, <strong>y2d</strong>, and <strong>value2d</strong> should be same.</p></li>
+<li><p><strong>value2d</strong> (<em>2D array</em>) – Numpy 2D array containing data value of each grid point. The shape of <strong>x2d</strong>, <strong>y2d</strong>, and <strong>value2d</strong> should be same.</p></li>
+<li><p><strong>linewidth</strong> (<em>int</em><em>, </em><em>optional</em>) – The linewidth used in average over perpendicular direction along the transect. Default is 1 (i.e. no average).</p></li>
+<li><p><strong>along</strong> (<em>str</em><em>, </em><em>optional</em>) – Set ‘x’ to return <strong>xaxis</strong> in x axis, otherwise return it in y axis. Default is ‘x’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>xaxis_cross</strong> (<em>1D array</em>) – Return xaxis of cross-section in longitude or latitude unit. The unit is determined by along keyword.</p></li>
-<li><p><strong>value_cross</strong> (<em>1D array</em>) – Return averaged value along the cross-section.</p></li>
-<li><p><strong>index_cross</strong> (<em>dict</em>) – Return a dictionary contatining the indicies of starting point and ending point of the transect.</p></li>
+<li><p><strong>xaxis</strong> (<em>1D array</em>) – Return xaxis of cross-section in longitude or latitude unit. The unit is determined by along keyword.</p></li>
+<li><p><strong>vcross</strong> (<em>1D array</em>) – Return averaged value along the cross-section.</p></li>
 </ul>
 </p>
 </dd>
@@ -370,7 +406,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.proj_dfs">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">proj_dfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.proj_dfs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">proj_dfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#proj_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.proj_dfs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">())</span>
@@ -390,7 +426,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.dist_bearing">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">dist_bearing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lonlat0</span></em>, <em class="sig-param"><span class="n">lonlat1</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.dist_bearing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">dist_bearing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lonlat0</span></em>, <em class="sig-param"><span class="n">lonlat1</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#dist_bearing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.dist_bearing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get distance [km] and bearing [deg] between two lon/lat points.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist_km</span><span class="p">,</span> <span class="n">bearing_deg</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dist_bearing</span><span class="p">([</span><span class="mf">127.5</span><span class="p">,</span><span class="mi">36</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span><span class="mi">37</span><span class="p">])</span>
@@ -416,7 +452,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.nanconvolve2d">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanconvolve2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">slab</span></em>, <em class="sig-param"><span class="n">kernel</span></em>, <em class="sig-param"><span class="n">max_missing</span><span class="o">=</span><span class="default_value">0.99</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.nanconvolve2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanconvolve2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">slab</span></em>, <em class="sig-param"><span class="n">kernel</span></em>, <em class="sig-param"><span class="n">max_missing</span><span class="o">=</span><span class="default_value">0.99</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nanconvolve2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.nanconvolve2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get 2D convolution with missings ignored.</p>
 <p class="rubric">Examples</p>
 <p>Moving 2D standard deviation</p>
@@ -456,7 +492,7 @@ Modified by Kwonil Kim in November 2020: modify docstring format, remove verbose
 
 <dl class="py function">
 <dt id="kkpy.util.nanstd2d">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanstd2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.nanstd2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanstd2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nanstd2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.nanstd2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get 2D standard deviation of 2D array efficiently with missings ignored.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nanstd2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -480,7 +516,7 @@ Modified by Kwonil Kim in November 2020: modify docstring format, remove verbose
 
 <dl class="py function">
 <dt id="kkpy.util.std2d">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">std2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#kkpy.util.std2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">std2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#std2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.std2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get 2D standard deviation of 2D array efficiently.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">std2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
