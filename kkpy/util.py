@@ -14,6 +14,11 @@ Winds
     kkpy.util.ms2knot
     kkpy.util.knot2ms
 
+Radars
+--------
+.. autosummary::
+    kkpy.util.dbzmean
+
 Maps
 -------
 .. autosummary::
@@ -178,7 +183,7 @@ def nn_idx_2d(xtarget, ytarget, x2d, y2d):
     idx2d = np.float_(np.unravel_index(bn.nanargmin(diff), x2d.shape))
     return np.int_(idx2d)
 
-def cross_section_2d(xy0, xy1, x2d, y2d, value2d, linewidth=1, along='x'):
+def cross_section_2d(xy0, xy1, x2d, y2d, value2d, linewidth=1, along='x', reduce_func=np.mean):
     """
     Get values along the transect of two points (lon/lat) for 2D array.
     
@@ -207,6 +212,8 @@ def cross_section_2d(xy0, xy1, x2d, y2d, value2d, linewidth=1, along='x'):
         The linewidth used in average over perpendicular direction along the transect. Default is 1 (i.e. no average).
     along : str, optional
         Set 'x' to return **xaxis** in x axis, otherwise return it in y axis. Default is 'x'.
+    reduce_func : callable, optional
+        Function used to calculate the aggregation of pixel values perpendicular to the profile_line direction when linewidth > 1. See skimage.measure.profile_line for detail.
     
     Returns
     ---------
@@ -230,8 +237,8 @@ def cross_section_2d(xy0, xy1, x2d, y2d, value2d, linewidth=1, along='x'):
     assert along in ['x', 'y'], "Check along keyword (should be 'x' or 'y')"
     
     # find indices
-    istart = nn_idx_2d(xy0[0], xy0[1], x2d, y2d)
-    iend = nn_idx_2d(xy1[0], xy1[1], x2d, y2d)
+    istart = kkpy.util.nn_idx_2d(xy0[0], xy0[1], x2d, y2d)
+    iend = kkpy.util.nn_idx_2d(xy1[0], xy1[1], x2d, y2d)
     
     # get xaxis
     ixlen, iylen = iend - istart
@@ -247,7 +254,7 @@ def cross_section_2d(xy0, xy1, x2d, y2d, value2d, linewidth=1, along='x'):
         value2d,
         istart, iend,
         linewidth=linewidth,
-        reduce_func=np.mean,
+        reduce_func=reduce_func,
         order=0,
         mode='constant',
         cval=np.nan
@@ -519,3 +526,31 @@ def std2d(X, window_size):
     c1 = uniform_filter(X, window_size, mode='reflect')
     c2 = uniform_filter(X*X, window_size, mode='reflect')
     return np.sqrt(c2 - c1*c1)
+
+def dbzmean(dbz_arr, outside_radar=-9999., noprecip=-9998., qced=-9997.):
+    """
+    Get linear-scale average of reflectivity (dBZ).
+    
+    Examples
+    ---------
+    >>> dbz_avg = kkpy.util.dbzmean(dbz_arr)
+    
+    Parameters
+    ----------
+    X : array_like
+        Array containing the reflectivity in dBZ.
+        
+    Returns
+    ---------
+    dbz_avg : array_like
+        Return averaged reflectivity in dBZ.
+    
+    """
+
+    dbz_arr[dbz_arr == outside_radar] = np.nan
+    dbz_arr[dbz_arr == qced] = np.nan
+    
+    dbz_lin = 10.**(dbz_arr/10.)
+    dbz_lin[dbz_arr == noprecip] = 0.
+    
+    return 10*np.log10(np.nanmean(dbz_lin))
