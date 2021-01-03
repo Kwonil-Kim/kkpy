@@ -237,8 +237,8 @@ def cross_section_2d(xy0, xy1, x2d, y2d, value2d, linewidth=1, along='x', reduce
     assert along in ['x', 'y'], "Check along keyword (should be 'x' or 'y')"
     
     # find indices
-    istart = kkpy.util.nn_idx_2d(xy0[0], xy0[1], x2d, y2d)
-    iend = kkpy.util.nn_idx_2d(xy1[0], xy1[1], x2d, y2d)
+    istart = nn_idx_2d(xy0[0], xy0[1], x2d, y2d)
+    iend = nn_idx_2d(xy1[0], xy1[1], x2d, y2d)
     
     # get xaxis
     ixlen, iylen = iend - istart
