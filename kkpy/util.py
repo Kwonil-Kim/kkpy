@@ -527,7 +527,7 @@ def std2d(X, window_size):
     c2 = uniform_filter(X*X, window_size, mode='reflect')
     return np.sqrt(c2 - c1*c1)
 
-def dbzmean(dbz_arr, outside_radar=-9999., noprecip=-9998., qced=-9997.):
+def dbzmean(dbz_arr, outside_radar=-9999., noprecip=-9998., qced=-9997., axis=None):
     """
     Get linear-scale average of reflectivity (dBZ).
     
@@ -553,4 +553,4 @@ def dbzmean(dbz_arr, outside_radar=-9999., noprecip=-9998., qced=-9997.):
     dbz_lin = 10.**(dbz_arr/10.)
     dbz_lin[dbz_arr == noprecip] = 0.
     
-    return 10*np.log10(np.nanmean(dbz_lin))
+    return 10*np.log10(np.nanmean(dbz_lin, axis=axis))
