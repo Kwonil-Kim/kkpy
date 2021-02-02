@@ -317,7 +317,7 @@ def precip_kma_aws(levels=None, coarse_ticks=False):
         level = levels
     
     dict_cmap = {}
-    dict_cmap['cmap'] = _rain_color_kma()
+    dict_cmap['cmap'] = _rain_color_kma_aws()
     dict_cmap['norm'] = col.BoundaryNorm(level, ncolors=_rain_color_kma_aws().N)
     dict_cmap['ticks'] = level[1:-1]
     if coarse_ticks:
@@ -365,16 +365,16 @@ def _rain_color_kma():
     colors = ['#fafafa',
      '#00c8ff', '#009bf5', '#004af5', '#00ff00', '#00be00',
      '#008c00', '#005a00', '#ffff00', '#ffdc1f', '#f9cd00',
-     '#e08900', '#ccaa00', '#ff6600', '#ff3200', '#d20000',
+     '#e0b900', '#ccaa00', '#ff6600', '#ff3200', '#d20000',
      '#b40000', '#e0a9ff', '#cc6aff', '#b329ff', '#9300e4',
-     '#4c4eb1', '#000390', '#333333']
+     '#b3b4de', '#4c4eb1', '#000390', '#333333']
     cmap_colors = col.ListedColormap(colors)
     plt.cm.register_cmap(name='kmarain', cmap=cmap_colors)
     return cmap_colors
 
 def _rain_color_kma_aws():
     colors = ['#eeeeee',
-     '#ffea6e', '#ffdc1f', '#f9cd00', '#e06900', '#ccaa00',
+     '#ffea6e', '#ffdc1f', '#f9cd00', '#e0b900', '#ccaa00',
      '#69fc69', '#1ef41e', '#00d500', '#00a400', '#008000',
      '#87d9ff', '#3ec1ff', '#07abff', '#008dde', '#0077b3',
      '#b3b4de', '#8081c7', '#4c4eb1', '#1f21ad', '#000390',
