@@ -27,6 +27,13 @@ conda activate ${env_name}
 conda install -c conda-forge cartopy arm_pyart gdal
 ```
 
+- Or you can just install in the existing environment (make sure you have a proper version of python)
+```
+conda activate ${env_name}
+conda install -c conda-forge cartopy arm_pyart gdal
+```
+
+### Installation
 - Install released version (stable)
 ```
 pip install kkpy
@@ -35,7 +42,6 @@ pip install kkpy
 - Or latest version (unstable)
 ```
 pip install git+https://github.com/Kwonil-Kim/kkpy
-
 ```
 
 ## Update
@@ -51,6 +57,10 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 https://www.notion.so/Colormap-8acd230b8dcd42b9953d0bafb93e7e61
 
 # Changelog
+## 0.2.1
+### Fixed
+ - cm: Fix wrong KMA cmaps
+
 ## 0.2.0
 ### Added
  - util: `dbzmean`
