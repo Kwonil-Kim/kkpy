@@ -15,6 +15,8 @@ wind
     kkpy.cm.kdp
     kkpy.cm.rhohv
     kkpy.cm.precip
+    kkpy.cm.precip_kma
+    kkpy.cm.precip_kma_aws
 
 """
 import numpy as np
@@ -244,7 +246,84 @@ def precip(levels=None, coarse_ticks=False):
         dict_cmap['ticks'] = [0, 0.4, 1, 2, 5, 7, 10, 14, 20, 30, 50, 70, 100]
     
     return dict_cmap
+
+def precip_kma(levels=None, coarse_ticks=False):
+    """
+    KMA Radar Precipitation colors.
+    
+    Examples
+    ---------
+    >>> cmap = kkpy.cm.precip_kma()
+    >>> pm = ax.pcolormesh(lon2d, lat2d, prec2d.T, cmap=cmap['cmap'], norm=cmap['norm'])
+    >>> plt.colorbar(pm, cmap=cmap['cmap'], ticks=cmap['ticks'])
+    
+    Parameters
+    ----------
+    levels : array_like
+        Array containing user-defined color tick levels. It should have lower and upper bounds.
+    coarse_ticks : boolean
+        True if colorbar levels are too dense.
         
+    Returns
+    ---------
+    dict_cmap : dictionary
+        'cmap': matplotlib colormap
+        'norm': color tick levels for plot
+        'ticks': color tick levels for colorbar
+    """
+    
+    if levels is None:
+        level = _rain_level_kma()
+    else:
+        level = levels
+    
+    dict_cmap = {}
+    dict_cmap['cmap'] = _rain_color_kma()
+    dict_cmap['norm'] = col.BoundaryNorm(level, ncolors=_rain_color_kma().N)
+    dict_cmap['ticks'] = level[1:-1]
+    if coarse_ticks:
+        dict_cmap['ticks'] = [0, 1, 3, 5, 7, 10, 20, 30, 50, 70, 150]
+    
+    return dict_cmap
+
+def precip_kma_aws(levels=None, coarse_ticks=False):
+    """
+    KMA AWS Precipitation colors.
+    
+    Examples
+    ---------
+    >>> cmap = kkpy.cm.precip_kma_aws()
+    >>> pm = ax.pcolormesh(lon2d, lat2d, prec2d.T, cmap=cmap['cmap'], norm=cmap['norm'])
+    >>> plt.colorbar(pm, cmap=cmap['cmap'], ticks=cmap['ticks'])
+    
+    Parameters
+    ----------
+    levels : array_like
+        Array containing user-defined color tick levels. It should have lower and upper bounds.
+    coarse_ticks : boolean
+        True if colorbar levels are too dense.
+        
+    Returns
+    ---------
+    dict_cmap : dictionary
+        'cmap': matplotlib colormap
+        'norm': color tick levels for plot
+        'ticks': color tick levels for colorbar
+    """
+    
+    if levels is None:
+        level = _rain_level_kma_aws()
+    else:
+        level = levels
+    
+    dict_cmap = {}
+    dict_cmap['cmap'] = _rain_color_kma()
+    dict_cmap['norm'] = col.BoundaryNorm(level, ncolors=_rain_color_kma_aws().N)
+    dict_cmap['ticks'] = level[1:-1]
+    if coarse_ticks:
+        dict_cmap['ticks'] = [0, 0.4, 1, 2, 5, 7, 10, 14, 20, 30, 50, 70, 100]
+    
+    return dict_cmap
 
 
 def _ref_color():
@@ -282,9 +361,35 @@ def _rain_color():
     plt.cm.register_cmap(name='knurain', cmap=cmap_colors)
     return cmap_colors
 
+def _rain_color_kma():
+    colors = ['#fafafa',
+     '#00c8ff', '#009bf5', '#004af5', '#00ff00', '#00be00',
+     '#008c00', '#005a00', '#ffff00', '#ffdc1f', '#f9cd00',
+     '#e08900', '#ccaa00', '#ff6600', '#ff3200', '#d20000',
+     '#b40000', '#e0a9ff', '#cc6aff', '#b329ff', '#9300e4',
+     '#4c4eb1', '#000390', '#333333']
+    cmap_colors = col.ListedColormap(colors)
+    plt.cm.register_cmap(name='kmarain', cmap=cmap_colors)
+    return cmap_colors
+
+def _rain_color_kma_aws():
+    colors = ['#eeeeee',
+     '#ffea6e', '#ffdc1f', '#f9cd00', '#e06900', '#ccaa00',
+     '#69fc69', '#1ef41e', '#00d500', '#00a400', '#008000',
+     '#87d9ff', '#3ec1ff', '#07abff', '#008dde', '#0077b3',
+     '#b3b4de', '#8081c7', '#4c4eb1', '#1f21ad', '#000390',
+     '#da87ff', '#ce3eff', '#ad07ff', '#9200e4', '#7f00bf',
+     '#fa8585', '#f63e3e', '#ee0b0b', '#d50000', '#bf0000',
+     '#333333']
+    cmap_colors = col.ListedColormap(colors)
+    plt.cm.register_cmap(name='kmaawsrain', cmap=cmap_colors)
+    return cmap_colors
+
 def _vel_color():
-    colors =['#d2d2d2', '#00c8ff', '#009bf5', '#0000f5', '#00f500', '#00be00', '#008c00', '#004f00', '#646464',
-     '#ffff00', '#e6b400', '#ff9600', '#ff0000', '#b40000', '#e6468c', '#7828a0', '#000000']
+    colors =['#d2d2d2', '#00c8ff', '#009bf5', '#0000f5',
+     '#00f500', '#00be00', '#008c00', '#004f00', '#646464',
+     '#ffff00', '#e6b400', '#ff9600', '#ff0000', '#b40000',
+     '#e6468c', '#7828a0', '#000000']
     cmap_colors = col.ListedColormap(colors)
     plt.cm.register_cmap(name='knuvel', cmap=cmap_colors)
     return cmap_colors
@@ -314,7 +419,13 @@ def _vel_level():
     return [-100, -64, -42, -32, -24, -16, -8, -2, -0.5, 0.5, 2, 8, 16, 24, 32, 42, 64, 100]
 
 def _rain_level(scale=1):
-    return [x*scale for x in [-10000, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 1000]]
+    return [x*scale for x in [-100, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 1000]]
+
+def _rain_level_kma():
+    return [-100, 0, 0.1, 0.5, 1.0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 90, 110, 150, 1000]
+
+def _rain_level_kma_aws():
+    return [-100, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 1000]
 
 def _z_level_snow():
     return [-100.0, -30.0, -25.0, -20.0, -15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 40.0, 50.0, 500.0]
