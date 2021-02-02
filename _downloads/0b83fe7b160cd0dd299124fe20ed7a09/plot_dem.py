@@ -27,6 +27,7 @@ ax.set_extent([124, 130, 33, 43], crs=ccrs.PlateCarree())
 cmap = plt.cm.terrain
 cmap.set_under('white')
 plt.pcolormesh(londem, latdem, dem, transform=ccrs.PlateCarree(), cmap=cmap)
+plt.colorbar()
 
 # set grid
 gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)

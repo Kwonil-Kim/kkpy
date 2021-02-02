@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Plotting DEM &mdash; KKpy 0.1 documentation</title>
+  <title>Plotting DEM &mdash; KKpy 0.2.2 documentation</title>
   
 
   
@@ -40,6 +40,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Plotting Colormaps" href="plot_cmap.html" />
     <link rel="prev" title="Example Gallery" href="index.html" /> 
 </head>
 
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.1
+                0.2.2
               </div>
             
           
@@ -97,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cm.html">kkpy.cm</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Example Gallery</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Plotting DEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_cmap.html">Plotting Colormaps</a></li>
 </ul>
 </li>
 </ul>
@@ -169,57 +171,104 @@
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
 <p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-dem-py"><span class="std std-ref">here</span></a>
-to download the full example code</p>
+to download the full example code or to run this example in your browser via Binder</p>
 </div>
 <div class="sphx-glr-example-title section" id="plotting-dem">
 <span id="sphx-glr-auto-examples-plot-dem-py"></span><h1>Plotting DEM<a class="headerlink" href="#plotting-dem" title="Permalink to this headline">¶</a></h1>
 <p>Read/plot DEM and korea map with DFS map projection</p>
 <img alt="plot dem" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_dem_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/kwonil/git/kkpy/examples/plot_dem.py:28: MatplotlibDeprecationWarning: You are modifying the state of a globally registered colormap. In future versions, you will not be able to modify a registered colormap in-place. To remove this warning, you can make a copy of the colormap first. cmap = copy.copy(mpl.cm.get_cmap(&quot;terrain&quot;))
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/radolan.py:939: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  &quot;add_offset&quot;: np.float(0),
+/home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/radolan.py:948: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  &quot;add_offset&quot;: np.float(0),
+/home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/xarray.py:495: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  (&quot;volume_number&quot;, np.int),
+/home/kwonil/git/kkpy/examples/plot_dem.py:28: MatplotlibDeprecationWarning: You are modifying the state of a globally registered colormap. In future versions, you will not be able to modify a registered colormap in-place. To remove this warning, you can make a copy of the colormap first. cmap = copy.copy(mpl.cm.get_cmap(&quot;terrain&quot;))
   cmap.set_under(&#39;white&#39;)
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">mticker</span>
-<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
-<span class="kn">import</span> <span class="nn">kkpy</span>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+ <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+ <span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">mticker</span>
+ <span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+ <span class="kn">import</span> <span class="nn">kkpy</span>
 
-<span class="c1"># read DEM</span>
-<span class="n">dem</span><span class="p">,</span> <span class="n">londem</span><span class="p">,</span> <span class="n">latdem</span><span class="p">,</span> <span class="n">projdem</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;korea&#39;</span><span class="p">)</span>
+ <span class="c1"># read DEM</span>
+ <span class="n">dem</span><span class="p">,</span> <span class="n">londem</span><span class="p">,</span> <span class="n">latdem</span><span class="p">,</span> <span class="n">projdem</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;korea&#39;</span><span class="p">)</span>
 
-<span class="c1"># load DFS projection</span>
-<span class="n">proj</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">()</span>
+ <span class="c1"># load DFS projection</span>
+ <span class="n">proj</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">()</span>
 
-<span class="c1"># initialize figure and axes</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
+ <span class="c1"># initialize figure and axes</span>
+ <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+ <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
 
-<span class="c1"># set boundary of map</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="mi">124</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+ <span class="c1"># set boundary of map</span>
+ <span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="mi">124</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
 
-<span class="c1"># plot dem</span>
-<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">terrain</span>
-<span class="n">cmap</span><span class="o">.</span><span class="n">set_under</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">londem</span><span class="p">,</span> <span class="n">latdem</span><span class="p">,</span> <span class="n">dem</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+ <span class="c1"># plot dem</span>
+ <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">terrain</span>
+ <span class="n">cmap</span><span class="o">.</span><span class="n">set_under</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+ <span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">londem</span><span class="p">,</span> <span class="n">latdem</span><span class="p">,</span> <span class="n">dem</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">)</span>
+ <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 
-<span class="c1"># set grid</span>
-<span class="n">gl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dms</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">x_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">gl</span><span class="o">.</span><span class="n">xlocator</span> <span class="o">=</span> <span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">124</span><span class="p">,</span><span class="mf">130.1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">gl</span><span class="o">.</span><span class="n">ylocator</span> <span class="o">=</span> <span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="mf">43.1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">gl</span><span class="o">.</span><span class="n">rotate_labels</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">gl</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="n">gl</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="kc">False</span>
+ <span class="c1"># set grid</span>
+ <span class="n">gl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dms</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">x_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+ <span class="n">gl</span><span class="o">.</span><span class="n">xlocator</span> <span class="o">=</span> <span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">124</span><span class="p">,</span><span class="mf">130.1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+ <span class="n">gl</span><span class="o">.</span><span class="n">ylocator</span> <span class="o">=</span> <span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="mf">43.1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+ <span class="n">gl</span><span class="o">.</span><span class="n">rotate_labels</span> <span class="o">=</span> <span class="kc">False</span>
+ <span class="n">gl</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="n">gl</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="c1">#kkpy.plot.koreamap(ax=ax)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+ <span class="c1">#kkpy.plot.koreamap(ax=ax)</span>
+ <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-</div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 2 minutes  17.968 seconds)</p>
+</td></tr></table></div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 2 minutes  32.645 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  10764 MB</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-dem-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/Kwonil-Kim/kkpy/gh-pages?filepath=notebooks/auto_examples/plot_dem.ipynb"><img alt="Launch binder" src="../_images/binder_badge_logo.svg" width="150px" /></a>
+</div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/0b83fe7b160cd0dd299124fe20ed7a09/plot_dem.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_dem.py</span></code></a></p>
 </div>
@@ -237,6 +286,8 @@ to download the full example code</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="plot_cmap.html" class="btn btn-neutral float-right" title="Plotting Colormaps" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="Example Gallery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

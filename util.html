@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.util &mdash; KKpy 0.1 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.2.2 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.1
+                0.2.2
               </div>
             
           
@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="io.html">kkpy.io</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.util</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#winds">Winds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#radars">Radars</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#maps">Maps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#spatial-calculations">Spatial calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
@@ -190,6 +191,20 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.knot2ms" title="kkpy.util.knot2ms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.knot2ms</span></code></a>(ws_knot)</p></td>
 <td><p>Convert unit of wind speed from knots to meter per seconds.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="radars">
+<h2>Radars<a class="headerlink" href="#radars" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.dbzmean" title="kkpy.util.dbzmean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.dbzmean</span></code></a>(dbz_arr[, outside_radar, …])</p></td>
+<td><p>Get linear-scale average of reflectivity (dBZ).</p></td>
 </tr>
 </tbody>
 </table>
@@ -371,7 +386,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.cross_section_2d">
-<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">cross_section_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xy0</span></em>, <em class="sig-param"><span class="n">xy1</span></em>, <em class="sig-param"><span class="n">x2d</span></em>, <em class="sig-param"><span class="n">y2d</span></em>, <em class="sig-param"><span class="n">value2d</span></em>, <em class="sig-param"><span class="n">linewidth</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">along</span><span class="o">=</span><span class="default_value">'x'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#cross_section_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.cross_section_2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">cross_section_2d</code><span class="sig-paren">(</span><em class="sig-param">xy0</em>, <em class="sig-param">xy1</em>, <em class="sig-param">x2d</em>, <em class="sig-param">y2d</em>, <em class="sig-param">value2d</em>, <em class="sig-param">linewidth=1</em>, <em class="sig-param">along='x'</em>, <em class="sig-param">reduce_func=&lt;function mean&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#cross_section_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.cross_section_2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get values along the transect of two points (lon/lat) for 2D array.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">proj</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;pyeongchang&#39;</span><span class="p">)</span>
@@ -392,6 +407,7 @@
 <li><p><strong>value2d</strong> (<em>2D array</em>) – Numpy 2D array containing data value of each grid point. The shape of <strong>x2d</strong>, <strong>y2d</strong>, and <strong>value2d</strong> should be same.</p></li>
 <li><p><strong>linewidth</strong> (<em>int</em><em>, </em><em>optional</em>) – The linewidth used in average over perpendicular direction along the transect. Default is 1 (i.e. no average).</p></li>
 <li><p><strong>along</strong> (<em>str</em><em>, </em><em>optional</em>) – Set ‘x’ to return <strong>xaxis</strong> in x axis, otherwise return it in y axis. Default is ‘x’.</p></li>
+<li><p><strong>reduce_func</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function used to calculate the aggregation of pixel values perpendicular to the profile_line direction when linewidth &gt; 1. See skimage.measure.profile_line for detail.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -539,6 +555,37 @@ Modified by Kwonil Kim in November 2020: modify docstring format, remove verbose
 <p class="rubric">Notes</p>
 <p>This code is from <a class="reference external" href="https://nickc1.github.io/python,/matlab/2016/05/17/Standard-Deviation-(Filters)-in-Matlab-and-Python.html">https://nickc1.github.io/python,/matlab/2016/05/17/Standard-Deviation-(Filters)-in-Matlab-and-Python.html</a>, written by Nick Cortale.
 Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.dbzmean">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">dbzmean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dbz_arr</span></em>, <em class="sig-param"><span class="n">outside_radar</span><span class="o">=</span><span class="default_value">- 9999.0</span></em>, <em class="sig-param"><span class="n">noprecip</span><span class="o">=</span><span class="default_value">- 9998.0</span></em>, <em class="sig-param"><span class="n">qced</span><span class="o">=</span><span class="default_value">- 9997.0</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#dbzmean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.dbzmean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get linear-scale average of reflectivity (dBZ).</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dbz_avg</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dbzmean</span><span class="p">(</span><span class="n">dbz_arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array_like</em>) – Array containing the reflectivity in dBZ.</p></li>
+<li><p><strong>outside_radar</strong> (<em>float</em><em>, </em><em>optional</em>) – Value indicating the grid point is located outside radar observable range. This will not be included in the count during the average.</p></li>
+<li><p><strong>noprecip</strong> (<em>float</em><em>, </em><em>optional</em>) – Value indicating the grid point is clear echo. This will be considered as 0.0 mm6 m-3.</p></li>
+<li><p><strong>qced</strong> (<em>float</em><em>, </em><em>optional</em>) – Value indicating the grid point is masked by QC process. This will not be included in the count during the average.</p></li>
+<li><p><strong>axis</strong> (<em>None</em><em> or </em><em>int</em><em> or </em><em>tuple of ints</em><em>, </em><em>optional</em>) – <p>Axis or axes along which the means are computed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.0.</span></p>
+</div>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dbz_avg</strong> – Return averaged reflectivity in dBZ.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

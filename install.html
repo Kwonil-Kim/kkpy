@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>How to install KKpy &mdash; KKpy 0.1 documentation</title>
+  <title>How to install KKpy &mdash; KKpy 0.2.2 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.1
+                0.2.2
               </div>
             
           
@@ -92,7 +92,12 @@
             
               <p class="caption"><span class="caption-text">Table of Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">How to install KKpy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to install KKpy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparation">Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#update">Update</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="io.html">kkpy.io</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">kkpy.util</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cm.html">kkpy.cm</a></li>
@@ -164,6 +169,54 @@
             
   <div class="section" id="how-to-install-kkpy">
 <h1>How to install KKpy<a class="headerlink" href="#how-to-install-kkpy" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="preparation">
+<h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Replace <cite>${env_name}</cite> to the name of the conda environment you want</p></li>
+</ul>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ conda create -n <span class="si">${</span><span class="nv">env_name</span><span class="si">}</span> <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+$ conda activate <span class="si">${</span><span class="nv">env_name</span><span class="si">}</span>
+$ conda install -c conda-forge cartopy arm_pyart gdal
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li><p>Or you can just install in the existing environment (make sure you have a proper version of python)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ conda activate <span class="si">${</span><span class="nv">env_name</span><span class="si">}</span>
+$ conda install -c conda-forge cartopy arm_pyart gdal
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Install released version (stable)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ pip install kkpy
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li><p>Or latest version (unstable)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ pip install git+https://github.com/Kwonil-Kim/kkpy
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="update">
+<h2>Update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ <span class="c1"># released version</span>
+$ pip install --upgrade kkpy
+$ <span class="c1"># latest version</span>
+$ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 
 

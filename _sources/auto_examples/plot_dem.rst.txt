@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         Click :ref:`here <sphx_glr_download_auto_examples_plot_dem.py>`
-        to download the full example code
+        to download the full example code or to run this example in your browser via Binder
 
 .. rst-class:: sphx-glr-example-title
 
@@ -23,7 +23,7 @@ Plotting DEM
 
 Read/plot DEM and korea map with DFS map projection
 
-.. GENERATED FROM PYTHON SOURCE LINES 7-40
+.. GENERATED FROM PYTHON SOURCE LINES 7-41
 
 
 
@@ -38,6 +38,15 @@ Read/plot DEM and korea map with DFS map projection
 
  .. code-block:: none
 
+    /home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/radolan.py:939: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+    Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+      "add_offset": np.float(0),
+    /home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/radolan.py:948: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
+    Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+      "add_offset": np.float(0),
+    /home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/xarray.py:495: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+    Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+      ("volume_number", np.int),
     /home/kwonil/git/kkpy/examples/plot_dem.py:28: MatplotlibDeprecationWarning: You are modifying the state of a globally registered colormap. In future versions, you will not be able to modify a registered colormap in-place. To remove this warning, you can make a copy of the colormap first. cmap = copy.copy(mpl.cm.get_cmap("terrain"))
       cmap.set_under('white')
 
@@ -49,6 +58,7 @@ Read/plot DEM and korea map with DFS map projection
 |
 
 .. code-block:: default
+   :lineno-start: 7
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -73,6 +83,7 @@ Read/plot DEM and korea map with DFS map projection
     cmap = plt.cm.terrain
     cmap.set_under('white')
     plt.pcolormesh(londem, latdem, dem, transform=ccrs.PlateCarree(), cmap=cmap)
+    plt.colorbar()
 
     # set grid
     gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
@@ -87,7 +98,9 @@ Read/plot DEM and korea map with DFS map projection
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 2 minutes  17.968 seconds)
+   **Total running time of the script:** ( 2 minutes  32.645 seconds)
+
+**Estimated memory usage:**  10764 MB
 
 
 .. _sphx_glr_download_auto_examples_plot_dem.py:
@@ -98,6 +111,13 @@ Read/plot DEM and korea map with DFS map projection
  .. container:: sphx-glr-footer
     :class: sphx-glr-footer-example
 
+
+  .. container:: binder-badge
+
+    .. image:: images/binder_badge_logo.svg
+      :target: https://mybinder.org/v2/gh/Kwonil-Kim/kkpy/gh-pages?filepath=notebooks/auto_examples/plot_dem.ipynb
+      :alt: Launch binder
+      :width: 150 px
 
 
   .. container:: sphx-glr-download sphx-glr-download-python

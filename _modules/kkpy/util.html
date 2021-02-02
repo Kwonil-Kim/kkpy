@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.util &mdash; KKpy 0.1 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.2.2 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.1
+                0.2.2
               </div>
             
           
@@ -174,6 +174,11 @@
 <span class="sd">    kkpy.util.uv2wind</span>
 <span class="sd">    kkpy.util.ms2knot</span>
 <span class="sd">    kkpy.util.knot2ms</span>
+
+<span class="sd">Radars</span>
+<span class="sd">--------</span>
+<span class="sd">.. autosummary::</span>
+<span class="sd">    kkpy.util.dbzmean</span>
 
 <span class="sd">Maps</span>
 <span class="sd">-------</span>
@@ -339,7 +344,7 @@
     <span class="n">idx2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">nanargmin</span><span class="p">(</span><span class="n">diff</span><span class="p">),</span> <span class="n">x2d</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">(</span><span class="n">idx2d</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="cross_section_2d"><a class="viewcode-back" href="../../util.html#kkpy.util.cross_section_2d">[docs]</a><span class="k">def</span> <span class="nf">cross_section_2d</span><span class="p">(</span><span class="n">xy0</span><span class="p">,</span> <span class="n">xy1</span><span class="p">,</span> <span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">value2d</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">along</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="cross_section_2d"><a class="viewcode-back" href="../../util.html#kkpy.util.cross_section_2d">[docs]</a><span class="k">def</span> <span class="nf">cross_section_2d</span><span class="p">(</span><span class="n">xy0</span><span class="p">,</span> <span class="n">xy1</span><span class="p">,</span> <span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span><span class="p">,</span> <span class="n">value2d</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">along</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">reduce_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get values along the transect of two points (lon/lat) for 2D array.</span>
 <span class="sd">    </span>
@@ -368,6 +373,8 @@
 <span class="sd">        The linewidth used in average over perpendicular direction along the transect. Default is 1 (i.e. no average).</span>
 <span class="sd">    along : str, optional</span>
 <span class="sd">        Set &#39;x&#39; to return **xaxis** in x axis, otherwise return it in y axis. Default is &#39;x&#39;.</span>
+<span class="sd">    reduce_func : callable, optional</span>
+<span class="sd">        Function used to calculate the aggregation of pixel values perpendicular to the profile_line direction when linewidth &gt; 1. See skimage.measure.profile_line for detail.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    ---------</span>
@@ -408,7 +415,7 @@
         <span class="n">value2d</span><span class="p">,</span>
         <span class="n">istart</span><span class="p">,</span> <span class="n">iend</span><span class="p">,</span>
         <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
-        <span class="n">reduce_func</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span>
+        <span class="n">reduce_func</span><span class="o">=</span><span class="n">reduce_func</span><span class="p">,</span>
         <span class="n">order</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span>
         <span class="n">cval</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -680,6 +687,44 @@
     <span class="n">c1</span> <span class="o">=</span> <span class="n">uniform_filter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">uniform_filter</span><span class="p">(</span><span class="n">X</span><span class="o">*</span><span class="n">X</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">c2</span> <span class="o">-</span> <span class="n">c1</span><span class="o">*</span><span class="n">c1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="dbzmean"><a class="viewcode-back" href="../../util.html#kkpy.util.dbzmean">[docs]</a><span class="k">def</span> <span class="nf">dbzmean</span><span class="p">(</span><span class="n">dbz_arr</span><span class="p">,</span> <span class="n">outside_radar</span><span class="o">=-</span><span class="mf">9999.</span><span class="p">,</span> <span class="n">noprecip</span><span class="o">=-</span><span class="mf">9998.</span><span class="p">,</span> <span class="n">qced</span><span class="o">=-</span><span class="mf">9997.</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get linear-scale average of reflectivity (dBZ).</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; dbz_avg = kkpy.util.dbzmean(dbz_arr)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : array_like</span>
+<span class="sd">        Array containing the reflectivity in dBZ.</span>
+<span class="sd">    outside_radar : float, optional</span>
+<span class="sd">        Value indicating the grid point is located outside radar observable range. This will not be included in the count during the average.</span>
+<span class="sd">    noprecip : float, optional</span>
+<span class="sd">        Value indicating the grid point is clear echo. This will be considered as 0.0 mm6 m-3.</span>
+<span class="sd">    qced : float, optional</span>
+<span class="sd">        Value indicating the grid point is masked by QC process. This will not be included in the count during the average.</span>
+<span class="sd">    axis : None or int or tuple of ints, optional</span>
+<span class="sd">        Axis or axes along which the means are computed.</span>
+<span class="sd">        </span>
+<span class="sd">        .. versionadded:: 0.2.0</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dbz_avg : array_like</span>
+<span class="sd">        Return averaged reflectivity in dBZ.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dbz_arr</span><span class="p">[</span><span class="n">dbz_arr</span> <span class="o">==</span> <span class="n">outside_radar</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">dbz_arr</span><span class="p">[</span><span class="n">dbz_arr</span> <span class="o">==</span> <span class="n">qced</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    
+    <span class="n">dbz_lin</span> <span class="o">=</span> <span class="mf">10.</span><span class="o">**</span><span class="p">(</span><span class="n">dbz_arr</span><span class="o">/</span><span class="mf">10.</span><span class="p">)</span>
+    <span class="n">dbz_lin</span><span class="p">[</span><span class="n">dbz_arr</span> <span class="o">==</span> <span class="n">noprecip</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+    
+    <span class="k">return</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">dbz_lin</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span></div>
 </pre></div>
 
            </div>

@@ -1,4 +1,50 @@
 How to install KKpy
 ===================
 
+Preparation
+------------
+
+- Replace `${env_name}` to the name of the conda environment you want
+
+.. code-block:: bash
+   :linenos:
+
+   $ conda create -n ${env_name} python=3.7
+   $ conda activate ${env_name}
+   $ conda install -c conda-forge cartopy arm_pyart gdal
+
+- Or you can just install in the existing environment (make sure you have a proper version of python)
+
+.. code-block:: bash
+   :linenos:
+
+   $ conda activate ${env_name}
+   $ conda install -c conda-forge cartopy arm_pyart gdal
+
+Installation
+-------------
+
+- Install released version (stable)
+
+.. code-block:: bash
+   :linenos:
+   
+   $ pip install kkpy
+
+- Or latest version (unstable)
+
+.. code-block:: bash
+   :linenos:
+   
+   $ pip install git+https://github.com/Kwonil-Kim/kkpy
+
+Update
+-------
+.. code-block:: bash
+   :linenos:
+   
+   $ # released version
+   $ pip install --upgrade kkpy
+   $ # latest version
+   $ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 

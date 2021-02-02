@@ -30,6 +30,27 @@ Example Gallery
    :hidden:
 
    /auto_examples/plot_dem
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Show all colormaps in kkpy">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_cmap_thumb.png
+     :alt: Plotting Colormaps
+
+     :ref:`sphx_glr_auto_examples_plot_cmap.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_cmap
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
