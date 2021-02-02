@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name='kkpy',
-    version='0.2.1',
-    packages=find_packages("kkpy", exclude=['dist','tests*']),
+    version='0.2.2',
+    packages=find_packages("kkpy", exclude=['tests*']),
 #    packages=['kkpy'],
     package_dir={'kkpy': 'kkpy'},
     package_data={'kkpy': ['SHP/*']},
