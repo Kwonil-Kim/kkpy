@@ -539,6 +539,16 @@ def dbzmean(dbz_arr, outside_radar=-9999., noprecip=-9998., qced=-9997., axis=No
     ----------
     X : array_like
         Array containing the reflectivity in dBZ.
+    outside_radar : float, optional
+        Value indicating the grid point is located outside radar observable range. This will not be included in the count during the average.
+    noprecip : float, optional
+        Value indicating the grid point is clear echo. This will be considered as 0.0 mm6 m-3.
+    qced : float, optional
+        Value indicating the grid point is masked by QC process. This will not be included in the count during the average.
+    axis : None or int or tuple of ints, optional
+        Axis or axes along which the means are computed.
+        
+        .. versionadded:: 0.2.0
         
     Returns
     ---------
