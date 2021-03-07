@@ -57,6 +57,10 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 https://www.notion.so/Colormap-8acd230b8dcd42b9953d0bafb93e7e61
 
 # Changelog
+## 0.2.4
+### Fixed
+ - cm: Fix `precip` and `precip_kma` to better represent 0.0 mm/hr
+
 ## 0.2.3
 ### Fixed
  - cm: Fix `precip_kma_aws` to better represent 0.0 mm/hr
