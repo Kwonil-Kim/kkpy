@@ -22,6 +22,7 @@ wind
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as col
+import copy
 
 def refl(levels=None, snow=False):
     """
@@ -349,7 +350,7 @@ def _ref_color_snow():
     return cmap_colors
 
 def _rain_color():
-    colors = ['#e0e0e0',
+    colors = ['#ffffff', '#e0e0e0',
      '#87d9ff', '#3ec1ff', '#07abff', '#008dde', '#0077b3',
      '#69fc69', '#1ef269', '#00d500', '#00a400', '#008000',
      '#fff26f', '#ffe256', '#ffd039', '#ffbc1e', '#ffaa09',
@@ -362,7 +363,7 @@ def _rain_color():
     return cmap_colors
 
 def _rain_color_kma():
-    colors = ['#fafafa',
+    colors = ['#ffffff', '#eeeeee',
      '#00c8ff', '#009bf5', '#004af5', '#00ff00', '#00be00',
      '#008c00', '#005a00', '#ffff00', '#ffdc1f', '#f9cd00',
      '#e0b900', '#ccaa00', '#ff6600', '#ff3200', '#d20000',
@@ -419,10 +420,10 @@ def _vel_level():
     return [-100, -64, -42, -32, -24, -16, -8, -2, -0.5, 0.5, 2, 8, 16, 24, 32, 42, 64, 100]
 
 def _rain_level(scale=1):
-    return [x*scale for x in [-100, 0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 1000]]
+    return [x*scale for x in [-100., 0, 0.1, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 1000]]
 
 def _rain_level_kma():
-    return [-100, 0, 0.1, 0.5, 1.0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 90, 110, 150, 1000]
+    return [-100, 0, 0.1, 0.2, 0.5, 1.0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30, 40, 50, 60, 70, 90, 110, 150, 1000]
 
 def _rain_level_kma_aws():
     return [-100, 0, 0.1, 0.2, 0.4, 0.6, 0.8, 1.0, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 1000]
