@@ -19,6 +19,11 @@ Radars
 .. autosummary::
     kkpy.util.dbzmean
 
+Microphysics
+--------------
+.. autosummary::
+    kkpy.util.calc_moments
+
 Maps
 -------
 .. autosummary::
@@ -30,6 +35,12 @@ Spatial calculations
 .. autosummary::
     kkpy.util.nn_idx_2d
     kkpy.util.cross_section_2d
+    
+ICE-POP 2018
+-------------
+.. autosummary::
+    kkpy.util.icepop_events
+    kkpy.util.icepop_sites
 
 Miscellaneous
 ---------------
@@ -564,3 +575,97 @@ def dbzmean(dbz_arr, outside_radar=-9999., noprecip=-9998., qced=-9997., axis=No
     dbz_lin[dbz_arr == noprecip] = 0.
     
     return 10*np.log10(np.nanmean(dbz_lin, axis=axis))
+
+
+def icepop_events(KST=False):
+    """
+    Get datetimes for nine major evnets in ICE-POP 2018.
+    
+    Examples
+    ---------
+    >>> dts = kkpy.util.icepop_events()
+    >>> for eventno in np.arange(9)+1:
+    >>>     dt = dts[eventno]
+    >>>     print(f'eventno = {eventno}, start = {dt[0]}, end = {dt[1]}')
+    
+    Parameters
+    ----------
+    KST : boolean, optional
+        True if return the datetime in KST, rather than UTC.
+        
+    Returns
+    ---------
+    dict_datetimes : dictionary
+        Return a dictionary of array containing start and finish datetime for each event.
+    
+    """
+    import datetime
+    
+    if not KST:
+        events = {
+            1: [datetime.datetime(2017,11,24,20), datetime.datetime(2017,11,25,19)],
+            2: [datetime.datetime(2017,12,23,20), datetime.datetime(2017,12,25, 3)],
+            3: [datetime.datetime(2018, 1,22, 3), datetime.datetime(2018, 1,23, 0)],
+            4: [datetime.datetime(2018, 2,27,23), datetime.datetime(2018, 3, 1, 3)],
+            5: [datetime.datetime(2018, 3, 4, 8), datetime.datetime(2018, 3, 5,10)],
+            6: [datetime.datetime(2018, 3, 7, 5), datetime.datetime(2018, 3, 9, 3)],
+            7: [datetime.datetime(2018, 3,14,19), datetime.datetime(2018, 3,16,12)],
+            8: [datetime.datetime(2018, 3,18,10), datetime.datetime(2018, 3,19, 9)],
+            9: [datetime.datetime(2018, 3,19,21), datetime.datetime(2018, 3,21,14)],
+        }
+    else:
+        events = {
+            1: [datetime.datetime(2017,11,25, 5), datetime.datetime(2017,11,26, 4)],
+            2: [datetime.datetime(2017,12,24, 5), datetime.datetime(2017,12,25,12)],
+            3: [datetime.datetime(2018, 1,22,12), datetime.datetime(2018, 1,23, 9)],
+            4: [datetime.datetime(2018, 2,28, 8), datetime.datetime(2018, 3, 1,12)],
+            5: [datetime.datetime(2018, 3, 4,17), datetime.datetime(2018, 3, 5,19)],
+            6: [datetime.datetime(2018, 3, 7,14), datetime.datetime(2018, 3, 9,12)],
+            7: [datetime.datetime(2018, 3,15, 4), datetime.datetime(2018, 3,16,21)],
+            8: [datetime.datetime(2018, 3,18,19), datetime.datetime(2018, 3,19,18)],
+            9: [datetime.datetime(2018, 3,20, 6), datetime.datetime(2018, 3,21,23)],
+        }
+    
+    return events
+
+def icepop_sites():
+    """
+    Get metadata of ICE-POP 2018 sites.
+    
+    Examples
+    ---------
+    >>> # Plotting in Lon/Lat coordinates
+    >>> for lon, lat, hgt, site in kkpy.util.icepop_sites():
+    >>>     plt.plot(lon, lat, marker='o', color='red', markersize=3, alpha=0.5, transform=ccrs.PlateCarree())
+    >>>     plt.text(lon+0.01, lat, site, verticalalignment='center', fontsize=10, transform=ccrs.PlateCarree())
+    
+    >>> # Plotting in Lon/Hgt coordinates
+    >>> for lon, lat, hgt, site in kkpy.util.icepop_sites():
+    >>>     plt.plot(lon, hgt/1e3, marker='o', color='red', markersize=3, alpha=0.5)
+    >>>     plt.text(lon+0.01, hgt/1e3, site, verticalalignment='center', fontsize=10)
+    
+    Returns
+    ---------
+    tuple_sites : tuple
+        Return a tuple containing longitude, latitude, height, and sitename for each ICE-POP 2018 supersite.
+    
+    """
+    
+    sites = (
+        (128.866858, 37.770897,  36, 'GWU'),
+        (128.805847, 37.738157, 175, 'BKC'),
+        (128.758636, 37.686953, 855, 'CPO'),
+        (128.718825, 37.677331, 773, 'DGW'),
+        (128.665208, 37.665208, 789, 'MHS'),
+        (128.670494, 37.643342, 772, 'YPO'),
+        (128.564700, 38.250900,  18, 'SCW'),
+        (128.629700, 38.087200,   4, 'YYO'),
+        (128.540700, 38.007400, 146, 'YDO'),
+        (128.821100, 37.898300,  10, 'JMO'),
+        (129.028900, 37.613500,  58, 'OGO'),
+        (129.124300, 37.507100,  40, 'DHW'),
+        (128.377600, 37.562000, 532, 'MOO'),
+        (128.394600, 37.377900, 303, 'PCO')
+    )
+    
+    return sites
