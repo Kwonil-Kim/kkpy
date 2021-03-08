@@ -22,7 +22,8 @@ Radars
 Microphysics
 --------------
 .. autosummary::
-    kkpy.util.calc_moments
+    kkpy.util.vel_atlas
+    kkpy.util.calc_dsdmoments
 
 Maps
 -------
@@ -669,3 +670,67 @@ def icepop_sites():
     )
     
     return sites
+
+def vel_atlas(D):
+    """
+    Get Atlas et al. (1973) fall velocity.
+    
+    Examples
+    ---------
+    >>> V_arr = kkpy.util.vel_atlas(D_arr)
+    
+    Parameters
+    ----------
+    D : array_like
+        Array containing the diameter in mm.
+        
+    Returns
+    ---------
+    V : array_like
+        Return a fall velocity of raindrop for a given diameter.
+    """
+    return 9.65 - 10.3 * np.exp(-0.6 * D)
+
+def calc_dsdmoments(ND, D, dD, VD=None, Vatlas=False):
+    """
+    Get DSD moments from drop size distribution.
+    
+    Examples
+    ---------
+    >>> tdvd = kkpy.util.calc_dsdmoments(ND_arr, D_arr, dD_arr, VD=VD_arr)
+    
+    >>> poss = kkpy.util.calc_dsdmoments(ND_arr, D_arr, dD_arr, Vatlas=True)
+    
+    Parameters
+    ----------
+    ND : array_like
+        Array containing the number concentration in mm-1 m-3. If 2D array, the diameter should be at the first axis (i.e. axis = 0).
+    D : array_like
+        Array containing the median of each diameter channel in mm.
+    dD : array_like
+        Array containing the spread of each diameter channel in mm.
+    VD : array_like, optional
+        Array containing the mean velocity of each diameter channel in m s-1. Vatlas should be False if VD contains data.
+    Vatlas : boolean, optional
+        True if VD is replaced by the velocity-diameter relationship of Atlas et al. (1973).
+        
+    Returns
+    ---------
+    dict_moments : dictionary
+        Return a dictionary containing the DSD moments: z[mm6 m-3], Z[dBZ], and R[mm hr-1].
+    """
+    
+    if Vatlas:
+        VD = vel_atlas(D)
+    
+    dict_ = {}
+    if ND.ndim == 2:
+        dict_['z'] = np.sum(ND*(D**6)*dD, axis=1) # mm6 m-3
+        dict_['R'] = np.pi*6*1e-4*np.sum(ND*VD*(D**3)*dD, axis=1) # mm hr-1
+    else:
+        dict_['z'] = np.sum(ND*(D**6)*dD) # mm6 m-3
+        dict_['R'] = np.pi*6*1e-4*np.sum(ND*VD*(D**3)*dD) # mm hr-1
+    
+    dict_['Z'] = 10*np.log10(dict_['z']) # dBZ
+    
+    return dict_
