@@ -57,6 +57,12 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 https://www.notion.so/Colormap-8acd230b8dcd42b9953d0bafb93e7e61
 
 # Changelog
+## 0.2.5
+### Added
+ - util: `calc_dsdmoments`
+ - util: `vel_atlas`
+ - util: `icepop_sites` and `icepop_events`
+
 ## 0.2.4
 ### Fixed
  - cm: Fix `precip` and `precip_kma` to better represent 0.0 mm/hr
