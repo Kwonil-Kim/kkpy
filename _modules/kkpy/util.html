@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.util &mdash; KKpy 0.2.2 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.2.5 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.2.2
+                0.2.5
               </div>
             
           
@@ -180,6 +180,12 @@
 <span class="sd">.. autosummary::</span>
 <span class="sd">    kkpy.util.dbzmean</span>
 
+<span class="sd">Microphysics</span>
+<span class="sd">--------------</span>
+<span class="sd">.. autosummary::</span>
+<span class="sd">    kkpy.util.vel_atlas</span>
+<span class="sd">    kkpy.util.calc_dsdmoments</span>
+
 <span class="sd">Maps</span>
 <span class="sd">-------</span>
 <span class="sd">.. autosummary::</span>
@@ -191,6 +197,12 @@
 <span class="sd">.. autosummary::</span>
 <span class="sd">    kkpy.util.nn_idx_2d</span>
 <span class="sd">    kkpy.util.cross_section_2d</span>
+<span class="sd">    </span>
+<span class="sd">ICE-POP 2018</span>
+<span class="sd">-------------</span>
+<span class="sd">.. autosummary::</span>
+<span class="sd">    kkpy.util.icepop_events</span>
+<span class="sd">    kkpy.util.icepop_sites</span>
 
 <span class="sd">Miscellaneous</span>
 <span class="sd">---------------</span>
@@ -725,6 +737,164 @@
     <span class="n">dbz_lin</span><span class="p">[</span><span class="n">dbz_arr</span> <span class="o">==</span> <span class="n">noprecip</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
     
     <span class="k">return</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">dbz_lin</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="icepop_events"><a class="viewcode-back" href="../../util.html#kkpy.util.icepop_events">[docs]</a><span class="k">def</span> <span class="nf">icepop_events</span><span class="p">(</span><span class="n">KST</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get datetimes for nine major evnets in ICE-POP 2018.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; dts = kkpy.util.icepop_events()</span>
+<span class="sd">    &gt;&gt;&gt; for eventno in np.arange(9)+1:</span>
+<span class="sd">    &gt;&gt;&gt;     dt = dts[eventno]</span>
+<span class="sd">    &gt;&gt;&gt;     print(f&#39;eventno = {eventno}, start = {dt[0]}, end = {dt[1]}&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    KST : boolean, optional</span>
+<span class="sd">        True if return the datetime in KST, rather than UTC.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_datetimes : dictionary</span>
+<span class="sd">        Return a dictionary of array containing start and finish datetime for each event.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">KST</span><span class="p">:</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">19</span><span class="p">)],</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span> <span class="mi">3</span><span class="p">)],</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">27</span><span class="p">,</span><span class="mi">23</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)],</span>
+            <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">)],</span>
+            <span class="mi">6</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">)],</span>
+            <span class="mi">7</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">19</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">12</span><span class="p">)],</span>
+            <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span> <span class="mi">9</span><span class="p">)],</span>
+            <span class="mi">9</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">21</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">14</span><span class="p">)],</span>
+        <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">26</span><span class="p">,</span> <span class="mi">4</span><span class="p">)],</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">12</span><span class="p">)],</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span> <span class="mi">9</span><span class="p">)],</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">)],</span>
+            <span class="mi">5</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span><span class="mi">19</span><span class="p">)],</span>
+            <span class="mi">6</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span><span class="mi">14</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">)],</span>
+            <span class="mi">7</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">21</span><span class="p">)],</span>
+            <span class="mi">8</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">18</span><span class="p">)],</span>
+            <span class="mi">9</span><span class="p">:</span> <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">23</span><span class="p">)],</span>
+        <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">events</span></div>
+
+<div class="viewcode-block" id="icepop_sites"><a class="viewcode-back" href="../../util.html#kkpy.util.icepop_sites">[docs]</a><span class="k">def</span> <span class="nf">icepop_sites</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get metadata of ICE-POP 2018 sites.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; # Plotting in Lon/Lat coordinates</span>
+<span class="sd">    &gt;&gt;&gt; for lon, lat, hgt, site in kkpy.util.icepop_sites():</span>
+<span class="sd">    &gt;&gt;&gt;     plt.plot(lon, lat, marker=&#39;o&#39;, color=&#39;red&#39;, markersize=3, alpha=0.5, transform=ccrs.PlateCarree())</span>
+<span class="sd">    &gt;&gt;&gt;     plt.text(lon+0.01, lat, site, verticalalignment=&#39;center&#39;, fontsize=10, transform=ccrs.PlateCarree())</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; # Plotting in Lon/Hgt coordinates</span>
+<span class="sd">    &gt;&gt;&gt; for lon, lat, hgt, site in kkpy.util.icepop_sites():</span>
+<span class="sd">    &gt;&gt;&gt;     plt.plot(lon, hgt/1e3, marker=&#39;o&#39;, color=&#39;red&#39;, markersize=3, alpha=0.5)</span>
+<span class="sd">    &gt;&gt;&gt;     plt.text(lon+0.01, hgt/1e3, site, verticalalignment=&#39;center&#39;, fontsize=10)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    tuple_sites : tuple</span>
+<span class="sd">        Return a tuple containing longitude, latitude, height, and sitename for each ICE-POP 2018 supersite.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">sites</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="mf">128.866858</span><span class="p">,</span> <span class="mf">37.770897</span><span class="p">,</span>  <span class="mi">36</span><span class="p">,</span> <span class="s1">&#39;GWU&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.805847</span><span class="p">,</span> <span class="mf">37.738157</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="s1">&#39;BKC&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.758636</span><span class="p">,</span> <span class="mf">37.686953</span><span class="p">,</span> <span class="mi">855</span><span class="p">,</span> <span class="s1">&#39;CPO&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.718825</span><span class="p">,</span> <span class="mf">37.677331</span><span class="p">,</span> <span class="mi">773</span><span class="p">,</span> <span class="s1">&#39;DGW&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.665208</span><span class="p">,</span> <span class="mf">37.665208</span><span class="p">,</span> <span class="mi">789</span><span class="p">,</span> <span class="s1">&#39;MHS&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.670494</span><span class="p">,</span> <span class="mf">37.643342</span><span class="p">,</span> <span class="mi">772</span><span class="p">,</span> <span class="s1">&#39;YPO&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.564700</span><span class="p">,</span> <span class="mf">38.250900</span><span class="p">,</span>  <span class="mi">18</span><span class="p">,</span> <span class="s1">&#39;SCW&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.629700</span><span class="p">,</span> <span class="mf">38.087200</span><span class="p">,</span>   <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;YYO&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.540700</span><span class="p">,</span> <span class="mf">38.007400</span><span class="p">,</span> <span class="mi">146</span><span class="p">,</span> <span class="s1">&#39;YDO&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.821100</span><span class="p">,</span> <span class="mf">37.898300</span><span class="p">,</span>  <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;JMO&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">129.028900</span><span class="p">,</span> <span class="mf">37.613500</span><span class="p">,</span>  <span class="mi">58</span><span class="p">,</span> <span class="s1">&#39;OGO&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">129.124300</span><span class="p">,</span> <span class="mf">37.507100</span><span class="p">,</span>  <span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;DHW&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.377600</span><span class="p">,</span> <span class="mf">37.562000</span><span class="p">,</span> <span class="mi">532</span><span class="p">,</span> <span class="s1">&#39;MOO&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">128.394600</span><span class="p">,</span> <span class="mf">37.377900</span><span class="p">,</span> <span class="mi">303</span><span class="p">,</span> <span class="s1">&#39;PCO&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">sites</span></div>
+
+<div class="viewcode-block" id="vel_atlas"><a class="viewcode-back" href="../../util.html#kkpy.util.vel_atlas">[docs]</a><span class="k">def</span> <span class="nf">vel_atlas</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Atlas et al. (1973) fall velocity.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; V_arr = kkpy.util.vel_atlas(D_arr)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    D : array_like</span>
+<span class="sd">        Array containing the diameter in mm.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    V : array_like</span>
+<span class="sd">        Return a fall velocity of raindrop for a given diameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">9.65</span> <span class="o">-</span> <span class="mf">10.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.6</span> <span class="o">*</span> <span class="n">D</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="calc_dsdmoments"><a class="viewcode-back" href="../../util.html#kkpy.util.calc_dsdmoments">[docs]</a><span class="k">def</span> <span class="nf">calc_dsdmoments</span><span class="p">(</span><span class="n">ND</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">dD</span><span class="p">,</span> <span class="n">VD</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Vatlas</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get DSD moments from drop size distribution.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; tdvd = kkpy.util.calc_dsdmoments(ND_arr, D_arr, dD_arr, VD=VD_arr)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; poss = kkpy.util.calc_dsdmoments(ND_arr, D_arr, dD_arr, Vatlas=True)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ND : array_like</span>
+<span class="sd">        Array containing the number concentration in mm-1 m-3. If 2D array, the diameter should be at the first axis (i.e. axis = 0).</span>
+<span class="sd">    D : array_like</span>
+<span class="sd">        Array containing the median of each diameter channel in mm.</span>
+<span class="sd">    dD : array_like</span>
+<span class="sd">        Array containing the spread of each diameter channel in mm.</span>
+<span class="sd">    VD : array_like, optional</span>
+<span class="sd">        Array containing the mean velocity of each diameter channel in m s-1. Vatlas should be False if VD contains data.</span>
+<span class="sd">    Vatlas : boolean, optional</span>
+<span class="sd">        True if VD is replaced by the velocity-diameter relationship of Atlas et al. (1973).</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_moments : dictionary</span>
+<span class="sd">        Return a dictionary containing the DSD moments: z[mm6 m-3], Z[dBZ], and R[mm hr-1].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">Vatlas</span><span class="p">:</span>
+        <span class="n">VD</span> <span class="o">=</span> <span class="n">vel_atlas</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    
+    <span class="n">dict_</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">ND</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ND</span><span class="o">*</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">dD</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># mm6 m-3</span>
+        <span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">6</span><span class="o">*</span><span class="mf">1e-4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ND</span><span class="o">*</span><span class="n">VD</span><span class="o">*</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">dD</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># mm hr-1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ND</span><span class="o">*</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">dD</span><span class="p">)</span> <span class="c1"># mm6 m-3</span>
+        <span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="mi">6</span><span class="o">*</span><span class="mf">1e-4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ND</span><span class="o">*</span><span class="n">VD</span><span class="o">*</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">dD</span><span class="p">)</span> <span class="c1"># mm hr-1</span>
+    
+    <span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">])</span> <span class="c1"># dBZ</span>
+    
+    <span class="k">return</span> <span class="n">dict_</span></div>
 </pre></div>
 
            </div>

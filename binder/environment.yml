@@ -18,5 +18,5 @@ dependencies:
 - scikit-image
 - pip
 - pip:
-    haversine
+  - haversine
 

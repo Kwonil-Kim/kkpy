@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.util &mdash; KKpy 0.2.2 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.2.5 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.2.2
+                0.2.5
               </div>
             
           
@@ -97,8 +97,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.util</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#winds">Winds</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#radars">Radars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#microphysics">Microphysics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#maps">Maps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#spatial-calculations">Spatial calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ice-pop-2018">ICE-POP 2018</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
 </ul>
 </li>
@@ -209,6 +211,23 @@
 </tbody>
 </table>
 </div>
+<div class="section" id="microphysics">
+<h2>Microphysics<a class="headerlink" href="#microphysics" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.vel_atlas" title="kkpy.util.vel_atlas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.vel_atlas</span></code></a>(D)</p></td>
+<td><p>Get Atlas et al.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.calc_dsdmoments" title="kkpy.util.calc_dsdmoments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.calc_dsdmoments</span></code></a>(ND, D, dD[, VD, …])</p></td>
+<td><p>Get DSD moments from drop size distribution.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="maps">
 <h2>Maps<a class="headerlink" href="#maps" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
@@ -239,6 +258,23 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.cross_section_2d" title="kkpy.util.cross_section_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.cross_section_2d</span></code></a>(xy0, xy1, x2d, …)</p></td>
 <td><p>Get values along the transect of two points (lon/lat) for 2D array.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ice-pop-2018">
+<h2>ICE-POP 2018<a class="headerlink" href="#ice-pop-2018" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.icepop_events" title="kkpy.util.icepop_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.icepop_events</span></code></a>([KST])</p></td>
+<td><p>Get datetimes for nine major evnets in ICE-POP 2018.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.icepop_sites" title="kkpy.util.icepop_sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.icepop_sites</span></code></a>()</p></td>
+<td><p>Get metadata of ICE-POP 2018 sites.</p></td>
 </tr>
 </tbody>
 </table>
@@ -584,6 +620,108 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.icepop_events">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">icepop_events</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">KST</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.icepop_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get datetimes for nine major evnets in ICE-POP 2018.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dts</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_events</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">eventno</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">dt</span> <span class="o">=</span> <span class="n">dts</span><span class="p">[</span><span class="n">eventno</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;eventno = </span><span class="si">{</span><span class="n">eventno</span><span class="si">}</span><span class="s1">, start = </span><span class="si">{</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">, end = </span><span class="si">{</span><span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>KST</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if return the datetime in KST, rather than UTC.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dict_datetimes</strong> – Return a dictionary of array containing start and finish datetime for each event.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.icepop_sites">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">icepop_sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_sites"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.icepop_sites" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metadata of ICE-POP 2018 sites.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Plotting in Lon/Lat coordinates</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_sites</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">lon</span><span class="o">+</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Plotting in Lon/Hgt coordinates</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_sites</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">hgt</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">lon</span><span class="o">+</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">hgt</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>tuple_sites</strong> – Return a tuple containing longitude, latitude, height, and sitename for each ICE-POP 2018 supersite.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.vel_atlas">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">vel_atlas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#vel_atlas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.vel_atlas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Atlas et al. (1973) fall velocity.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V_arr</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">vel_atlas</span><span class="p">(</span><span class="n">D_arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>D</strong> (<em>array_like</em>) – Array containing the diameter in mm.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>V</strong> – Return a fall velocity of raindrop for a given diameter.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.calc_dsdmoments">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">calc_dsdmoments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ND</span></em>, <em class="sig-param"><span class="n">D</span></em>, <em class="sig-param"><span class="n">dD</span></em>, <em class="sig-param"><span class="n">VD</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">Vatlas</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#calc_dsdmoments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.calc_dsdmoments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get DSD moments from drop size distribution.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tdvd</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">calc_dsdmoments</span><span class="p">(</span><span class="n">ND_arr</span><span class="p">,</span> <span class="n">D_arr</span><span class="p">,</span> <span class="n">dD_arr</span><span class="p">,</span> <span class="n">VD</span><span class="o">=</span><span class="n">VD_arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poss</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">calc_dsdmoments</span><span class="p">(</span><span class="n">ND_arr</span><span class="p">,</span> <span class="n">D_arr</span><span class="p">,</span> <span class="n">dD_arr</span><span class="p">,</span> <span class="n">Vatlas</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ND</strong> (<em>array_like</em>) – Array containing the number concentration in mm-1 m-3. If 2D array, the diameter should be at the first axis (i.e. axis = 0).</p></li>
+<li><p><strong>D</strong> (<em>array_like</em>) – Array containing the median of each diameter channel in mm.</p></li>
+<li><p><strong>dD</strong> (<em>array_like</em>) – Array containing the spread of each diameter channel in mm.</p></li>
+<li><p><strong>VD</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing the mean velocity of each diameter channel in m s-1. Vatlas should be False if VD contains data.</p></li>
+<li><p><strong>Vatlas</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if VD is replaced by the velocity-diameter relationship of Atlas et al. (1973).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dict_moments</strong> – Return a dictionary containing the DSD moments: z[mm6 m-3], Z[dBZ], and R[mm hr-1].</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
 </dd>
 </dl>
 </dd></dl>
