@@ -20,7 +20,7 @@ Radars
     kkpy.util.dbzmean
 
 Microphysics
---------------
+---------------
 .. autosummary::
     kkpy.util.vel_atlas
     kkpy.util.calc_dsdmoments
@@ -29,6 +29,7 @@ Maps
 -------
 .. autosummary::
     kkpy.util.proj_dfs
+    kkpy.util.proj_icepop
     kkpy.util.dist_bearing
 
 Spatial calculations
@@ -38,10 +39,11 @@ Spatial calculations
     kkpy.util.cross_section_2d
     
 ICE-POP 2018
--------------
+--------------
 .. autosummary::
     kkpy.util.icepop_events
     kkpy.util.icepop_sites
+    kkpy.util.icepop_extent
 
 Miscellaneous
 ---------------
@@ -280,6 +282,7 @@ def proj_dfs():
     
     Examples
     ---------
+    >>> import cartopy.crs as ccrs
     >>> ax = plt.subplot(proj=kkpy.util.proj_dfs())
     >>> ax.scatter([126], [38], transform=ccrs.PlateCarree())
     >>> plt.show()
@@ -300,6 +303,37 @@ def proj_dfs():
                                  standard_parallels=(30,60),
                                  false_easting=400000,
                                  false_northing=789000,
+                                 globe=globe)
+    return proj
+
+def proj_icepop():
+    """
+    Return a lambert conformal conic projection for ICE-POP 2018 domain.
+    
+    Examples
+    ---------
+    >>> import cartopy.crs as ccrs
+    >>> ax = plt.subplot(proj=kkpy.util.proj_icepop())
+    >>> ax.scatter([129], [37.7], transform=ccrs.PlateCarree())
+    >>> ax.set_extent(kkpy.util.icepop_extent(), crs=ccrs.PlateCarree())
+    >>> plt.show()
+    
+    Returns
+    ---------
+    proj : cartopy projection
+        Return a map projection of DFS.
+    """
+    import cartopy.crs as ccrs
+    
+    globe = ccrs.Globe(ellipse=None,
+                       semimajor_axis=6371008.77,
+                       semiminor_axis=6371008.77)
+    
+    proj = ccrs.LambertConformal(central_longitude=128.75,
+                                 central_latitude=37.65,
+                                 standard_parallels=(30,60),
+                                 false_easting=75000,
+                                 false_northing=75000,
                                  globe=globe)
     return proj
 
@@ -670,6 +704,22 @@ def icepop_sites():
     )
     
     return sites
+
+def icepop_extent():
+    """
+    Get extent of ICE-POP 2018 domain.
+    
+    Examples
+    ---------
+    >>> ax.set_extent(kkpy.util.icepop_extent(), crs=ccrs.PlateCarree())
+    
+    Returns
+    ---------
+    list_extent : list
+        Return a list containing lon0, lon1, lat0, and lat1 of default ICE-POP 2018 domain.
+    
+    """
+    return [128, 129.5, 37, 38.3]
 
 def vel_atlas(D):
     """
