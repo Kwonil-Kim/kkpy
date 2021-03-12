@@ -52,6 +52,7 @@ Miscellaneous
     kkpy.util.nanstd2d
     kkpy.util.nanconvolve2d
     kkpy.util.stats
+    kkpy.util.summary
 """                                                   
 import numpy as np
 
@@ -831,3 +832,40 @@ def stats(x, y,
     str_stat = f'BIAS={bias:.3f}\nRMSE={rmse:.3f}\nSTD={std:.3f}\nCORR={corr:.3f}'
     
     return stats, str_stat
+
+def summary(arr, cnt_print=10):
+    """
+    Get summary of the array.
+    
+    Parameters
+    ----------
+    arr : array_like
+        Array containing multiple variables and observations.
+    cnt_print : int, optional
+        The number of elements to print.
+    """
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    
+    print(pd.Series(arr).describe())
+    cnt = arr.size
+    count_nan = np.count_nonzero(np.isnan(arr))
+    print(f'\nNans   {count_nan} ({count_nan/arr.size:.1f} %)\n')
+    
+    if cnt > cnt_print:
+        print(f'First {cnt_print} values:\n {arr[:cnt_print]}\n')
+        print(f'Last {cnt_print} values:\n {arr[-cnt_print:]}\n')
+        
+        arr_sorted = np.sort(arr)
+        print(f'Lowest {cnt_print} values:\n {arr_sorted[:cnt_print]}\n')
+        print(f'Highest {cnt_print} values:\n {arr_sorted[-cnt_print:]}\n')
+        arr_unique = np.unique(arr)
+        print(f'Lowest {cnt_print} unique values:\n {arr_unique[:cnt_print]}\n')
+        print(f'Highest {cnt_print} unique values:\n {arr_unique[-cnt_print:]}\n')
+        
+        hist = plt.hist(arr)
+        print('Histograms')
+        for y, x in zip(hist[0], hist[1]):
+            print(f'{x:.3f} -- {y:.0f}')
+        
+    return
