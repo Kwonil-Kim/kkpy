@@ -57,6 +57,14 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 https://www.notion.so/Colormap-8acd230b8dcd42b9953d0bafb93e7e61
 
 # Changelog
+## 0.3.0
+### Added
+ - util: `proj_icepop`, `icepop_extent`
+ - util: `stats`
+ - plot: `icepop_sites`
+ - plot: `cartopy_grid` and `tickint`
+ - plot: `scatter`
+
 ## 0.2.5
 ### Added
  - util: `calc_dsdmoments`
