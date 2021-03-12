@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>kkpy.plot &mdash; KKpy 0.3.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example Gallery" href="auto_examples/index.html" />
+    <link rel="prev" title="kkpy.cm" href="cm.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> KKpy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">How to install KKpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">kkpy.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">kkpy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cm.html">kkpy.cm</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">kkpy.plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Example Gallery</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">KKpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>kkpy.plot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/plot.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-kkpy.plot"></span><div class="section" id="kkpy-plot">
+<h1>kkpy.plot<a class="headerlink" href="#kkpy-plot" title="Permalink to this headline">¶</a></h1>
+<p>Functions to read and write files</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.plot.koreamap" title="kkpy.plot.koreamap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.plot.koreamap</span></code></a>([ax, edgecolor, …])</p></td>
+<td><p>Draw boundaries of province and city of South Korea.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.plot.icepop_sites" title="kkpy.plot.icepop_sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.plot.icepop_sites</span></code></a>([ax, xz, yz, marker, …])</p></td>
+<td><p>Draw supersites of ICE-POP 2018.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.plot.cartopy_grid" title="kkpy.plot.cartopy_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.plot.cartopy_grid</span></code></a>([ax, draw_labels, …])</p></td>
+<td><p>Draw gridlines in cartopy map.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.plot.tickint" title="kkpy.plot.tickint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.plot.tickint</span></code></a>([ax, major, minor, which])</p></td>
+<td><p>Set interval of major or minor ticks of axis intuitively.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.plot.scatter" title="kkpy.plot.scatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.plot.scatter</span></code></a>(x, y[, ax, color, s, …])</p></td>
+<td><p>Draw scatter plot.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt id="kkpy.plot.koreamap">
+<code class="sig-prename descclassname">kkpy.plot.</code><code class="sig-name descname">koreamap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">edgecolor</span><span class="o">=</span><span class="default_value">'k'</span></em>, <em class="sig-param"><span class="n">linewidth1</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">linewidth2</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">city</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/plot.html#koreamap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.plot.koreamap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw boundaries of province and city of South Korea.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">proj</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">([</span><span class="mi">124</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">koreamap</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>axes</em>) – Axes class of matplotlib.</p></li>
+<li><p><strong>proj</strong> (<em>projection object</em>) – Map projection of matplotlib axes.</p></li>
+<li><p><strong>edgecolor</strong> (<em>str</em><em>, </em><em>optional</em>) – Edgecolor of the plot. Default is ‘k’ (black).</p></li>
+<li><p><strong>linewidth1</strong> (<em>float</em><em>, </em><em>optional</em>) – Linewidth of province. Default is 1.</p></li>
+<li><p><strong>linewidth1</strong> – Linewidth of city. Default is 1.</p></li>
+<li><p><strong>city</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Draw city if True. Draw province only if False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.plot.icepop_sites">
+<code class="sig-prename descclassname">kkpy.plot.</code><code class="sig-name descname">icepop_sites</code><span class="sig-paren">(</span><em class="sig-param">ax=None, xz=False, yz=False, marker='o', color='red', markersize=3, alpha=0.5, fontsize=10, textmargin=0.01, textcolor='k', verticalalignment='center', transform=&lt;cartopy.crs.PlateCarree object&gt;, zunit='km', include_site=['GWU', 'BKC', 'CPO', 'DGW', 'MHS', 'YPO', 'SCW', 'YYO', 'YDO', 'JMO', 'OGO', 'DHW', 'MOO', 'PCO'], include_text=['GWU', 'BKC', 'CPO', 'DGW', 'MHS', 'YPO', 'SCW', 'YYO', 'YDO', 'JMO', 'OGO', 'DHW', 'MOO', 'PCO'], exclude_site=[], exclude_text=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/plot.html#icepop_sites"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.plot.icepop_sites" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw supersites of ICE-POP 2018.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_extent</span><span class="p">(),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">icepop_sites</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">koreamap</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>axes</em>) – Axes class of matplotlib.</p></li>
+<li><p><strong>xz</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if plot in longitude-height coordinate.</p></li>
+<li><p><strong>yz</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if plot in latitude-height coordinate.</p></li>
+<li><p><strong>marker</strong> (<em>str</em><em>, </em><em>optional</em>) – Matplotlib marker. Default is ‘o’.</p></li>
+<li><p><strong>color</strong> (<em>str</em><em>, </em><em>optional</em>) – Matplotlib color for marker. Default is ‘red’.</p></li>
+<li><p><strong>markersize</strong> (<em>float</em><em>, </em><em>optional</em>) – Matplotlib markersize. Default is 3.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Matplotlib alpha for marker. Default is 0.5.</p></li>
+<li><p><strong>fontsize</strong> (<em>float</em><em>, </em><em>optional</em>) – Matplotlib fontsize for ax.text. Default is 10.</p></li>
+<li><p><strong>textmargin</strong> (<em>float</em><em>, </em><em>optional</em>) – Longitude or latitude margin in decimal degree. Default is 0.1 degree.</p></li>
+<li><p><strong>textcolor</strong> (<em>str</em><em>, </em><em>optional</em>) – Matplotlib color for text. Default is ‘k’.</p></li>
+<li><p><strong>verticalalignment</strong> (<em>str</em><em>, </em><em>optional</em>) – Matplotlib verticalalignment for ax.text. Default is ‘center’.</p></li>
+<li><p><strong>transform</strong> (<em>cartopy crs</em><em>, </em><em>optional</em>) – Cartopy crs. Default is ccrs.PlateCarree().</p></li>
+<li><p><strong>zunit</strong> (<em>str</em><em>, </em><em>optional</em>) – Unit of vertical coordinate if xz or yz is True. Default is ‘km’. Possible choices are ‘km’ or ‘m’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.plot.cartopy_grid">
+<code class="sig-prename descclassname">kkpy.plot.</code><code class="sig-name descname">cartopy_grid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">draw_labels</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">dms</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">x_inline</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">y_inline</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">linestyle</span><span class="o">=</span><span class="default_value">'dashed'</span></em>, <em class="sig-param"><span class="n">ticks_lon</span><span class="o">=</span><span class="default_value">array([128.0, 128.2, 128.4, 128.6, 128.8, 129.0, 129.2, 129.4])</span></em>, <em class="sig-param"><span class="n">ticks_lat</span><span class="o">=</span><span class="default_value">array([37.0, 37.2, 37.4, 37.6, 37.8, 38.0, 38.2, 38.4])</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/plot.html#cartopy_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.plot.cartopy_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw gridlines in cartopy map.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;pyeongchang&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">dem</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">terrain</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_extent</span><span class="p">(),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">cartopy_grid</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">icepop_sites</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">koreamap</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>axes</em>) – Axes class of matplotlib.</p></li>
+<li><p><strong>draw_labels</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Matplotlib draw_labels. Default is True.</p></li>
+<li><p><strong>dms</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Matplotlib dms. Default is False.</p></li>
+<li><p><strong>x_inline</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Matplotlib x_inline. Default is False.</p></li>
+<li><p><strong>y_inline</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Matplotlib y_inline. Default is False.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Matplotlib alpha. Default is 0.5.</p></li>
+<li><p><strong>linestyle</strong> (<em>str</em><em>, </em><em>optional</em>) – Matplotlib linestyle. Default is ‘dashed’.</p></li>
+<li><p><strong>ticks_lon</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Grid tick locations of longitude in decimal degree. Default is np.arange(128,129.5,0.2).</p></li>
+<li><p><strong>ticks_lon</strong> – Grid tick locations of latitude in decimal degree. Default is np.arange(37,38.5,0.2).</p></li>
+<li><p><strong>**kwargs</strong> (<em>**kwargs</em><em>, </em><em>optional</em>) – **kwargs for <cite>ax.gridlines</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.plot.tickint">
+<code class="sig-prename descclassname">kkpy.plot.</code><code class="sig-name descname">tickint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">major</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">minor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">which</span><span class="o">=</span><span class="default_value">'both'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/plot.html#tickint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.plot.tickint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set interval of major or minor ticks of axis intuitively.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">major</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># xaxis only</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">major</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;xaxis&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># yaxis only</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">major</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;yaxis&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># set two axes with different tick options</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">major</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;xaxis&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">major</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;yaxis&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>axes</em>) – Axes class of matplotlib.</p></li>
+<li><p><strong>major</strong> (<em>float</em><em>, </em><em>optional</em>) – Major tick interval.</p></li>
+<li><p><strong>minor</strong> (<em>float</em><em>, </em><em>optional</em>) – Major tick interval.</p></li>
+<li><p><strong>which</strong> (<em>str</em><em>, </em><em>optional</em>) – The axis to apply the changes on. Possible options are ‘both’, ‘xaxis’, and ‘yaxis’. Default is ‘both’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.plot.scatter">
+<code class="sig-prename descclassname">kkpy.plot.</code><code class="sig-name descname">scatter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">'r'</span></em>, <em class="sig-param"><span class="n">s</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">xlabel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ylabel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xlim</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ylim</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">identityline</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">identityline_color</span><span class="o">=</span><span class="default_value">'k'</span></em>, <em class="sig-param"><span class="n">identityline_linestyle</span><span class="o">=</span><span class="default_value">'dashed'</span></em>, <em class="sig-param"><span class="n">identityline_alpha</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">identityline_linewidth</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">xmajortickint</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xminortickint</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ymajortickint</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">yminortickint</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">aspect_equal</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">score</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">score_loc</span><span class="o">=</span><span class="default_value">'lower right'</span></em>, <em class="sig-param"><span class="n">score_fontsize</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">fmtbias</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtrmse</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtstd</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtcorr</span><span class="o">=</span><span class="default_value">'.3f'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/plot.html#scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.plot.scatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw scatter plot.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># without score, without identityline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">identityline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># location of score text #1 (text)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">score_loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># location of score text #2 (list of xpos, ypos)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">score_loc</span><span class="o">=</span><span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span> <span class="c1"># near &#39;lower right&#39;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># more complicated options</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+<span class="go">        x, y, ax=ax, aspect_equal=True, score_loc=&#39;upper left&#39;,</span>
+<span class="go">        xlabel=&#39;X&#39;, ylabel=&#39;Y&#39;, xlim=[0,1], ylim=[0,3],</span>
+<span class="go">        title=&#39;TITLE&#39;, xmajortickint=0.2, xminortickint=0.1,</span>
+<span class="go">        ymajortickint=0.1, score_fontsize=12, fmtstd=&#39;.2f&#39;,</span>
+<span class="go">        alpha=0.5, s=2, color=&#39;g&#39;, identityline_color=&#39;b&#39;,</span>
+<span class="go">        identityline_linewidth=2, identityline_linestyle=&#39;solid&#39;</span>
+<span class="go">    )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array_like</em>) – Array containing multiple variables and observations.</p></li>
+<li><p><strong>y</strong> (<em>array_like</em>) – Array containing multiple variables and observations. The shape should be same as <strong>x</strong>.</p></li>
+<li><p><strong>ax</strong> (<em>axes</em>) – Axes class of matplotlib.</p></li>
+<li><p><strong>color</strong> (<em>str</em><em>, </em><em>optional</em>) – Matplotlib color for scatter. Default is ‘r’.</p></li>
+<li><p><strong>s</strong> (<em>float</em><em>, </em><em>optional</em>) – Matplotlib size for scatter. Default is 0.5.</p></li>
+<li><p><strong>xlabel</strong> (<em>str</em><em>, </em><em>optional</em>) – The label text of x axis.</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em><em>, </em><em>optional</em>) – The label text of y axis.</p></li>
+<li><p><strong>xlim</strong> (<em>list</em><em>, </em><em>optional</em>) – The limits of x axis.</p></li>
+<li><p><strong>ylim</strong> (<em>list</em><em>, </em><em>optional</em>) – The limits of y axis.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Matplotlib alpha for scatter.</p></li>
+<li><p><strong>identityline</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if draw identityline (one-to-one line). Default is True.</p></li>
+<li><p><strong>identityline_color</strong> (<em>str</em><em>, </em><em>optional</em>) – Matplotlib color for identity line. Default is ‘k’.</p></li>
+<li><p><strong>identityline_linestyle</strong> (<em>str</em><em>, </em><em>optional</em>) – Matplotlib linestyle for identity line. Default is ‘dashed’.</p></li>
+<li><p><strong>identityline_alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Matplotlib alpha for identity line. Default is 0.5.</p></li>
+<li><p><strong>identityline_linewidth</strong> (<em>float</em><em>, </em><em>optional</em>) – Matplotlib linewidth for identity line. Default is 0.5.</p></li>
+<li><p><strong>xmajortickint</strong> (<em>float</em><em>, </em><em>optional</em>) – Major tick interval of x axis.</p></li>
+<li><p><strong>xminortickint</strong> (<em>float</em><em>, </em><em>optional</em>) – Minor tick interval of x axis.</p></li>
+<li><p><strong>ymajortickint</strong> (<em>float</em><em>, </em><em>optional</em>) – Major tick interval of y axis.</p></li>
+<li><p><strong>yminortickint</strong> (<em>float</em><em>, </em><em>optional</em>) – Minor tick interval of y axis.</p></li>
+<li><p><strong>aspect_equal</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if ax.set_aspect(‘equal’). Default is False.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – Title of the axis.</p></li>
+<li><p><strong>score</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if annotate and return the evaluation score (bias, rmse, std, and corr)</p></li>
+<li><p><strong>score_loc</strong> (<em>str</em><em>, </em><em>optional</em>) – Location of the evaluation score text in the plot. Possible options are list([xpos,ypos]), ‘upper left’, ‘upper right’, ‘lower left’, and ‘lower right’. The xpos and ypos should be in the ‘axes fraction’ coordinate. Default is ‘lower right’.</p></li>
+<li><p><strong>score_fontsize</strong> (<em>float</em><em>, </em><em>optional</em>) – The fontsize of evaluation score text in the plot. Default is 10.</p></li>
+<li><p><strong>fmtbias</strong> (<em>str</em><em>, </em><em>optional</em>) – String format for BIAS. Default is ‘.3f’.</p></li>
+<li><p><strong>fmtrmse</strong> (<em>str</em><em>, </em><em>optional</em>) – String format for RMSE. Default is ‘.3f’.</p></li>
+<li><p><strong>fmtstd</strong> (<em>str</em><em>, </em><em>optional</em>) – String format for STD. Default is ‘.3f’.</p></li>
+<li><p><strong>fmtcorr</strong> (<em>str</em><em>, </em><em>optional</em>) – String format for CORR. Default is ‘.3f’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>score</strong> – Return a score <strong>if score is True</strong>, otherwise no return.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="auto_examples/index.html" class="btn btn-neutral float-right" title="Example Gallery" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cm.html" class="btn btn-neutral float-left" title="kkpy.cm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Kwonil Kim
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

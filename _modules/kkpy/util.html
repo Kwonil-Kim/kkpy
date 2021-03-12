@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.util &mdash; KKpy 0.2.5 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.3.0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.2.5
+                0.3.0
               </div>
             
           
@@ -94,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../io.html">kkpy.io</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../util.html">kkpy.util</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cm.html">kkpy.cm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plot.html">kkpy.plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Example Gallery</a></li>
 </ul>
 
@@ -181,7 +182,7 @@
 <span class="sd">    kkpy.util.dbzmean</span>
 
 <span class="sd">Microphysics</span>
-<span class="sd">--------------</span>
+<span class="sd">---------------</span>
 <span class="sd">.. autosummary::</span>
 <span class="sd">    kkpy.util.vel_atlas</span>
 <span class="sd">    kkpy.util.calc_dsdmoments</span>
@@ -190,6 +191,7 @@
 <span class="sd">-------</span>
 <span class="sd">.. autosummary::</span>
 <span class="sd">    kkpy.util.proj_dfs</span>
+<span class="sd">    kkpy.util.proj_icepop</span>
 <span class="sd">    kkpy.util.dist_bearing</span>
 
 <span class="sd">Spatial calculations</span>
@@ -199,10 +201,11 @@
 <span class="sd">    kkpy.util.cross_section_2d</span>
 <span class="sd">    </span>
 <span class="sd">ICE-POP 2018</span>
-<span class="sd">-------------</span>
+<span class="sd">--------------</span>
 <span class="sd">.. autosummary::</span>
 <span class="sd">    kkpy.util.icepop_events</span>
 <span class="sd">    kkpy.util.icepop_sites</span>
+<span class="sd">    kkpy.util.icepop_extent</span>
 
 <span class="sd">Miscellaneous</span>
 <span class="sd">---------------</span>
@@ -210,6 +213,7 @@
 <span class="sd">    kkpy.util.std2d</span>
 <span class="sd">    kkpy.util.nanstd2d</span>
 <span class="sd">    kkpy.util.nanconvolve2d</span>
+<span class="sd">    kkpy.util.stats</span>
 <span class="sd">&quot;&quot;&quot;</span>                                                   
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -441,6 +445,7 @@
 <span class="sd">    </span>
 <span class="sd">    Examples</span>
 <span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import cartopy.crs as ccrs</span>
 <span class="sd">    &gt;&gt;&gt; ax = plt.subplot(proj=kkpy.util.proj_dfs())</span>
 <span class="sd">    &gt;&gt;&gt; ax.scatter([126], [38], transform=ccrs.PlateCarree())</span>
 <span class="sd">    &gt;&gt;&gt; plt.show()</span>
@@ -461,6 +466,37 @@
                                  <span class="n">standard_parallels</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">),</span>
                                  <span class="n">false_easting</span><span class="o">=</span><span class="mi">400000</span><span class="p">,</span>
                                  <span class="n">false_northing</span><span class="o">=</span><span class="mi">789000</span><span class="p">,</span>
+                                 <span class="n">globe</span><span class="o">=</span><span class="n">globe</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">proj</span></div>
+
+<div class="viewcode-block" id="proj_icepop"><a class="viewcode-back" href="../../util.html#kkpy.util.proj_icepop">[docs]</a><span class="k">def</span> <span class="nf">proj_icepop</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a lambert conformal conic projection for ICE-POP 2018 domain.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import cartopy.crs as ccrs</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(proj=kkpy.util.proj_icepop())</span>
+<span class="sd">    &gt;&gt;&gt; ax.scatter([129], [37.7], transform=ccrs.PlateCarree())</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_extent(kkpy.util.icepop_extent(), crs=ccrs.PlateCarree())</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    proj : cartopy projection</span>
+<span class="sd">        Return a map projection of DFS.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+    
+    <span class="n">globe</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">Globe</span><span class="p">(</span><span class="n">ellipse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">semimajor_axis</span><span class="o">=</span><span class="mf">6371008.77</span><span class="p">,</span>
+                       <span class="n">semiminor_axis</span><span class="o">=</span><span class="mf">6371008.77</span><span class="p">)</span>
+    
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="mf">128.75</span><span class="p">,</span>
+                                 <span class="n">central_latitude</span><span class="o">=</span><span class="mf">37.65</span><span class="p">,</span>
+                                 <span class="n">standard_parallels</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">),</span>
+                                 <span class="n">false_easting</span><span class="o">=</span><span class="mi">75000</span><span class="p">,</span>
+                                 <span class="n">false_northing</span><span class="o">=</span><span class="mi">75000</span><span class="p">,</span>
                                  <span class="n">globe</span><span class="o">=</span><span class="n">globe</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">proj</span></div>
 
@@ -832,6 +868,22 @@
     
     <span class="k">return</span> <span class="n">sites</span></div>
 
+<div class="viewcode-block" id="icepop_extent"><a class="viewcode-back" href="../../util.html#kkpy.util.icepop_extent">[docs]</a><span class="k">def</span> <span class="nf">icepop_extent</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get extent of ICE-POP 2018 domain.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_extent(kkpy.util.icepop_extent(), crs=ccrs.PlateCarree())</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    list_extent : list</span>
+<span class="sd">        Return a list containing lon0, lon1, lat0, and lat1 of default ICE-POP 2018 domain.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mf">129.5</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mf">38.3</span><span class="p">]</span></div>
+
 <div class="viewcode-block" id="vel_atlas"><a class="viewcode-back" href="../../util.html#kkpy.util.vel_atlas">[docs]</a><span class="k">def</span> <span class="nf">vel_atlas</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get Atlas et al. (1973) fall velocity.</span>
@@ -895,6 +947,52 @@
     <span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">dict_</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">])</span> <span class="c1"># dBZ</span>
     
     <span class="k">return</span> <span class="n">dict_</span></div>
+
+<div class="viewcode-block" id="stats"><a class="viewcode-back" href="../../util.html#kkpy.util.stats">[docs]</a><span class="k">def</span> <span class="nf">stats</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+          <span class="n">fmtbias</span><span class="o">=</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span> <span class="n">fmtrmse</span><span class="o">=</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span>
+          <span class="n">fmtstd</span><span class="o">=</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span> <span class="n">fmtcorr</span><span class="o">=</span><span class="s1">&#39;.3f&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get perpormance matrix BIAS, RMSE, STD, and CORR values and its f-string.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; stats, str_stat = kkpy.util.stats(xarr, yarr)</span>
+<span class="sd">    &gt;&gt;&gt; print(stats)</span>
+<span class="sd">    &gt;&gt;&gt; plt.text(3, 5, str_stat)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; stats, str_stat = kkpy.util.stats(xarr, yarr, fmtbias=&#39;.1f&#39;, fmtcorr=&#39;.2f&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array_like</span>
+<span class="sd">        Array containing multiple variables and observations.</span>
+<span class="sd">    y : array_like</span>
+<span class="sd">        Array containing multiple variables and observations. The shape should be same as **x**.</span>
+<span class="sd">    fmtbias : str, optional</span>
+<span class="sd">        String format for BIAS. Default is &#39;.3f&#39;.</span>
+<span class="sd">    fmtrmse : str, optional</span>
+<span class="sd">        String format for RMSE. Default is &#39;.3f&#39;.        </span>
+<span class="sd">    fmtstd : str, optional</span>
+<span class="sd">        String format for STD. Default is &#39;.3f&#39;.        </span>
+<span class="sd">    fmtcorr : str, optional</span>
+<span class="sd">        String format for CORR. Default is &#39;.3f&#39;.        </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_moments : dictionary</span>
+<span class="sd">        Return a dictionary containing the DSD moments: z[mm6 m-3], Z[dBZ], and R[mm hr-1].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    
+    <span class="n">bias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    
+    <span class="n">stats</span> <span class="o">=</span> <span class="p">[</span><span class="n">bias</span><span class="p">,</span> <span class="n">rmse</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">corr</span><span class="p">]</span>
+    <span class="n">str_stat</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;BIAS=</span><span class="si">{</span><span class="n">bias</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">RMSE=</span><span class="si">{</span><span class="n">rmse</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">STD=</span><span class="si">{</span><span class="n">std</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">CORR=</span><span class="si">{</span><span class="n">corr</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
+    
+    <span class="k">return</span> <span class="n">stats</span><span class="p">,</span> <span class="n">str_stat</span></div>
 </pre></div>
 
            </div>

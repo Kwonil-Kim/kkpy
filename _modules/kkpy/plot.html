@@ -1,0 +1,683 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>kkpy.plot &mdash; KKpy 0.3.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> KKpy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">How to install KKpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../io.html">kkpy.io</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../util.html">kkpy.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cm.html">kkpy.cm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plot.html">kkpy.plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Example Gallery</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">KKpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>kkpy.plot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for kkpy.plot</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">kkpy.plot</span>
+<span class="sd">========================</span>
+
+<span class="sd">Functions to read and write files</span>
+
+<span class="sd">.. currentmodule:: plot</span>
+
+<span class="sd">.. autosummary::</span>
+<span class="sd">    kkpy.plot.koreamap</span>
+<span class="sd">    kkpy.plot.icepop_sites</span>
+<span class="sd">    kkpy.plot.cartopy_grid</span>
+<span class="sd">    kkpy.plot.tickint</span>
+<span class="sd">    kkpy.plot.scatter</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+
+<div class="viewcode-block" id="koreamap"><a class="viewcode-back" href="../../plot.html#kkpy.plot.koreamap">[docs]</a><span class="k">def</span> <span class="nf">koreamap</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linewidth2</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw boundaries of province and city of South Korea.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import cartopy.crs as ccrs</span>
+<span class="sd">    &gt;&gt;&gt; proj = kkpy.util.proj_dfs()</span>
+<span class="sd">    &gt;&gt;&gt; fig = plt.figure(figsize=(5,5), dpi=300)</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(projection=proj)</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_extent([124, 130, 33, 43], crs=ccrs.PlateCarree())</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.koreamap(ax=ax)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : axes</span>
+<span class="sd">        Axes class of matplotlib.</span>
+<span class="sd">    proj : projection object</span>
+<span class="sd">        Map projection of matplotlib axes.</span>
+<span class="sd">    edgecolor : str, optional</span>
+<span class="sd">        Edgecolor of the plot. Default is &#39;k&#39; (black).</span>
+<span class="sd">    linewidth1 : float, optional</span>
+<span class="sd">        Linewidth of province. Default is 1.</span>
+<span class="sd">    linewidth1 : float, optional</span>
+<span class="sd">        Linewidth of city. Default is 1.</span>
+<span class="sd">    city : boolean, optional</span>
+<span class="sd">        Draw city if True. Draw province only if False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+    
+    <span class="n">shpdir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s1">/SHP&#39;</span>
+
+    <span class="n">kor1</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">shpdir</span><span class="si">}</span><span class="s1">/gadm36_KOR_1.shp&#39;</span><span class="p">)</span>
+    <span class="n">kor2</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">shpdir</span><span class="si">}</span><span class="s1">/gadm36_KOR_2.shp&#39;</span><span class="p">)</span>
+    
+    <span class="n">kor1</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">projection</span><span class="o">.</span><span class="n">proj4_init</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">city</span><span class="p">:</span>
+        <span class="n">kor2</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">projection</span><span class="o">.</span><span class="n">proj4_init</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth2</span><span class="p">)</span>
+    
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="icepop_sites"><a class="viewcode-back" href="../../plot.html#kkpy.plot.icepop_sites">[docs]</a><span class="k">def</span> <span class="nf">icepop_sites</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">xz</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">yz</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                 <span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                 <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">textmargin</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                 <span class="n">textcolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                 <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                 <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
+                 <span class="n">zunit</span><span class="o">=</span><span class="s1">&#39;km&#39;</span><span class="p">,</span>
+                 <span class="n">include_site</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GWU&#39;</span><span class="p">,</span> <span class="s1">&#39;BKC&#39;</span><span class="p">,</span> <span class="s1">&#39;CPO&#39;</span><span class="p">,</span> <span class="s1">&#39;DGW&#39;</span><span class="p">,</span> <span class="s1">&#39;MHS&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;YPO&#39;</span><span class="p">,</span> <span class="s1">&#39;SCW&#39;</span><span class="p">,</span> <span class="s1">&#39;YYO&#39;</span><span class="p">,</span> <span class="s1">&#39;YDO&#39;</span><span class="p">,</span> <span class="s1">&#39;JMO&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;OGO&#39;</span><span class="p">,</span> <span class="s1">&#39;DHW&#39;</span><span class="p">,</span> <span class="s1">&#39;MOO&#39;</span><span class="p">,</span> <span class="s1">&#39;PCO&#39;</span><span class="p">],</span>
+                 <span class="n">include_text</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GWU&#39;</span><span class="p">,</span> <span class="s1">&#39;BKC&#39;</span><span class="p">,</span> <span class="s1">&#39;CPO&#39;</span><span class="p">,</span> <span class="s1">&#39;DGW&#39;</span><span class="p">,</span> <span class="s1">&#39;MHS&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;YPO&#39;</span><span class="p">,</span> <span class="s1">&#39;SCW&#39;</span><span class="p">,</span> <span class="s1">&#39;YYO&#39;</span><span class="p">,</span> <span class="s1">&#39;YDO&#39;</span><span class="p">,</span> <span class="s1">&#39;JMO&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;OGO&#39;</span><span class="p">,</span> <span class="s1">&#39;DHW&#39;</span><span class="p">,</span> <span class="s1">&#39;MOO&#39;</span><span class="p">,</span> <span class="s1">&#39;PCO&#39;</span><span class="p">],</span>
+                 <span class="n">exclude_site</span><span class="o">=</span><span class="p">[],</span>
+                 <span class="n">exclude_text</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw supersites of ICE-POP 2018.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import cartopy.crs as ccrs</span>
+<span class="sd">    &gt;&gt;&gt; fig = plt.figure(figsize=(5,5), dpi=300)</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(projection=kkpy.util.proj_dfs())</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_extent(kkpy.util.icepop_extent(), crs=ccrs.PlateCarree())</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.icepop_sites(ax=ax)</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.koreamap(ax=ax)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : axes</span>
+<span class="sd">        Axes class of matplotlib.</span>
+<span class="sd">    xz : boolean, optional</span>
+<span class="sd">        True if plot in longitude-height coordinate.</span>
+<span class="sd">    yz : boolean, optional</span>
+<span class="sd">        True if plot in latitude-height coordinate.</span>
+<span class="sd">    marker : str, optional</span>
+<span class="sd">        Matplotlib marker. Default is &#39;o&#39;.</span>
+<span class="sd">    color : str, optional</span>
+<span class="sd">        Matplotlib color for marker. Default is &#39;red&#39;.</span>
+<span class="sd">    markersize : float, optional</span>
+<span class="sd">        Matplotlib markersize. Default is 3.</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Matplotlib alpha for marker. Default is 0.5.</span>
+<span class="sd">    fontsize : float, optional</span>
+<span class="sd">        Matplotlib fontsize for ax.text. Default is 10.</span>
+<span class="sd">    textmargin : float, optional</span>
+<span class="sd">        Longitude or latitude margin in decimal degree. Default is 0.1 degree.</span>
+<span class="sd">    textcolor : str, optional</span>
+<span class="sd">        Matplotlib color for text. Default is &#39;k&#39;.</span>
+<span class="sd">    verticalalignment : str, optional</span>
+<span class="sd">        Matplotlib verticalalignment for ax.text. Default is &#39;center&#39;.</span>
+<span class="sd">    transform : cartopy crs, optional</span>
+<span class="sd">        Cartopy crs. Default is ccrs.PlateCarree().</span>
+<span class="sd">    zunit : str, optional</span>
+<span class="sd">        Unit of vertical coordinate if xz or yz is True. Default is &#39;km&#39;. Possible choices are &#39;km&#39; or &#39;m&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">util</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">xz</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">yz</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">util</span><span class="o">.</span><span class="n">icepop_sites</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">include_site</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">exclude_site</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="n">markersize</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">include_text</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">exclude_text</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">lon</span><span class="o">+</span><span class="n">textmargin</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="n">verticalalignment</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">textcolor</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">xz</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">util</span><span class="o">.</span><span class="n">icepop_sites</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">zunit</span> <span class="ow">in</span> <span class="s1">&#39;km&#39;</span><span class="p">:</span>
+                <span class="n">hgt</span> <span class="o">=</span> <span class="n">hgt</span><span class="o">/</span><span class="mf">1e3</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="n">markersize</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">lon</span><span class="o">+</span><span class="n">textmargin</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="n">verticalalignment</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">textcolor</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">yz</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">util</span><span class="o">.</span><span class="n">icepop_sites</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">zunit</span> <span class="ow">in</span> <span class="s1">&#39;km&#39;</span><span class="p">:</span>
+                <span class="n">hgt</span> <span class="o">=</span> <span class="n">hgt</span><span class="o">/</span><span class="mf">1e3</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="n">markersize</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">lat</span><span class="o">+</span><span class="n">textmargin</span><span class="p">,</span> <span class="n">hgt</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="n">verticalalignment</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">textcolor</span><span class="p">)</span>
+    
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="cartopy_grid"><a class="viewcode-back" href="../../plot.html#kkpy.plot.cartopy_grid">[docs]</a><span class="k">def</span> <span class="nf">cartopy_grid</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">dms</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">x_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> 
+                 <span class="n">ticks_lon</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mf">129.5</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
+                 <span class="n">ticks_lat</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span><span class="mf">38.5</span><span class="p">,</span><span class="mf">0.2</span><span class="p">),</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw gridlines in cartopy map.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import cartopy.crs as ccrs</span>
+<span class="sd">    &gt;&gt;&gt; fig = plt.figure(figsize=(5,5), dpi=300)</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(projection=kkpy.util.proj_dfs())</span>
+<span class="sd">    &gt;&gt;&gt; dem, lon, lat, _ = kkpy.io.read_dem(area=&#39;pyeongchang&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon, lat, dem, transform=ccrs.PlateCarree(), vmin=0, cmap=plt.cm.terrain)</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_extent(kkpy.util.icepop_extent(), crs=ccrs.PlateCarree())</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.cartopy_grid(ax=ax)</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.icepop_sites(ax=ax)</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.koreamap(ax=ax)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">        </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : axes</span>
+<span class="sd">        Axes class of matplotlib.</span>
+<span class="sd">    draw_labels : boolean, optional</span>
+<span class="sd">        Matplotlib draw_labels. Default is True.</span>
+<span class="sd">    dms : boolean, optional</span>
+<span class="sd">        Matplotlib dms. Default is False.</span>
+<span class="sd">    x_inline : boolean, optional</span>
+<span class="sd">        Matplotlib x_inline. Default is False.</span>
+<span class="sd">    y_inline : boolean, optional</span>
+<span class="sd">        Matplotlib y_inline. Default is False.</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Matplotlib alpha. Default is 0.5.</span>
+<span class="sd">    linestyle : str, optional</span>
+<span class="sd">        Matplotlib linestyle. Default is &#39;dashed&#39;.</span>
+<span class="sd">    ticks_lon : array_like, optional</span>
+<span class="sd">        Grid tick locations of longitude in decimal degree. Default is np.arange(128,129.5,0.2).</span>
+<span class="sd">    ticks_lon : array_like, optional</span>
+<span class="sd">        Grid tick locations of latitude in decimal degree. Default is np.arange(37,38.5,0.2).</span>
+<span class="sd">    \**kwargs : \**kwargs, optional</span>
+<span class="sd">        \**kwargs for `ax.gridlines`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">mticker</span>
+    
+    <span class="n">gl</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="n">draw_labels</span><span class="p">,</span> <span class="n">dms</span><span class="o">=</span><span class="n">dms</span><span class="p">,</span> <span class="n">x_inline</span><span class="o">=</span><span class="n">x_inline</span><span class="p">,</span> <span class="n">y_inline</span><span class="o">=</span><span class="n">y_inline</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">gl</span><span class="o">.</span><span class="n">xlocator</span> <span class="o">=</span> <span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">ticks_lon</span><span class="p">)</span>
+    <span class="n">gl</span><span class="o">.</span><span class="n">ylocator</span> <span class="o">=</span> <span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">ticks_lat</span><span class="p">)</span>
+    <span class="n">gl</span><span class="o">.</span><span class="n">rotate_labels</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">gl</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="n">gl</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="tickint"><a class="viewcode-back" href="../../plot.html#kkpy.plot.tickint">[docs]</a><span class="k">def</span> <span class="nf">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">major</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set interval of major or minor ticks of axis intuitively.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot()</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(np.arange(30))</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.tickint(ax=ax, major=10, minor=5)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    &gt;&gt;&gt; # xaxis only</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot()</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(np.arange(30))</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.tickint(ax=ax, major=10, minor=5, which=&#39;xaxis&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    &gt;&gt;&gt; # yaxis only</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot()</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(np.arange(30))</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.tickint(ax=ax, major=10, which=&#39;yaxis&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    &gt;&gt;&gt; # set two axes with different tick options</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot()</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(np.arange(30))</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.tickint(ax=ax, major=10, minor=5, which=&#39;xaxis&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.tickint(ax=ax, major=5, minor=1, which=&#39;yaxis&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : axes</span>
+<span class="sd">        Axes class of matplotlib.</span>
+<span class="sd">    major : float, optional</span>
+<span class="sd">        Major tick interval.</span>
+<span class="sd">    minor : float, optional</span>
+<span class="sd">        Major tick interval.</span>
+<span class="sd">    which : str, optional</span>
+<span class="sd">        The axis to apply the changes on. Possible options are &#39;both&#39;, &#39;xaxis&#39;, and &#39;yaxis&#39;. Default is &#39;both&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">xaxis</span> <span class="o">=</span> <span class="n">yaxis</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">which</span> <span class="ow">in</span> <span class="s1">&#39;both&#39;</span><span class="p">:</span>
+        <span class="n">xaxis</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">yaxis</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">which</span> <span class="ow">in</span> <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span>
+        <span class="n">xaxis</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">which</span> <span class="ow">in</span> <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span>
+        <span class="n">yaxis</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Possible which options: both, xaxis, and yaxis&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">xaxis</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">major</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="n">major</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">minor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="n">minor</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">yaxis</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">major</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="n">major</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">minor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="n">minor</span><span class="p">))</span>
+    
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="scatter"><a class="viewcode-back" href="../../plot.html#kkpy.plot.scatter">[docs]</a><span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">identityline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">identityline_color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+            <span class="n">identityline_linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span>
+            <span class="n">identityline_alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">identityline_linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">xmajortickint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">xminortickint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ymajortickint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">yminortickint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">aspect_equal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">score_loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span>
+            <span class="n">score_fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">fmtbias</span><span class="o">=</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span>
+            <span class="n">fmtrmse</span><span class="o">=</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span>
+            <span class="n">fmtstd</span><span class="o">=</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span>
+            <span class="n">fmtcorr</span><span class="o">=</span><span class="s1">&#39;.3f&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw scatter plot.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; x = np.random.rand(100)</span>
+<span class="sd">    &gt;&gt;&gt; y = np.random.rand(100)</span>
+<span class="sd">    &gt;&gt;&gt; fig = plt.figure(figsize=(4,4), dpi=300)</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot()</span>
+<span class="sd">    &gt;&gt;&gt; scores = kkpy.plot.scatter(x, y, ax=ax)</span>
+<span class="sd">    &gt;&gt;&gt; print(scores)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    &gt;&gt;&gt; # without score, without identityline</span>
+<span class="sd">    &gt;&gt;&gt; kkpy.plot.scatter(x, y, ax=ax, score=False, identityline=False)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; # location of score text #1 (text)</span>
+<span class="sd">    &gt;&gt;&gt; scores = kkpy.plot.scatter(x, y, ax=ax, score_loc=&#39;lower right&#39;)</span>
+
+<span class="sd">    &gt;&gt;&gt; # location of score text #2 (list of xpos, ypos)</span>
+<span class="sd">    &gt;&gt;&gt; scores = kkpy.plot.scatter(x, y, ax=ax, score_loc=[0.7, 0.05]) # near &#39;lower right&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; # more complicated options</span>
+<span class="sd">    &gt;&gt;&gt; x = np.random.rand(100)</span>
+<span class="sd">    &gt;&gt;&gt; y = np.random.rand(100)*3</span>
+<span class="sd">    &gt;&gt;&gt; fig = plt.figure(figsize=(4,4), dpi=300)</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot()</span>
+<span class="sd">    &gt;&gt;&gt; scores = kkpy.plot.scatter(</span>
+<span class="sd">            x, y, ax=ax, aspect_equal=True, score_loc=&#39;upper left&#39;,</span>
+<span class="sd">            xlabel=&#39;X&#39;, ylabel=&#39;Y&#39;, xlim=[0,1], ylim=[0,3],</span>
+<span class="sd">            title=&#39;TITLE&#39;, xmajortickint=0.2, xminortickint=0.1,</span>
+<span class="sd">            ymajortickint=0.1, score_fontsize=12, fmtstd=&#39;.2f&#39;,</span>
+<span class="sd">            alpha=0.5, s=2, color=&#39;g&#39;, identityline_color=&#39;b&#39;,</span>
+<span class="sd">            identityline_linewidth=2, identityline_linestyle=&#39;solid&#39;</span>
+<span class="sd">        )</span>
+<span class="sd">    &gt;&gt;&gt; print(scores)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">            </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array_like</span>
+<span class="sd">        Array containing multiple variables and observations.</span>
+<span class="sd">    y : array_like</span>
+<span class="sd">        Array containing multiple variables and observations. The shape should be same as **x**.</span>
+<span class="sd">    ax : axes</span>
+<span class="sd">        Axes class of matplotlib.</span>
+<span class="sd">    color : str, optional</span>
+<span class="sd">        Matplotlib color for scatter. Default is &#39;r&#39;.</span>
+<span class="sd">    s : float, optional</span>
+<span class="sd">        Matplotlib size for scatter. Default is 0.5.</span>
+<span class="sd">    xlabel : str, optional</span>
+<span class="sd">        The label text of x axis.</span>
+<span class="sd">    ylabel : str, optional</span>
+<span class="sd">        The label text of y axis.</span>
+<span class="sd">    xlim : list, optional</span>
+<span class="sd">        The limits of x axis.</span>
+<span class="sd">    ylim : list, optional</span>
+<span class="sd">        The limits of y axis.</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Matplotlib alpha for scatter.</span>
+<span class="sd">    identityline : boolean, optional</span>
+<span class="sd">        True if draw identityline (one-to-one line). Default is True.</span>
+<span class="sd">    identityline_color : str, optional</span>
+<span class="sd">        Matplotlib color for identity line. Default is &#39;k&#39;.</span>
+<span class="sd">    identityline_linestyle : str, optional</span>
+<span class="sd">        Matplotlib linestyle for identity line. Default is &#39;dashed&#39;.</span>
+<span class="sd">    identityline_alpha : float, optional</span>
+<span class="sd">        Matplotlib alpha for identity line. Default is 0.5.</span>
+<span class="sd">    identityline_linewidth : float, optional</span>
+<span class="sd">        Matplotlib linewidth for identity line. Default is 0.5.</span>
+<span class="sd">    xmajortickint : float, optional</span>
+<span class="sd">        Major tick interval of x axis.</span>
+<span class="sd">    xminortickint : float, optional</span>
+<span class="sd">        Minor tick interval of x axis.</span>
+<span class="sd">    ymajortickint : float, optional</span>
+<span class="sd">        Major tick interval of y axis.</span>
+<span class="sd">    yminortickint : float, optional</span>
+<span class="sd">        Minor tick interval of y axis.</span>
+<span class="sd">    aspect_equal : boolean, optional</span>
+<span class="sd">        True if ax.set_aspect(&#39;equal&#39;). Default is False.</span>
+<span class="sd">    title : str, optional</span>
+<span class="sd">        Title of the axis.</span>
+<span class="sd">    score : boolean, optional</span>
+<span class="sd">        True if annotate and return the evaluation score (bias, rmse, std, and corr)</span>
+<span class="sd">    score_loc : str, optional</span>
+<span class="sd">        Location of the evaluation score text in the plot. Possible options are list([xpos,ypos]), &#39;upper left&#39;, &#39;upper right&#39;, &#39;lower left&#39;, and &#39;lower right&#39;. The xpos and ypos should be in the &#39;axes fraction&#39; coordinate. Default is &#39;lower right&#39;.</span>
+<span class="sd">    score_fontsize : float, optional</span>
+<span class="sd">        The fontsize of evaluation score text in the plot. Default is 10.</span>
+<span class="sd">    fmtbias : str, optional</span>
+<span class="sd">        String format for BIAS. Default is &#39;.3f&#39;.</span>
+<span class="sd">    fmtrmse : str, optional</span>
+<span class="sd">        String format for RMSE. Default is &#39;.3f&#39;.</span>
+<span class="sd">    fmtstd : str, optional</span>
+<span class="sd">        String format for STD. Default is &#39;.3f&#39;.</span>
+<span class="sd">    fmtcorr : str, optional</span>
+<span class="sd">        String format for CORR. Default is &#39;.3f&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    score : list</span>
+<span class="sd">        Return a score **if score is True**, otherwise no return.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">util</span>
+    
+    <span class="c1"># scatter</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    
+    <span class="c1"># xlabel, ylabel</span>
+    <span class="k">if</span> <span class="n">xlabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    
+    <span class="c1"># xlim, ylim</span>
+    <span class="k">if</span> <span class="n">xlim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+    
+    <span class="c1"># tick intervals</span>
+    <span class="k">if</span> <span class="n">xmajortickint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">major</span><span class="o">=</span><span class="n">xmajortickint</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;xaxis&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">xminortickint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="n">xminortickint</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;xaxis&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ymajortickint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">major</span><span class="o">=</span><span class="n">ymajortickint</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;yaxis&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">yminortickint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tickint</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="n">yminortickint</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;yaxis&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># identityline</span>
+    <span class="k">if</span> <span class="n">identityline</span><span class="p">:</span>
+        <span class="n">xlim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="n">ylim</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">identityline_color</span><span class="p">,</span>
+                <span class="n">linestyle</span><span class="o">=</span><span class="n">identityline_linestyle</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">identityline_alpha</span><span class="p">,</span>
+                <span class="n">linewidth</span><span class="o">=</span><span class="n">identityline_linewidth</span><span class="p">)</span>
+    
+    <span class="c1"># aspect_equal</span>
+    <span class="k">if</span> <span class="n">aspect_equal</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># title</span>
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    
+    <span class="c1"># score</span>
+    <span class="k">if</span> <span class="n">score</span><span class="p">:</span>
+        <span class="n">scores</span><span class="p">,</span> <span class="n">str_score</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                                       <span class="n">fmtbias</span><span class="o">=</span><span class="n">fmtbias</span><span class="p">,</span>
+                                       <span class="n">fmtrmse</span><span class="o">=</span><span class="n">fmtrmse</span><span class="p">,</span>
+                                       <span class="n">fmtstd</span><span class="o">=</span><span class="n">fmtstd</span><span class="p">,</span>
+                                       <span class="n">fmtcorr</span><span class="o">=</span><span class="n">fmtcorr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">score_loc</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">str_score</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">score_loc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">score_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">score_loc</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">score_loc</span> <span class="ow">in</span> <span class="s1">&#39;upper left&#39;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">str_score</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">score_fontsize</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">score_loc</span> <span class="ow">in</span> <span class="s1">&#39;upper right&#39;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">str_score</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.62</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">score_fontsize</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">score_loc</span> <span class="ow">in</span> <span class="s1">&#39;lower left&#39;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">str_score</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">score_fontsize</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">score_loc</span> <span class="ow">in</span> <span class="s1">&#39;lower right&#39;</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">str_score</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.62</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">score_fontsize</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid score_loc! Possible options are list([xpos,ypos]), &#39;upper left&#39;, &#39;upper right&#39;, &#39;lower left&#39;, and &#39;lower right&#39;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid score_loc! Possible options are list([xpos,ypos]), &#39;upper left&#39;, &#39;upper right&#39;, &#39;lower left&#39;, and &#39;lower right&#39;&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># grid</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    
+    <span class="c1"># return</span>
+    <span class="k">if</span> <span class="n">score</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">scores</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Kwonil Kim
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

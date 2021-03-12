@@ -17,6 +17,7 @@ Welcome to KKpy's documentation!
    io
    util
    cm
+   plot
    auto_examples/index
    
 

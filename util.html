@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.util &mdash; KKpy 0.2.5 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.3.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.2.5
+                0.3.0
               </div>
             
           
@@ -105,6 +105,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cm.html">kkpy.cm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot.html">kkpy.plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">Example Gallery</a></li>
 </ul>
 
@@ -239,7 +240,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.proj_dfs" title="kkpy.util.proj_dfs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.proj_dfs</span></code></a>()</p></td>
 <td><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.dist_bearing" title="kkpy.util.dist_bearing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.dist_bearing</span></code></a>(lonlat0, lonlat1[, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.proj_icepop" title="kkpy.util.proj_icepop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.proj_icepop</span></code></a>()</p></td>
+<td><p>Return a lambert conformal conic projection for ICE-POP 2018 domain.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.dist_bearing" title="kkpy.util.dist_bearing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.dist_bearing</span></code></a>(lonlat0, lonlat1[, …])</p></td>
 <td><p>Get distance [km] and bearing [deg] between two lon/lat points.</p></td>
 </tr>
 </tbody>
@@ -276,6 +280,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.icepop_sites" title="kkpy.util.icepop_sites"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.icepop_sites</span></code></a>()</p></td>
 <td><p>Get metadata of ICE-POP 2018 sites.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.icepop_extent" title="kkpy.util.icepop_extent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.icepop_extent</span></code></a>()</p></td>
+<td><p>Get extent of ICE-POP 2018 domain.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -295,6 +302,9 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.nanconvolve2d" title="kkpy.util.nanconvolve2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.nanconvolve2d</span></code></a>(slab, kernel[, …])</p></td>
 <td><p>Get 2D convolution with missings ignored.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.stats" title="kkpy.util.stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.stats</span></code></a>(x, y[, fmtbias, fmtrmse, …])</p></td>
+<td><p>Get perpormance matrix BIAS, RMSE, STD, and CORR values and its f-string.</p></td>
 </tr>
 </tbody>
 </table>
@@ -461,8 +471,31 @@
 <code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">proj_dfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#proj_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.proj_dfs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">())</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_dfs</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">126</span><span class="p">],</span> <span class="p">[</span><span class="mi">38</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>proj</strong> – Return a map projection of DFS.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>cartopy projection</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.proj_icepop">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">proj_icepop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#proj_icepop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.proj_icepop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a lambert conformal conic projection for ICE-POP 2018 domain.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">proj_icepop</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">129</span><span class="p">],</span> <span class="p">[</span><span class="mf">37.7</span><span class="p">],</span> <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_extent</span><span class="p">(),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -676,6 +709,24 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="kkpy.util.icepop_extent">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">icepop_extent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_extent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.icepop_extent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get extent of ICE-POP 2018 domain.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_extent</span><span class="p">(),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>list_extent</strong> – Return a list containing lon0, lon1, lat0, and lat1 of default ICE-POP 2018 domain.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="kkpy.util.vel_atlas">
 <code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">vel_atlas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#vel_atlas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.vel_atlas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get Atlas et al. (1973) fall velocity.</p>
@@ -715,6 +766,39 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 <li><p><strong>dD</strong> (<em>array_like</em>) – Array containing the spread of each diameter channel in mm.</p></li>
 <li><p><strong>VD</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing the mean velocity of each diameter channel in m s-1. Vatlas should be False if VD contains data.</p></li>
 <li><p><strong>Vatlas</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if VD is replaced by the velocity-diameter relationship of Atlas et al. (1973).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dict_moments</strong> – Return a dictionary containing the DSD moments: z[mm6 m-3], Z[dBZ], and R[mm hr-1].</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.stats">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">stats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">fmtbias</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtrmse</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtstd</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtcorr</span><span class="o">=</span><span class="default_value">'.3f'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get perpormance matrix BIAS, RMSE, STD, and CORR values and its f-string.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span><span class="p">,</span> <span class="n">str_stat</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">yarr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">str_stat</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span><span class="p">,</span> <span class="n">str_stat</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">yarr</span><span class="p">,</span> <span class="n">fmtbias</span><span class="o">=</span><span class="s1">&#39;.1f&#39;</span><span class="p">,</span> <span class="n">fmtcorr</span><span class="o">=</span><span class="s1">&#39;.2f&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array_like</em>) – Array containing multiple variables and observations.</p></li>
+<li><p><strong>y</strong> (<em>array_like</em>) – Array containing multiple variables and observations. The shape should be same as <strong>x</strong>.</p></li>
+<li><p><strong>fmtbias</strong> (<em>str</em><em>, </em><em>optional</em>) – String format for BIAS. Default is ‘.3f’.</p></li>
+<li><p><strong>fmtrmse</strong> (<em>str</em><em>, </em><em>optional</em>) – String format for RMSE. Default is ‘.3f’.</p></li>
+<li><p><strong>fmtstd</strong> (<em>str</em><em>, </em><em>optional</em>) – String format for STD. Default is ‘.3f’.</p></li>
+<li><p><strong>fmtcorr</strong> (<em>str</em><em>, </em><em>optional</em>) – String format for CORR. Default is ‘.3f’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
