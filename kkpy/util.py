@@ -51,6 +51,7 @@ Miscellaneous
     kkpy.util.std2d
     kkpy.util.nanstd2d
     kkpy.util.nanconvolve2d
+    kkpy.util.stats
 """                                                   
 import numpy as np
 
@@ -784,3 +785,49 @@ def calc_dsdmoments(ND, D, dD, VD=None, Vatlas=False):
     dict_['Z'] = 10*np.log10(dict_['z']) # dBZ
     
     return dict_
+
+def stats(x, y,
+          fmtbias='.3f', fmtrmse='.3f',
+          fmtstd='.3f', fmtcorr='.3f'):
+    """
+    Get perpormance matrix BIAS, RMSE, STD, and CORR values and its f-string.
+    
+    Examples
+    ---------
+    >>> stats, str_stat = kkpy.util.stats(xarr, yarr)
+    >>> print(stats)
+    >>> plt.text(3, 5, str_stat)
+    
+    >>> stats, str_stat = kkpy.util.stats(xarr, yarr, fmtbias='.1f', fmtcorr='.2f')
+    
+    Parameters
+    ----------
+    x : array_like
+        Array containing multiple variables and observations.
+    y : array_like
+        Array containing multiple variables and observations. The shape should be same as **x**.
+    fmtbias : str, optional
+        String format for BIAS. Default is '.3f'.
+    fmtrmse : str, optional
+        String format for RMSE. Default is '.3f'.        
+    fmtstd : str, optional
+        String format for STD. Default is '.3f'.        
+    fmtcorr : str, optional
+        String format for CORR. Default is '.3f'.        
+
+    Returns
+    ---------
+    dict_moments : dictionary
+        Return a dictionary containing the DSD moments: z[mm6 m-3], Z[dBZ], and R[mm hr-1].
+    """
+    import pandas as pd
+    
+    bias = np.nanmean(y - x)
+    rmse = np.nanmean((y - x) ** 2)**0.5
+    std = np.nanstd(y - x)
+    corr = pd.Series(x).corr(pd.Series(y))
+    
+    stats = [bias, rmse, std, corr]
+    str_stat = f'BIAS={bias:.3f}\nRMSE={rmse:.3f}\nSTD={std:.3f}\nCORR={corr:.3f}'
+    
+    return stats, str_stat

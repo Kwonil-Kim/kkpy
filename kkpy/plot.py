@@ -11,6 +11,7 @@ Functions to read and write files
     kkpy.plot.icepop_sites
     kkpy.plot.cartopy_grid
     kkpy.plot.tickint
+    kkpy.plot.scatter
 
 """
 import numpy as np
@@ -267,31 +268,205 @@ def tickint(ax=None, major=None, minor=None, which='both'):
     
     return
 
-def scatter(x, y, color='red', )
-
-
-ax = plt.subplot(gs[i_v])
-    ax.scatter(xvalue, yvalue, color='r', s=0.5)
-    ax.set_xlabel('10-min RR (PAR02) [mm h$^{-1}$]')
-    if i_v == 0:
-        ax.set_ylabel('10-min RR (PAR03) [mm h$^{-1}$]')
-    ax.set_xlim([0,55])
-    ax.set_ylim([0,55])
-    ax.plot([0,55], [0,55], color='k', linestyle='dashed', alpha=0.5, linewidth=0.5)
-    ax.xaxis.set_major_locator(plt.MultipleLocator(10))
-    ax.xaxis.set_minor_locator(plt.MultipleLocator(1))
-    ax.yaxis.set_major_locator(plt.MultipleLocator(10))
-    ax.yaxis.set_minor_locator(plt.MultipleLocator(1))
-    ax.set_aspect('equal')
-    if i_v == 0:
-        plt.title('Before the time adjustment')
-    if i_v == 1:
-        plt.title('After the time adjustment')
+def scatter(x, y,
+            ax=None,
+            color='r', s=0.5,
+            xlabel=None, ylabel=None,
+            xlim=None, ylim=None,
+            alpha=None,
+            identityline=True,
+            identityline_color='k',
+            identityline_linestyle='dashed',
+            identityline_alpha=0.5,
+            identityline_linewidth=0.5,
+            xmajortickint=None,
+            xminortickint=None,
+            ymajortickint=None,
+            yminortickint=None,
+            aspect_equal=False,
+            title=None,
+            score=True,
+            score_loc='lower right',
+            score_fontsize=10,
+            fmtbias='.3f',
+            fmtrmse='.3f',
+            fmtstd='.3f',
+            fmtcorr='.3f'):
+    """
+    Draw scatter plot.
     
-    bias = np.nanmean(yvalue - xvalue)
-    rmse = ((yvalue - xvalue) ** 2).mean() ** 0.5
-    std = (yvalue - xvalue).std()
-    corr = xvalue.corr(yvalue)
-    plt.text(27, 5, f'BIAS={bias:.3f}\nRMSE={rmse:.3f}\nSTD={std:.3f}\nCORR={corr:.3f}')
+    Examples
+    ---------
+    >>> x = np.random.rand(100)
+    >>> y = np.random.rand(100)
+    >>> fig = plt.figure(figsize=(4,4), dpi=300)
+    >>> ax = plt.subplot()
+    >>> scores = kkpy.plot.scatter(x, y, ax=ax)
+    >>> print(scores)
+    >>> plt.show()
+
+    >>> # without score, without identityline
+    >>> kkpy.plot.scatter(x, y, ax=ax, score=False, identityline=False)
     
-    plt.grid()
+    >>> # location of score text #1 (text)
+    >>> scores = kkpy.plot.scatter(x, y, ax=ax, score_loc='lower right')
+
+    >>> # location of score text #2 (list of xpos, ypos)
+    >>> scores = kkpy.plot.scatter(x, y, ax=ax, score_loc=[0.7, 0.05]) # near 'lower right'
+
+    >>> # more complicated options
+    >>> x = np.random.rand(100)
+    >>> y = np.random.rand(100)*3
+    >>> fig = plt.figure(figsize=(4,4), dpi=300)
+    >>> ax = plt.subplot()
+    >>> scores = kkpy.plot.scatter(
+            x, y, ax=ax, aspect_equal=True, score_loc='upper left',
+            xlabel='X', ylabel='Y', xlim=[0,1], ylim=[0,3],
+            title='TITLE', xmajortickint=0.2, xminortickint=0.1,
+            ymajortickint=0.1, score_fontsize=12, fmtstd='.2f',
+            alpha=0.5, s=2, color='g', identityline_color='b',
+            identityline_linewidth=2, identityline_linestyle='solid'
+        )
+    >>> print(scores)
+    >>> plt.show()
+            
+    Parameters
+    ----------
+    x : array_like
+        Array containing multiple variables and observations.
+    y : array_like
+        Array containing multiple variables and observations. The shape should be same as **x**.
+    ax : axes
+        Axes class of matplotlib.
+    color : str, optional
+        Matplotlib color for scatter. Default is 'r'.
+    s : float, optional
+        Matplotlib size for scatter. Default is 0.5.
+    xlabel : str, optional
+        The label text of x axis.
+    ylabel : str, optional
+        The label text of y axis.
+    xlim : list, optional
+        The limits of x axis.
+    ylim : list, optional
+        The limits of y axis.
+    alpha : float, optional
+        Matplotlib alpha for scatter.
+    identityline : boolean, optional
+        True if draw identityline (one-to-one line). Default is True.
+    identityline_color : str, optional
+        Matplotlib color for identity line. Default is 'k'.
+    identityline_linestyle : str, optional
+        Matplotlib linestyle for identity line. Default is 'dashed'.
+    identityline_alpha : float, optional
+        Matplotlib alpha for identity line. Default is 0.5.
+    identityline_linewidth : float, optional
+        Matplotlib linewidth for identity line. Default is 0.5.
+    xmajortickint : float, optional
+        Major tick interval of x axis.
+    xminortickint : float, optional
+        Minor tick interval of x axis.
+    ymajortickint : float, optional
+        Major tick interval of y axis.
+    yminortickint : float, optional
+        Minor tick interval of y axis.
+    aspect_equal : boolean, optional
+        True if ax.set_aspect('equal'). Default is False.
+    title : str, optional
+        Title of the axis.
+    score : boolean, optional
+        True if annotate and return the evaluation score (bias, rmse, std, and corr)
+    score_loc : str, optional
+        Location of the evaluation score text in the plot. Possible options are list([xpos,ypos]), 'upper left', 'upper right', 'lower left', and 'lower right'. The xpos and ypos should be in the 'axes fraction' coordinate. Default is 'lower right'.
+    score_fontsize : float, optional
+        The fontsize of evaluation score text in the plot. Default is 10.
+    fmtbias : str, optional
+        String format for BIAS. Default is '.3f'.
+    fmtrmse : str, optional
+        String format for RMSE. Default is '.3f'.
+    fmtstd : str, optional
+        String format for STD. Default is '.3f'.
+    fmtcorr : str, optional
+        String format for CORR. Default is '.3f'.
+    
+    Returns
+    ---------
+    score : list
+        Return a score **if score is True**, otherwise no return.
+    """
+    from . import util
+    
+    # scatter
+    ax.scatter(x, y, color=color, s=s, alpha=alpha)
+    
+    # xlabel, ylabel
+    if xlabel is not None:
+        ax.set_xlabel(xlabel)
+    if ylabel is not None:
+        ax.set_ylabel(ylabel)
+    
+    # xlim, ylim
+    if xlim is not None:
+        ax.set_xlim(xlim)
+    if ylim is not None:
+        ax.set_ylim(ylim)
+    
+    # tick intervals
+    if xmajortickint is not None:
+        tickint(ax=ax, major=xmajortickint, which='xaxis')
+    if xminortickint is not None:
+        tickint(ax=ax, minor=xminortickint, which='xaxis')
+    if ymajortickint is not None:
+        tickint(ax=ax, major=ymajortickint, which='yaxis')
+    if yminortickint is not None:
+        tickint(ax=ax, minor=yminortickint, which='yaxis')
+    
+    # identityline
+    if identityline:
+        xlim = ax.get_xlim()
+        ylim = ax.get_xlim()
+        ax.plot(xlim, ylim,
+                color=identityline_color,
+                linestyle=identityline_linestyle,
+                alpha=identityline_alpha,
+                linewidth=identityline_linewidth)
+    
+    # aspect_equal
+    if aspect_equal:
+        ax.set_aspect('equal')
+    
+    # title
+    if title is not None:
+        ax.set_title(title)
+    
+    # score
+    if score:
+        scores, str_score = util.stats(x, y,
+                                       fmtbias=fmtbias,
+                                       fmtrmse=fmtrmse,
+                                       fmtstd=fmtstd,
+                                       fmtcorr=fmtcorr)
+        if isinstance(score_loc, list):
+            ax.annotate(str_score, xy=(score_loc[0], score_loc[1]), xycoords='axes fraction')
+        elif isinstance(score_loc, str):
+            if score_loc in 'upper left':
+                ax.annotate(str_score, xy=(0.05, 0.75), xycoords='axes fraction', fontsize=score_fontsize)
+            elif score_loc in 'upper right':
+                ax.annotate(str_score, xy=(0.62, 0.75), xycoords='axes fraction', fontsize=score_fontsize)
+            elif score_loc in 'lower left':
+                ax.annotate(str_score, xy=(0.05, 0.05), xycoords='axes fraction', fontsize=score_fontsize)
+            elif score_loc in 'lower right':
+                ax.annotate(str_score, xy=(0.62, 0.05), xycoords='axes fraction', fontsize=score_fontsize)
+            else:
+                raise ValueError("Invalid score_loc! Possible options are list([xpos,ypos]), 'upper left', 'upper right', 'lower left', and 'lower right'")
+        else:
+            raise ValueError("Invalid score_loc! Possible options are list([xpos,ypos]), 'upper left', 'upper right', 'lower left', and 'lower right'")
+    
+    # grid
+    ax.grid()
+    
+    # return
+    if score:
+        return scores
+    else:
+        return
