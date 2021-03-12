@@ -119,6 +119,14 @@ def icepop_sites(ax=None,
         Cartopy crs. Default is ccrs.PlateCarree().
     zunit : str, optional
         Unit of vertical coordinate if xz or yz is True. Default is 'km'. Possible choices are 'km' or 'm'.
+    include_site : list, optional
+        List of sites you want to include in site points.
+    include_text : list, optional
+        List of sites you want to include in site annotations.
+    exclude_site : list, optional
+        List of sites you want to exclude in site points.
+    exclude_text : list, optional
+        List of sites you want to exclude in site annotations.
     """
     from . import util
     
