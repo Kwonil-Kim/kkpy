@@ -75,11 +75,11 @@ def read_aws(time, date_range=True, datadir='/disk/STORAGE/OBS/AWS/', stnid=None
             _filearr = np.sort(glob.glob(f'{datadir}/{_dt:%Y%m}/{_dt:%d}/AWS_MIN_{_dt:%Y%m%d%H%M}'))
             filearr = np.append(filearr, _filearr)
             _dt = _dt + datetime.timedelta(minutes=1)
-        yyyy_filearr = [np.int(os.path.basename(x)[-12:-8]) for x in filearr]
-        mm_filearr = [np.int(os.path.basename(x)[-8:-6]) for x in filearr]
-        dd_filearr = [np.int(os.path.basename(x)[-6:-4]) for x in filearr]
-        hh_filearr = [np.int(os.path.basename(x)[-4:-2]) for x in filearr]
-        ii_filearr = [np.int(os.path.basename(x)[-2:]) for x in filearr]
+        yyyy_filearr = [int(os.path.basename(x)[-12:-8]) for x in filearr]
+        mm_filearr = [int(os.path.basename(x)[-8:-6]) for x in filearr]
+        dd_filearr = [int(os.path.basename(x)[-6:-4]) for x in filearr]
+        hh_filearr = [int(os.path.basename(x)[-4:-2]) for x in filearr]
+        ii_filearr = [int(os.path.basename(x)[-2:]) for x in filearr]
         dt_filearr = np.array([datetime.datetime(yyyy,mm,dd,hh,ii) for (yyyy,mm,dd,hh,ii) in zip(yyyy_filearr, mm_filearr, dd_filearr, hh_filearr, ii_filearr)])
 
         filearr = filearr[(dt_filearr >= dt_start) & (dt_filearr <= dt_finis)]
@@ -164,9 +164,9 @@ def read_2dvd_rho(time, date_range=True, datadir='/disk/common/kwonil_rainy/RHO_
     """
     # Get file list
     filearr = np.array(np.sort(glob.glob(f'{datadir}/**/{filename}', recursive=True)))
-    yyyy_filearr = [np.int(os.path.basename(x)[-27:-23]) for x in filearr]
-    mm_filearr = [np.int(os.path.basename(x)[-23:-21]) for x in filearr]
-    dd_filearr = [np.int(os.path.basename(x)[-21:-19]) for x in filearr]
+    yyyy_filearr = [int(os.path.basename(x)[-27:-23]) for x in filearr]
+    mm_filearr = [int(os.path.basename(x)[-23:-21]) for x in filearr]
+    dd_filearr = [int(os.path.basename(x)[-21:-19]) for x in filearr]
     dt_filearr = np.array([datetime.datetime(yyyy,mm,dd) for (yyyy, mm, dd) in zip(yyyy_filearr, mm_filearr, dd_filearr)])
 
     if time is None:

@@ -258,7 +258,7 @@ def cross_section_2d(xy0, xy1, x2d, y2d, value2d, linewidth=1, along='x', reduce
     
     # get xaxis
     ixlen, iylen = iend - istart
-    ixsize = np.int(np.ceil(np.hypot(ixlen, iylen) + 1))
+    ixsize = int(np.ceil(np.hypot(ixlen, iylen) + 1))
     if along in 'x':
         xaxis = np.linspace(xy0[0], xy1[0], ixsize)
     else:
