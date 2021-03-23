@@ -303,8 +303,14 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.nanconvolve2d" title="kkpy.util.nanconvolve2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.nanconvolve2d</span></code></a>(slab, kernel[, …])</p></td>
 <td><p>Get 2D convolution with missings ignored.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.stats" title="kkpy.util.stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.stats</span></code></a>(x, y[, fmtbias, fmtrmse, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.derivative" title="kkpy.util.derivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.derivative</span></code></a>(var, cnt_x[, …])</p></td>
+<td><p>Get derivative of 1D or 2D array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.stats" title="kkpy.util.stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.stats</span></code></a>(x, y[, fmtbias, fmtrmse, …])</p></td>
 <td><p>Get perpormance matrix BIAS, RMSE, STD, and CORR values and its f-string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.summary" title="kkpy.util.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.summary</span></code></a>(arr[, cnt_print])</p></td>
+<td><p>Get summary of the array.</p></td>
 </tr>
 </tbody>
 </table>
@@ -810,6 +816,51 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="kkpy.util.summary">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span></em>, <em class="sig-param"><span class="n">cnt_print</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get summary of the array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arr</strong> (<em>array_like</em>) – Array containing multiple variables and observations.</p></li>
+<li><p><strong>cnt_print</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of elements to print.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.derivative">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">derivative</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var</span></em>, <em class="sig-param"><span class="n">cnt_x</span></em>, <em class="sig-param"><span class="n">pixelsize</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.derivative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get derivative of 1D or 2D array.</p>
+<p class="rubric">Examples</p>
+<p># Derivative of 1D array with a window size of 5.
+# Note that the horizontal resolution of xarr is 0.1.
+&gt;&gt;&gt; xarr = np.arange(100)*0.1
+&gt;&gt;&gt; yarr = np.exp(xarr)
+&gt;&gt;&gt; dydx = kkpy.util.derivative(yarr, 5, pixelsize=0.1)</p>
+<p># This example gives the derivative of arr2d along x axis with a window size of 20.
+# Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.
+&gt;&gt;&gt; dzdx = kkpy.util.derivative(arr2d, 20, pixelsize=3000, axis=1)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var</strong> (<em>array_like</em>) – Array containing multiple variables and observations.</p></li>
+<li><p><strong>cnt_x</strong> (<em>int</em>) – The number of the pixel for derivative. This should be odd number. The derivative will be (Y[i+N/2]-Y[i-N/2]) / (N-1).</p></li>
+<li><p><strong>pixelsize</strong> (<em>float</em><em>, </em><em>optional</em>) – The size of one pixel of x axis. If default (1), the derivative means the rate of change on an interval of <strong>one pixel</strong> with resolution of 1.</p></li>
+<li><p><strong>axis</strong> (<em>int</em><em>, </em><em>optional</em>) – Axis along which the derivatives are computed. Default is 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>derivative</strong> – Return a derivative for a given array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
@@ -834,7 +885,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2020, Kwonil Kim
+        &copy; Copyright 2020-2021, Kwonil Kim
 
     </p>
   </div>

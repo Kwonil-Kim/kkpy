@@ -51,6 +51,27 @@ Example Gallery
    :hidden:
 
    /auto_examples/plot_cmap
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Examples showing the calculation of derivative of 1D and 2D arrays. Note that 1) the speed is e...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_derivative_thumb.png
+     :alt: Computing derivative
+
+     :ref:`sphx_glr_auto_examples_plot_derivative.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_derivative
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

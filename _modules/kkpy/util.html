@@ -213,7 +213,9 @@
 <span class="sd">    kkpy.util.std2d</span>
 <span class="sd">    kkpy.util.nanstd2d</span>
 <span class="sd">    kkpy.util.nanconvolve2d</span>
+<span class="sd">    kkpy.util.derivative</span>
 <span class="sd">    kkpy.util.stats</span>
+<span class="sd">    kkpy.util.summary</span>
 <span class="sd">&quot;&quot;&quot;</span>                                                   
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -419,7 +421,7 @@
     
     <span class="c1"># get xaxis</span>
     <span class="n">ixlen</span><span class="p">,</span> <span class="n">iylen</span> <span class="o">=</span> <span class="n">iend</span> <span class="o">-</span> <span class="n">istart</span>
-    <span class="n">ixsize</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">ixlen</span><span class="p">,</span> <span class="n">iylen</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">ixsize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">ixlen</span><span class="p">,</span> <span class="n">iylen</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">along</span> <span class="ow">in</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
         <span class="n">xaxis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xy0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xy1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ixsize</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -993,6 +995,125 @@
     <span class="n">str_stat</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;BIAS=</span><span class="si">{</span><span class="n">bias</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">RMSE=</span><span class="si">{</span><span class="n">rmse</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">STD=</span><span class="si">{</span><span class="n">std</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s1">CORR=</span><span class="si">{</span><span class="n">corr</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span>
     
     <span class="k">return</span> <span class="n">stats</span><span class="p">,</span> <span class="n">str_stat</span></div>
+
+<div class="viewcode-block" id="summary"><a class="viewcode-back" href="../../util.html#kkpy.util.summary">[docs]</a><span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">cnt_print</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get summary of the array.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arr : array_like</span>
+<span class="sd">        Array containing multiple variables and observations.</span>
+<span class="sd">    cnt_print : int, optional</span>
+<span class="sd">        The number of elements to print.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+    <span class="n">cnt</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">count_nan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Nans   </span><span class="si">{</span><span class="n">count_nan</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">count_nan</span><span class="o">/</span><span class="n">arr</span><span class="o">.</span><span class="n">size</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> %)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">cnt</span> <span class="o">&gt;</span> <span class="n">cnt_print</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;First </span><span class="si">{</span><span class="n">cnt_print</span><span class="si">}</span><span class="s1"> values:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">arr</span><span class="p">[:</span><span class="n">cnt_print</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Last </span><span class="si">{</span><span class="n">cnt_print</span><span class="si">}</span><span class="s1"> values:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">arr</span><span class="p">[</span><span class="o">-</span><span class="n">cnt_print</span><span class="p">:]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+        <span class="n">arr_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Lowest </span><span class="si">{</span><span class="n">cnt_print</span><span class="si">}</span><span class="s1"> values:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">arr_sorted</span><span class="p">[:</span><span class="n">cnt_print</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Highest </span><span class="si">{</span><span class="n">cnt_print</span><span class="si">}</span><span class="s1"> values:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">arr_sorted</span><span class="p">[</span><span class="o">-</span><span class="n">cnt_print</span><span class="p">:]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">arr_unique</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Lowest </span><span class="si">{</span><span class="n">cnt_print</span><span class="si">}</span><span class="s1"> unique values:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">arr_unique</span><span class="p">[:</span><span class="n">cnt_print</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Highest </span><span class="si">{</span><span class="n">cnt_print</span><span class="si">}</span><span class="s1"> unique values:</span><span class="se">\n</span><span class="s1"> </span><span class="si">{</span><span class="n">arr_unique</span><span class="p">[</span><span class="o">-</span><span class="n">cnt_print</span><span class="p">:]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+        <span class="n">hist</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Histograms&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hist</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> -- </span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="derivative"><a class="viewcode-back" href="../../util.html#kkpy.util.derivative">[docs]</a><span class="k">def</span> <span class="nf">derivative</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">cnt_x</span><span class="p">,</span> <span class="n">pixelsize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get derivative of 1D or 2D array.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    # Derivative of 1D array with a window size of 5.</span>
+<span class="sd">    # Note that the horizontal resolution of xarr is 0.1.</span>
+<span class="sd">    &gt;&gt;&gt; xarr = np.arange(100)*0.1</span>
+<span class="sd">    &gt;&gt;&gt; yarr = np.exp(xarr)</span>
+<span class="sd">    &gt;&gt;&gt; dydx = kkpy.util.derivative(yarr, 5, pixelsize=0.1)</span>
+<span class="sd">    </span>
+<span class="sd">    # This example gives the derivative of arr2d along x axis with a window size of 20.</span>
+<span class="sd">    # Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.</span>
+<span class="sd">    &gt;&gt;&gt; dzdx = kkpy.util.derivative(arr2d, 20, pixelsize=3000, axis=1)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    var : array_like</span>
+<span class="sd">        Array containing multiple variables and observations.</span>
+<span class="sd">    cnt_x : int</span>
+<span class="sd">        The number of the pixel for derivative. This should be odd number. The derivative will be (Y[i+N/2]-Y[i-N/2]) / (N-1).</span>
+<span class="sd">    pixelsize : float, optional</span>
+<span class="sd">        The size of one pixel of x axis. If default (1), the derivative means the rate of change on an interval of **one pixel** with resolution of 1.</span>
+<span class="sd">    axis : int, optional</span>
+<span class="sd">        Axis along which the derivatives are computed. Default is 0.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    derivative : array_like</span>
+<span class="sd">        Return a derivative for a given array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">astropy.convolution</span>
+
+    <span class="k">if</span> <span class="n">cnt_x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;cnt_x must be odd.&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;dimension size of var should be &lt;= 2&#39;</span><span class="p">)</span>
+
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">cnt_x</span><span class="p">)</span>
+    <span class="n">kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">kernel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    
+    <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,:]</span>
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">convolution</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span>
+            <span class="n">var</span><span class="p">,</span>
+            <span class="n">kernel</span><span class="p">,</span>
+            <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;extend&#39;</span><span class="p">,</span>
+            <span class="n">normalize_kernel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">nan_treatment</span><span class="o">=</span><span class="s1">&#39;fill&#39;</span><span class="p">,</span>
+            <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+            <span class="n">preserve_nan</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">cnt_x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span><span class="o">-</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">var</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">var</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)])</span> <span class="o">/</span> <span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">,:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">),:]</span><span class="o">-</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">,:])</span> <span class="o">/</span> <span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">var</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">,:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span><span class="o">-</span><span class="n">var</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">),:])</span> <span class="o">/</span> <span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">result</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span><span class="p">[:,</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)]</span><span class="o">-</span><span class="n">var</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">var</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">result</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">var</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">var</span><span class="p">[:,</span><span class="n">j</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)])</span> <span class="o">/</span> <span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">j</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">cnt_x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">derivative</span> <span class="o">=</span> <span class="n">result</span> <span class="o">/</span> <span class="n">pixelsize</span>
+    
+    <span class="k">return</span> <span class="n">derivative</span></div>
 </pre></div>
 
            </div>
@@ -1006,7 +1127,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2020, Kwonil Kim
+        &copy; Copyright 2020-2021, Kwonil Kim
 
     </p>
   </div>
