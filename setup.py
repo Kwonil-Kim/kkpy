@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='kkpy',
-    version='0.3.0',
+    version='0.3.1',
 #    packages=find_packages("kkpy", exclude=['tests*']),
     packages=['kkpy'],
     package_dir={'kkpy': 'kkpy'},
@@ -27,7 +27,8 @@ setup(
         'descartes',
         'xarray',
         'bottleneck',
-        'scikit-image'],
+        'scikit-image',
+        'astropy'],
     url='https://github.com/Kwonil-Kim/kkpy',
     author='Kwonil Kim',
     author_email='kwonil.kim.0@gmail.com'

@@ -57,6 +57,14 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 https://www.notion.so/Colormap-8acd230b8dcd42b9953d0bafb93e7e61
 
 # Changelog
+## 0.3.1
+### Added
+ - util: `derivative`
+ - util: `summary`
+### Fixed
+ - plot: Fix docstring of `icepop_sites`
+ - Resolve deprecation warnings from `np.int`, `np.float`
+
 ## 0.3.0
 ### Added
  - util: `proj_icepop`, `icepop_extent`
