@@ -51,6 +51,7 @@ Miscellaneous
     kkpy.util.std2d
     kkpy.util.nanstd2d
     kkpy.util.nanconvolve2d
+    kkpy.util.derivative
     kkpy.util.stats
     kkpy.util.summary
 """                                                   
@@ -869,3 +870,85 @@ def summary(arr, cnt_print=10):
             print(f'{x:.3f} -- {y:.0f}')
         
     return
+
+def derivative(var, cnt_x, pixelsize=1, axis=0):
+    """
+    Get derivative of 1D or 2D array.
+    
+    Examples
+    ---------
+    # Derivative of 1D array with a window size of 5.
+    # Note that the horizontal resolution of xarr is 0.1.
+    >>> xarr = np.arange(100)*0.1
+    >>> yarr = np.exp(xarr)
+    >>> dydx = kkpy.util.derivative(yarr, 5, pixelsize=0.1)
+    
+    # This example gives the derivative of arr2d along x axis with a window size of 20.
+    # Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.
+    >>> dzdx = kkpy.util.derivative(arr2d, 20, pixelsize=3000, axis=1)
+    
+    Parameters
+    ----------
+    var : array_like
+        Array containing multiple variables and observations.
+    cnt_x : int
+        The number of the pixel for derivative. This should be odd number. The derivative will be (Y[i+N/2]-Y[i-N/2]) / (N-1).
+    pixelsize : float, optional
+        The size of one pixel of x axis. If default (1), the derivative means the rate of change on an interval of **one pixel** with resolution of 1.
+    axis : int, optional
+        Axis along which the derivatives are computed. Default is 0.
+        
+    Returns
+    ---------
+    derivative : array_like
+        Return a derivative for a given array.
+    """
+    import astropy.convolution
+
+    if cnt_x % 2 != 1:
+        raise ValueError('cnt_x must be odd.')
+    
+    if var.ndim > 2:
+        raise ValueError('dimension size of var should be <= 2')
+
+    kernel = np.zeros(cnt_x)
+    kernel[0] = 1
+    kernel[-1] = -1
+    
+    if var.ndim == 2:
+        if axis == 0:
+            kernel = kernel[:,np.newaxis]
+        if axis == 1:
+            kernel = kernel[np.newaxis,:]
+    
+    result = astropy.convolution.convolve(
+            var,
+            kernel,
+            boundary='extend',
+            normalize_kernel=False,
+            nan_treatment='fill',
+            fill_value=np.nan,
+            preserve_nan=True
+        ) / (cnt_x-1)
+    
+    if var.ndim == 1:
+        for j in np.arange(int(cnt_x/2)+1):
+            result[j] = (var[j+int(cnt_x/2)]-var[0]) / (j+int(cnt_x/2))
+        for j in np.arange(var.size-1-int(cnt_x/2), var.size):
+            result[j] = (var[-1]-var[j-int(cnt_x/2)]) / (var.size-j+int(cnt_x/2)-1)
+    
+    if var.ndim == 2:
+        if axis == 0:
+            for j in np.arange(int(cnt_x/2)+1):
+                result[j,:] = (var[j+int(cnt_x/2),:]-var[0,:]) / (j+int(cnt_x/2))
+            for j in np.arange(var.shape[0]-1-int(cnt_x/2), var.shape[0]):
+                result[j,:] = (var[-1,:]-var[j-int(cnt_x/2),:]) / (var.shape[0]-j+int(cnt_x/2)-1)
+        if axis == 1:
+            for j in np.arange(int(cnt_x/2)+1):
+                result[:,j] = (var[:,j+int(cnt_x/2)]-var[:,0]) / (j+int(cnt_x/2))
+            for j in np.arange(var.shape[1]-1-int(cnt_x/2), var.shape[1]):
+                result[:,j] = (var[:,-1]-var[:,j-int(cnt_x/2)]) / (var.shape[1]-j+int(cnt_x/2)-1)
+    
+    derivative = result / pixelsize
+    
+    return derivative
