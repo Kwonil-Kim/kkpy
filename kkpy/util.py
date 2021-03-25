@@ -54,7 +54,7 @@ Miscellaneous
     kkpy.util.derivative
     kkpy.util.stats
     kkpy.util.summary
-"""                                                   
+"""
 import numpy as np
 
 def wind2uv(wd=None, ws=None, radians=False, knots=False):

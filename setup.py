@@ -28,7 +28,8 @@ setup(
         'xarray',
         'bottleneck',
         'scikit-image',
-        'astropy'],
+        'astropy',
+        'parse'],
     url='https://github.com/Kwonil-Kim/kkpy',
     author='Kwonil Kim',
     author_email='kwonil.kim.0@gmail.com'
