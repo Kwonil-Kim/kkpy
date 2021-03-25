@@ -17,6 +17,7 @@ dependencies:
 - bottleneck
 - scikit-image
 - astropy
+- parse
 - pip
 - pip:
   - haversine

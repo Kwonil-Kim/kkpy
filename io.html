@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.3.1 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.3.2 documentation</title>
   
 
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -33,7 +36,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -55,7 +57,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> KKpy
+            <a href="index.html" class="icon icon-home"> KKpy
           
 
           
@@ -65,7 +67,7 @@
             
             
               <div class="version">
-                0.3.1
+                0.3.2
               </div>
             
           
@@ -138,6 +140,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -149,7 +153,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/io.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -172,23 +176,26 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_aws" title="kkpy.io.read_aws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_aws</span></code></a>(time[, date_range, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.get_fname" title="kkpy.io.get_fname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.get_fname</span></code></a>(indir, pattern, dt[, …])</p></td>
+<td><p>Get filename matching the datetime and format.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_aws" title="kkpy.io.read_aws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_aws</span></code></a>(time[, date_range, …])</p></td>
 <td><p>Read AWS_MIN files into dataframe.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd_rho" title="kkpy.io.read_2dvd_rho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd_rho</span></code></a>(time[, date_range, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd_rho" title="kkpy.io.read_2dvd_rho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd_rho</span></code></a>(time[, date_range, …])</p></td>
 <td><p>Read 2DVD density files into dataframe.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_mxpol_rhi_with_hc" title="kkpy.io.read_mxpol_rhi_with_hc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_mxpol_rhi_with_hc</span></code></a>(rhifile_nc, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_mxpol_rhi_with_hc" title="kkpy.io.read_mxpol_rhi_with_hc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_mxpol_rhi_with_hc</span></code></a>(rhifile_nc, …)</p></td>
 <td><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_dem" title="kkpy.io.read_dem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_dem</span></code></a>([file, area])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_dem" title="kkpy.io.read_dem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_dem</span></code></a>([file, area])</p></td>
 <td><p>Read NASA SRTM 3-arcsec (90 meters) digital elevation model in South Korea.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt id="kkpy.io.read_aws">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_aws</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/STORAGE/OBS/AWS/'</span></em>, <em class="sig-param"><span class="n">stnid</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dask</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_aws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.io.read_aws" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_aws</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datadir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/disk/STORAGE/OBS/AWS/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stnid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_aws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_aws" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read AWS_MIN files into dataframe.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
@@ -221,7 +228,7 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 
 <dl class="py function">
 <dt id="kkpy.io.read_2dvd_rho">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_2dvd_rho</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">date_range</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">datadir</span><span class="o">=</span><span class="default_value">'/disk/common/kwonil_rainy/RHO_2DVD/'</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">'2DVD_Dapp_v_rho_201*Deq.txt'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_2dvd_rho"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.io.read_2dvd_rho" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_2dvd_rho</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datadir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/disk/common/kwonil_rainy/RHO_2DVD/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2DVD_Dapp_v_rho_201*Deq.txt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_2dvd_rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_2dvd_rho" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read 2DVD density files into dataframe.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
@@ -259,7 +266,7 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 
 <dl class="py function">
 <dt id="kkpy.io.read_mxpol_rhi_with_hc">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_mxpol_rhi_with_hc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rhifile_nc</span></em>, <em class="sig-param"><span class="n">hcfile_mat</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_mxpol_rhi_with_hc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.io.read_mxpol_rhi_with_hc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_mxpol_rhi_with_hc</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rhifile_nc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hcfile_mat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_mxpol_rhi_with_hc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_mxpol_rhi_with_hc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read MXPOL RHI with hydrometeor classification into py-ART radar object.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rhifile</span> <span class="o">=</span> <span class="s1">&#39;/disk/WORKSPACE/kwonil/MXPOL/RAW/2018/02/28/MXPol-polar-20180228-065130-RHI-225_8.nc&#39;</span>
@@ -287,7 +294,7 @@ The number and the order of elements should match with <cite>rhifile_nc</cite>.<
 
 <dl class="py function">
 <dt id="kkpy.io.read_dem">
-<code class="sig-prename descclassname">kkpy.io.</code><code class="sig-name descname">read_dem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">area</span><span class="o">=</span><span class="default_value">'pyeongchang'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_dem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.io.read_dem" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_dem</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pyeongchang'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_dem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_dem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read NASA SRTM 3-arcsec (90 meters) digital elevation model in South Korea.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon_dem</span><span class="p">,</span> <span class="n">lat_dem</span><span class="p">,</span> <span class="n">proj_dem</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;pyeongchang&#39;</span><span class="p">)</span>
@@ -320,6 +327,69 @@ The number and the order of elements should match with <cite>rhifile_nc</cite>.<
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="kkpy.io.get_fname">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">get_fname</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#get_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.get_fname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get filename matching the datetime and format.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get radar filename</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fname</span><span class="p">,</span> <span class="n">fdatetime</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span><span class="s1">&#39;/disk/STORAGE/OBS/Radar/ICE-POP/PPI/NOQC/KST/&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="s1">&#39;%Y%m/</span><span class="si">%d</span><span class="s1">/RDR_GNG_%Y%m</span><span class="si">%d</span><span class="s1">%H%M.uf&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">0</span><span class="p">)])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get AWS filename (no extension)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fname</span><span class="p">,</span> <span class="n">fdatetime</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span><span class="s1">&#39;/disk/STORAGE/OBS/AWS/&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="s1">&#39;%Y%m/</span><span class="si">%d</span><span class="s1">/AWS_MIN_%Y%m</span><span class="si">%d</span><span class="s1">%H%M&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">30</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">28</span><span class="p">)])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get MRR filename (duplicate format - %m)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fname</span><span class="p">,</span> <span class="n">fdatetime</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span><span class="s1">&#39;/disk/STORAGE/OBS/MRR/AveData/&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                              <span class="s1">&#39;%Y%m/%m</span><span class="si">%d</span><span class="s1">.ave&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                              <span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">30</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">28</span><span class="p">)])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get 2DVD filename (one datetime, the use of DOY - %j)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fname</span><span class="p">,</span> <span class="n">fdatetime</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span><span class="s1">&#39;/disk/STORAGE/OBS/2DVD/2dvddata/hyd/&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="s1">&#39;V%y%j_1.txt&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2012</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get MRR-PRO filename (multiple datetimes with pandas)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fname</span><span class="p">,</span> <span class="n">fdatetime</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span><span class="s1">&#39;/disk/STORAGE/OBS/MRR-PRO/&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="s1">&#39;%Y%m/%Y%m</span><span class="si">%d</span><span class="s1">/%Y%m</span><span class="si">%d</span><span class="s1">_%H%M%S.nc&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s1">&#39;2020-06-01&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2020-08-31&#39;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;1D&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="n">date_range</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                             <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>indir</strong> (<em>str</em>) – Path of the root directory. This should <strong>not</strong> have any format string.</p></li>
+<li><p><strong>pattern</strong> (<em>str</em>) – Datetime pattern to match. The directory can be formatted here (eg. %Y%m/%d/sitename/data_%Y%m%d%H%M%S.csv).
+See format code description: <a class="reference external" href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes">https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes</a>.</p></li>
+<li><p><strong>dt</strong> (<em>datetime</em><em> or </em><em>list of datetime</em>) – Datetime of interest to match.
+If a datetime object, find one matched file.
+If list of datetime objects, find matched files for specific datetimes if <strong>`date_range` is False</strong>.
+If list of two datetime objects and <strong>`date_range` is True</strong>, find all matched files within two datetimes.</p></li>
+<li><p><strong>date_range</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if find all matched files within two datetimes. The number of dt should be two if <cite>date_range</cite> is True.
+Return matched files for specific datetimes of <cite>dt</cite> if False. Default is True.</p></li>
+<li><p><strong>verbose</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If True, print warnings ‘File does not exist’ if <strong>`date_range` is False</strong>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>fname</strong> (<em>str or list of str</em>) – Return filename of matched files.</p></li>
+<li><p><strong>fdt</strong> (<em>datetime or list of datetime</em>) – Return datetime of matched files.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
@@ -327,37 +397,29 @@ The number and the order of elements should match with <cite>rhifile_nc</cite>.<
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="util.html" class="btn btn-neutral float-right" title="kkpy.util" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="install.html" class="btn btn-neutral float-left" title="How to install KKpy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="util.html" class="btn btn-neutral float-right" title="kkpy.util" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="install.html" class="btn btn-neutral float-left" title="How to install KKpy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020-2021, Kwonil Kim
+        &#169; Copyright 2020-2021, Kwonil Kim.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

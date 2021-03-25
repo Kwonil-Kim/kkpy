@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.3.1 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.3.2 documentation</title>
   
 
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -33,7 +36,6 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -53,7 +55,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> KKpy
+            <a href="../../index.html" class="icon icon-home"> KKpy
           
 
           
@@ -63,7 +65,7 @@
             
             
               <div class="version">
-                0.3.1
+                0.3.2
               </div>
             
           
@@ -136,6 +138,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -169,6 +173,7 @@
 <span class="sd">.. currentmodule:: io</span>
 
 <span class="sd">.. autosummary::</span>
+<span class="sd">    kkpy.io.get_fname</span>
 <span class="sd">    kkpy.io.read_aws</span>
 <span class="sd">    kkpy.io.read_2dvd_rho</span>
 <span class="sd">    kkpy.io.read_mxpol_rhi_with_hc</span>
@@ -551,34 +556,339 @@
     <span class="n">dem</span><span class="p">[</span><span class="n">dem</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
     <span class="k">return</span> <span class="n">dem</span><span class="p">,</span> <span class="n">lon_dem</span><span class="p">,</span> <span class="n">lat_dem</span><span class="p">,</span> <span class="n">proj_dem</span></div>
+
+<div class="viewcode-block" id="get_fname"><a class="viewcode-back" href="../../io.html#kkpy.io.get_fname">[docs]</a><span class="k">def</span> <span class="nf">get_fname</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">date_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get filename matching the datetime and format.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; # Get radar filename</span>
+<span class="sd">    &gt;&gt;&gt; fname, fdatetime = get_fname(&#39;/disk/STORAGE/OBS/Radar/ICE-POP/PPI/NOQC/KST/&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                              &#39;%Y%m/%d/RDR_GNG_%Y%m%d%H%M.uf&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                              [datetime.datetime(2018,2,28,15,0), datetime.datetime(2018,3,2,16,0)])</span>
+
+<span class="sd">    &gt;&gt;&gt; # Get AWS filename (no extension)</span>
+<span class="sd">    &gt;&gt;&gt; fname, fdatetime = get_fname(&#39;/disk/STORAGE/OBS/AWS/&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                              &#39;%Y%m/%d/AWS_MIN_%Y%m%d%H%M&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                              [datetime.datetime(2018,1,22,5,30), datetime.datetime(2018,1,23,4,28)])</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; # Get MRR filename (duplicate format - %m)</span>
+<span class="sd">    &gt;&gt;&gt; fname, fdatetime = get_fname(&#39;/disk/STORAGE/OBS/MRR/AveData/&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                               &#39;%Y%m/%m%d.ave&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                               [datetime.datetime(2015,8,15,5,30), datetime.datetime(2015,8,17,4,28)])</span>
+
+<span class="sd">    &gt;&gt;&gt; # Get 2DVD filename (one datetime, the use of DOY - %j)</span>
+<span class="sd">    &gt;&gt;&gt; fname, fdatetime = get_fname(&#39;/disk/STORAGE/OBS/2DVD/2dvddata/hyd/&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                              &#39;V%y%j_1.txt&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                              datetime.datetime(2012,2,3))</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; # Get MRR-PRO filename (multiple datetimes with pandas)</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; fname, fdatetime = get_fname(&#39;/disk/STORAGE/OBS/MRR-PRO/&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                              &#39;%Y%m/%Y%m%d/%Y%m%d_%H%M%S.nc&#39;,</span>
+<span class="sd">    &gt;&gt;&gt;                              pd.date_range(start=&#39;2020-06-01&#39;, end=&#39;2020-08-31&#39;, freq=&#39;1D&#39;),</span>
+<span class="sd">    &gt;&gt;&gt;                              date_range=False,</span>
+<span class="sd">    &gt;&gt;&gt;                              verbose=True)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    indir : str</span>
+<span class="sd">        Path of the root directory. This should **not** have any format string.</span>
+<span class="sd">    pattern : str</span>
+<span class="sd">        Datetime pattern to match. The directory can be formatted here (eg. %Y%m/%d/sitename/data_%Y%m%d%H%M%S.csv).</span>
+<span class="sd">        See format code description: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes.</span>
+<span class="sd">    dt : datetime or list of datetime</span>
+<span class="sd">        Datetime of interest to match.</span>
+<span class="sd">        If a datetime object, find one matched file.</span>
+<span class="sd">        If list of datetime objects, find matched files for specific datetimes if **`date_range` is False**.</span>
+<span class="sd">        If list of two datetime objects and **`date_range` is True**, find all matched files within two datetimes.</span>
+<span class="sd">    date_range : boolean, optional</span>
+<span class="sd">        True if find all matched files within two datetimes. The number of dt should be two if `date_range` is True.</span>
+<span class="sd">        Return matched files for specific datetimes of `dt` if False. Default is True.</span>
+<span class="sd">    verbose : boolean, optional</span>
+<span class="sd">        If True, print warnings &#39;File does not exist&#39; if **`date_range` is False**. </span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    fname : str or list of str</span>
+<span class="sd">        Return filename of matched files.</span>
+<span class="sd">    fdt : datetime or list of datetime</span>
+<span class="sd">        Return datetime of matched files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    
+    <span class="c1"># check indir</span>
+    <span class="k">if</span> <span class="n">indir</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;indir should not have datetime format&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># check pattern</span>
+    <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;pattern should have at least one datetime format (eg. %Y%m</span><span class="si">%d</span><span class="s1">)&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># check dt</span>
+    <span class="n">is_dt_list</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="o">|</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_dt_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">):</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">):</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+    
+    <span class="c1"># check if dt is single variable or list</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="n">is_dt_single</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">is_dt_two</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="n">is_dt_multiple</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">2</span>
+    
+    <span class="c1"># check date_range</span>
+    <span class="k">if</span> <span class="n">is_dt_single</span> <span class="ow">or</span> <span class="n">is_dt_multiple</span><span class="p">:</span>
+        <span class="n">date_range</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">date_range</span> <span class="ow">and</span> <span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;dt[0] should be earlier than dt[1] if date_range is True&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># split into the patterns of filename and directory</span>
+    <span class="n">pattern_fn</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">pattern_dir</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pattern</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="k">if</span> <span class="n">is_dt_single</span><span class="p">:</span>
+        <span class="c1"># the easiest case</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">dt</span><span class="si">:{</span><span class="n">pattern</span><span class="si">}}</span><span class="s1">&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">date_range</span><span class="p">:</span>
+            <span class="c1"># the second easiest case</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:{</span><span class="n">pattern</span><span class="si">}}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_dt</span><span class="si">:{</span><span class="n">pattern</span><span class="si">}}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">_dt</span> <span class="ow">in</span> <span class="n">dt</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># check if only the last part of fmt contains format string</span>
+            <span class="n">wh_fmt</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;%&#39;</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)]</span>
+            <span class="n">cnt_fmtstr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">wh_fmt</span><span class="p">)</span>
+            <span class="n">is_dir_clean</span> <span class="o">=</span> <span class="n">cnt_fmtstr</span> <span class="o">==</span> <span class="mi">1</span>
+            
+            <span class="k">if</span> <span class="n">is_dir_clean</span><span class="p">:</span>
+                <span class="c1"># if directory doesn&#39;t contain the format string</span>
+                <span class="c1"># find all files in the directory</span>
+                <span class="n">candidate_fn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_pattern_as_asterisk</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+                
+                <span class="c1"># filename to datetime</span>
+                <span class="n">candidate_dt</span> <span class="o">=</span> <span class="n">_fname2dt</span><span class="p">(</span><span class="n">candidate_fn</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># if directory contain the format string</span>
+                <span class="c1"># find candidate paths</span>
+                <span class="n">dtlist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;1H&#39;</span><span class="p">)</span>
+                <span class="n">candidate_paths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}{</span><span class="n">pattern_dir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">dtlist</span><span class="p">])</span>
+                
+                <span class="c1"># </span>
+                <span class="n">candidate_fn</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">candidate_path</span> <span class="ow">in</span> <span class="n">candidate_paths</span><span class="p">:</span>
+                    <span class="n">candidate_fn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">candidate_path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_pattern_as_asterisk</span><span class="p">(</span><span class="n">pattern_fn</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+                
+                <span class="c1"># flatten list (the fastest way)</span>
+                <span class="n">candidate_fn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">candidate_fn</span><span class="p">,</span> <span class="p">[]))</span>
+                
+                <span class="c1"># filename to datetime</span>
+                <span class="n">candidate_dt</span> <span class="o">=</span> <span class="n">_fname2dt</span><span class="p">(</span><span class="n">candidate_fn</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            
+            <span class="c1"># match with the datetime range</span>
+            <span class="n">lowest_dtfmt</span> <span class="o">=</span> <span class="n">_get_lowest_order_datetimeformat</span><span class="p">(</span><span class="n">pattern_fn</span><span class="p">)</span>
+            <span class="n">one_order_lower</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;%Y&#39;</span><span class="p">:</span> <span class="s1">&#39;%m&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;%m&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;%H%M%S&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;%j&#39;</span><span class="p">:</span> <span class="s1">&#39;%H%M%S&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;%H&#39;</span><span class="p">:</span> <span class="s1">&#39;%M%S&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;%M&#39;</span><span class="p">:</span> <span class="s1">&#39;%S&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;%S&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%f</span><span class="s1">&#39;</span>
+            <span class="p">}</span>
+            <span class="n">default_dtvalue</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;%m&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s1">&#39;%H%M%S&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s1">&#39;%M%S&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s1">&#39;%S&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s1">&#39;</span><span class="si">%f</span><span class="s1">&#39;</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">}</span>
+            <span class="n">lower_dtfmt</span> <span class="o">=</span> <span class="n">one_order_lower</span><span class="p">[</span><span class="n">lowest_dtfmt</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lower_dtfmt</span><span class="p">))</span> <span class="o">!=</span> <span class="n">default_dtvalue</span><span class="p">[</span><span class="n">lower_dtfmt</span><span class="p">]:</span>
+                <span class="c1"># Truncate unnecessary start time (eg. filename: 20180228, start_datetime: 20180228 13:00 --&gt; 20180228 00:00)</span>
+                <span class="n">dt0_trunc</span> <span class="o">=</span> <span class="n">_truncate_unnecessary_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lower_dtfmt</span><span class="p">)</span>
+                <span class="n">wh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">candidate_dt</span> <span class="o">&gt;=</span> <span class="n">dt0_trunc</span><span class="p">,</span> <span class="n">candidate_dt</span> <span class="o">&lt;=</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">wh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">candidate_dt</span> <span class="o">&gt;=</span> <span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">candidate_dt</span> <span class="o">&lt;=</span> <span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+            
+            <span class="c1"># check if any file found</span>
+            <span class="k">if</span> <span class="n">wh</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">candidate_dt</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;No matched file found&#39;</span><span class="p">)</span>
+            
+            <span class="c1"># store matched files only</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="n">candidate_fn</span><span class="p">[</span><span class="n">wh</span><span class="p">]</span>
+
+        <span class="c1"># get rid of duplicated files</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    
+    <span class="c1"># check if file exists</span>
+    <span class="n">fname_exist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_fname</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">_fname</span><span class="p">):</span>
+            <span class="n">fname_exist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_fname</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;File does not exist: </span><span class="si">{</span><span class="n">_fname</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fname_exist</span><span class="p">)</span>
+    
+    <span class="c1"># prepare a return</span>
+    <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;No matched file found&#39;</span><span class="p">)</span>
+    <span class="n">fdt</span> <span class="o">=</span> <span class="n">_fname2dt</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_dt_single</span><span class="p">:</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">fname</span><span class="p">,</span> <span class="n">fdt</span></div>
+
+<span class="k">def</span> <span class="nf">_fname2dt</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get datetime from the filename.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">re</span>
+    <span class="kn">import</span> <span class="nn">parse</span>
+    
+    <span class="n">fnames</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+    
+    <span class="n">dt</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">clean_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">dtfmt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;(</span><span class="se">\\</span><span class="s1">%\D)&#39;</span><span class="p">,</span> <span class="n">clean_pattern</span><span class="p">)</span>
+
+    <span class="c1"># for duplicated datetime format</span>
+    <span class="n">is_duplicate</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">dtfmt</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dtfmt</span><span class="p">)</span>
+    <span class="n">replace</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;(%Y)&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{Y:04d}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;(%m)&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{m:02d}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;(</span><span class="si">%d</span><span class="s1">)&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{d:02d}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;(%j)&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{j:03d}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;(%H)&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{H:02d}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;(%M)&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{M:02d}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;(%S)&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{S:02d}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="mi">2020</span><span class="p">,</span>
+        <span class="s1">&#39;m&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">}</span>
+    
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+        <span class="n">clean_fname</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_duplicate</span><span class="p">:</span>
+            <span class="n">_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">clean_fname</span><span class="p">,</span> <span class="n">clean_pattern</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parse_pattern</span> <span class="o">=</span> <span class="n">clean_pattern</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">replace</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">parse_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">replace</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">parse_pattern</span><span class="p">)</span>
+            <span class="n">parsed</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">parse_pattern</span><span class="p">,</span> <span class="n">clean_fname</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;j&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">named</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="c1"># set default value if no datetime key is found</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">default</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">named</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">parsed</span><span class="o">.</span><span class="n">named</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="n">_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">],</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">],</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">],</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">],</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">],</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># set default value if no datetime key is found</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">named</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">parsed</span><span class="o">.</span><span class="n">named</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="n">_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">],</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">],</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;j&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">dt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_dt</span><span class="p">)</span>
+
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fnames</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">dt</span>
+
+<span class="k">def</span> <span class="nf">_pattern_as_asterisk</span><span class="p">(</span><span class="n">pattern</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Replace recurring %D (D: character) in the datetime pattern to asterisk.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">re</span>
+    
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;(</span><span class="se">\\</span><span class="s2">%\D)+&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_get_lowest_order_datetimeformat</span><span class="p">(</span><span class="n">pattern</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the lowest order of datetime format in the pattern.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">re</span>
+    
+    <span class="n">dtfmts</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;(</span><span class="se">\\</span><span class="s1">%\D)&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+    <span class="n">fmt2new</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;%Y&#39;</span><span class="p">:</span> <span class="s1">&#39;%Y&#39;</span><span class="p">,</span> <span class="c1"># year</span>
+        <span class="s1">&#39;%y&#39;</span><span class="p">:</span> <span class="s1">&#39;%Y&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;</span><span class="si">%G</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;%Y&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;%m&#39;</span><span class="p">:</span> <span class="s1">&#39;%m&#39;</span><span class="p">,</span> <span class="c1"># month</span>
+        <span class="s1">&#39;%B&#39;</span><span class="p">:</span> <span class="s1">&#39;%m&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;%b&#39;</span><span class="p">:</span> <span class="s1">&#39;%m&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="c1"># day</span>
+        <span class="s1">&#39;%j&#39;</span><span class="p">:</span> <span class="s1">&#39;%j&#39;</span><span class="p">,</span> <span class="c1"># day of the year</span>
+        <span class="s1">&#39;%H&#39;</span><span class="p">:</span> <span class="s1">&#39;%H&#39;</span><span class="p">,</span> <span class="c1"># hour</span>
+        <span class="s1">&#39;%I&#39;</span><span class="p">:</span> <span class="s1">&#39;%H&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;%M&#39;</span><span class="p">:</span> <span class="s1">&#39;%M&#39;</span><span class="p">,</span> <span class="c1"># minute</span>
+        <span class="s1">&#39;%S&#39;</span><span class="p">:</span> <span class="s1">&#39;%S&#39;</span><span class="p">,</span> <span class="c1"># second</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">_fmt</span> <span class="ow">in</span> <span class="n">dtfmts</span><span class="p">:</span>
+        <span class="n">lowest_fmt</span> <span class="o">=</span> <span class="n">fmt2new</span><span class="p">[</span><span class="n">_fmt</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">lowest_fmt</span>
+
+<span class="k">def</span> <span class="nf">_truncate_unnecessary_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">highest_fmt_unnecessary</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Truncate unnecessary datetime.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;%m&#39;</span> <span class="ow">in</span> <span class="n">highest_fmt_unnecessary</span><span class="p">:</span>
+        <span class="n">dt_trunc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">highest_fmt_unnecessary</span><span class="p">:</span>
+        <span class="n">dt_trunc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">day</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;%H%M%S&#39;</span> <span class="ow">in</span> <span class="n">highest_fmt_unnecessary</span><span class="p">:</span>
+        <span class="n">dt_trunc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;%M%S&#39;</span> <span class="ow">in</span> <span class="n">highest_fmt_unnecessary</span><span class="p">:</span>
+        <span class="n">dt_trunc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;%S&#39;</span> <span class="ow">in</span> <span class="n">highest_fmt_unnecessary</span><span class="p">:</span>
+        <span class="n">dt_trunc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;</span><span class="si">%f</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">highest_fmt_unnecessary</span><span class="p">:</span>
+        <span class="n">dt_trunc</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;Something wrong!! Please report an issue to GitHub with error log&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">dt_trunc</span>
 </pre></div>
 
            </div>
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020-2021, Kwonil Kim
+        &#169; Copyright 2020-2021, Kwonil Kim.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
