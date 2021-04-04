@@ -792,7 +792,7 @@ def stats(x, y,
           fmtbias='.3f', fmtrmse='.3f',
           fmtstd='.3f', fmtcorr='.3f'):
     """
-    Get perpormance matrix BIAS, RMSE, STD, and CORR values and its f-string.
+    Get performance matrix BIAS, RMSE, STD, and CORR values and its f-string.
     
     Examples
     ---------
@@ -878,14 +878,14 @@ def derivative(var, cnt_x, pixelsize=1, axis=0):
     
     Examples
     ---------
-    # Derivative of 1D array with a window size of 5.
-    # Note that the horizontal resolution of xarr is 0.1.
+    >>> # Derivative of 1D array with a window size of 5.
+    >>> # Note that the horizontal resolution of xarr is 0.1.
     >>> xarr = np.arange(100)*0.1
     >>> yarr = np.exp(xarr)
     >>> dydx = kkpy.util.derivative(yarr, 5, pixelsize=0.1)
     
-    # This example gives the derivative of arr2d along x axis with a window size of 20.
-    # Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.
+    >>> # This example gives the derivative of arr2d along x axis with a window size of 20.
+    >>> # Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.
     >>> dzdx = kkpy.util.derivative(arr2d, 20, pixelsize=3000, axis=1)
     
     Parameters
