@@ -346,7 +346,7 @@ def read_dem(file=None, area='pyeongchang'):
     ---------
     >>> dem, lon_dem, lat_dem, proj_dem = kkpy.io.read_dem(area='pyeongchang')
     >>> ax = plt.subplot(projection=ccrs.PlateCarree())
-    >>> pm = ax.pcolormesh(lon_dem, lat_dem, dem.T, cmap=cmap, vmin=0, transform=ccrs.PlateCarree())
+    >>> pm = ax.pcolormesh(lon_dem, lat_dem, dem, cmap=cmap, vmin=0, transform=ccrs.PlateCarree())
     
     >>> dem, lon_dem, lat_dem, proj_dem = kkpy.io.read_dem(area='korea')
     
