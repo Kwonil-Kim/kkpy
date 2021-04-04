@@ -56,9 +56,16 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ```
 
 ## List of colormap
-https://www.notion.so/Colormap-8acd230b8dcd42b9953d0bafb93e7e61
+![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.3.3
+### Fixed
+ - util: Fix wrong MHS location in `icepop_sites`
+ - util: Fix `stats` to address NaN for highest N values
+ - util: Fix docstring typos in `stats` and `derivative`
+ - io: Fix example of `read_dem`
+
 ## 0.3.2
 ### Added
  - io: `get_fname`
