@@ -857,6 +857,7 @@ def summary(arr, cnt_print=10):
         print(f'First {cnt_print} values:\n {arr[:cnt_print]}\n')
         print(f'Last {cnt_print} values:\n {arr[-cnt_print:]}\n')
         
+        arr = arr[~np.isnan(arr)]
         arr_sorted = np.sort(arr)
         print(f'Lowest {cnt_print} values:\n {arr_sorted[:cnt_print]}\n')
         print(f'Highest {cnt_print} values:\n {arr_sorted[-cnt_print:]}\n')
