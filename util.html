@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.util &mdash; KKpy 0.3.2 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.3.3 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.3.3
               </div>
             
           
@@ -311,7 +311,7 @@
 <td><p>Get derivative of 1D or 2D array.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.stats" title="kkpy.util.stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.stats</span></code></a>(x, y[, fmtbias, fmtrmse, …])</p></td>
-<td><p>Get perpormance matrix BIAS, RMSE, STD, and CORR values and its f-string.</p></td>
+<td><p>Get performance matrix BIAS, RMSE, STD, and CORR values and its f-string.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.summary" title="kkpy.util.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.summary</span></code></a>(arr[, cnt_print])</p></td>
 <td><p>Get summary of the array.</p></td>
@@ -790,7 +790,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 <dl class="py function">
 <dt id="kkpy.util.stats">
 <code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">stats</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtbias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.3f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtrmse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.3f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtstd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.3f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.3f'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.stats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get perpormance matrix BIAS, RMSE, STD, and CORR values and its f-string.</p>
+<dd><p>Get performance matrix BIAS, RMSE, STD, and CORR values and its f-string.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span><span class="p">,</span> <span class="n">str_stat</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">yarr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
@@ -839,14 +839,18 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 <code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">derivative</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cnt_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixelsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.derivative" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get derivative of 1D or 2D array.</p>
 <p class="rubric">Examples</p>
-<p># Derivative of 1D array with a window size of 5.
-# Note that the horizontal resolution of xarr is 0.1.
-&gt;&gt;&gt; xarr = np.arange(100)*0.1
-&gt;&gt;&gt; yarr = np.exp(xarr)
-&gt;&gt;&gt; dydx = kkpy.util.derivative(yarr, 5, pixelsize=0.1)</p>
-<p># This example gives the derivative of arr2d along x axis with a window size of 20.
-# Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.
-&gt;&gt;&gt; dzdx = kkpy.util.derivative(arr2d, 20, pixelsize=3000, axis=1)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Derivative of 1D array with a window size of 5.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Note that the horizontal resolution of xarr is 0.1.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">yarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">xarr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dydx</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">yarr</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">pixelsize</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># This example gives the derivative of arr2d along x axis with a window size of 20.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dzdx</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">pixelsize</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

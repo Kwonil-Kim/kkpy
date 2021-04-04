@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.3.2 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.3.3 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.3.2
+                0.3.3
               </div>
             
           
@@ -512,7 +512,7 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; dem, lon_dem, lat_dem, proj_dem = kkpy.io.read_dem(area=&#39;pyeongchang&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; ax = plt.subplot(projection=ccrs.PlateCarree())</span>
-<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon_dem, lat_dem, dem.T, cmap=cmap, vmin=0, transform=ccrs.PlateCarree())</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon_dem, lat_dem, dem, cmap=cmap, vmin=0, transform=ccrs.PlateCarree())</span>
 <span class="sd">    </span>
 <span class="sd">    &gt;&gt;&gt; dem, lon_dem, lat_dem, proj_dem = kkpy.io.read_dem(area=&#39;korea&#39;)</span>
 <span class="sd">    </span>
