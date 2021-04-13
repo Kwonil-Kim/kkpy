@@ -299,7 +299,14 @@ def scatter(x, y,
             fmtbias='.3f',
             fmtrmse='.3f',
             fmtstd='.3f',
-            fmtcorr='.3f'):
+            fmtcorr='.3f',
+            grid=True,
+            grid_color=None,
+            grid_linestyle=None,
+            grid_alpha=None,
+            grid_linewidth=None,
+            grid_zorder=None,
+            grid_which='both'):
     """
     Draw scatter plot.
     
@@ -396,6 +403,27 @@ def scatter(x, y,
         String format for STD. Default is '.3f'.
     fmtcorr : str, optional
         String format for CORR. Default is '.3f'.
+    grid : boolean, optioinal
+        True if draw grid.
+        .. versionadded:: 0.3.4
+    grid_color : str, optioinal
+        Matplotlib color for grid.
+        .. versionadded:: 0.3.4
+    grid_linestyle : str, optioinal
+        Matplotlib linestyle for grid.
+        .. versionadded:: 0.3.4
+    grid_alpha : str, optioinal
+        Matplotlib alpha for grid.
+        .. versionadded:: 0.3.4
+    grid_linewidth : str, optioinal
+        Matplotlib linewidth for grid.
+        .. versionadded:: 0.3.4
+    grid_zorder : str, optioinal
+        Matplotlib zorder for grid.
+        .. versionadded:: 0.3.4
+    grid_which : str, optioinal
+        The axis to draw the grid on. Possible options are 'both', 'xaxis', and 'yaxis'. Default is 'both'.
+        .. versionadded:: 0.3.4
     
     Returns
     ---------
@@ -471,7 +499,13 @@ def scatter(x, y,
             raise ValueError("Invalid score_loc! Possible options are list([xpos,ypos]), 'upper left', 'upper right', 'lower left', and 'lower right'")
     
     # grid
-    ax.grid()
+    if grid:
+        ax.grid(color=grid_color,
+                linestyle=grid_linestyle,
+                alpha=grid_alpha,
+                linewidth=grid_linewidth,
+                zorder=grid_zorder,
+                which=grid_which)
     
     # return
     if score:
