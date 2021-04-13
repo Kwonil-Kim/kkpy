@@ -139,17 +139,29 @@ def icepop_sites(ax=None,
     
     if xz:
         for lon, lat, hgt, site in util.icepop_sites():
-            if zunit in 'km':
+            if zunit in ['km']:
                 hgt = hgt/1e3
-            ax.plot(lon, hgt, marker=marker, color=color, markersize=markersize, alpha=alpha)
-            ax.text(lon+textmargin, hgt, site, verticalalignment=verticalalignment, fontsize=fontsize, color=textcolor)
+            elif zunit in ['m']:
+                pass
+            else:
+                raise ValueError("Possible zunit options: 'km' or 'm'")
+            if site in include_site and not site in exclude_site:
+                ax.plot(lon, hgt, marker=marker, color=color, markersize=markersize, alpha=alpha)
+                if site in include_text and not site in exclude_text:
+                    ax.text(lon+textmargin, hgt, site, verticalalignment=verticalalignment, fontsize=fontsize, color=textcolor)
     
     if yz:
         for lon, lat, hgt, site in util.icepop_sites():
-            if zunit in 'km':
+            if zunit in ['km']:
                 hgt = hgt/1e3
-            ax.plot(lat, hgt, marker=marker, color=color, markersize=markersize, alpha=alpha)
-            ax.text(lat+textmargin, hgt, site, verticalalignment=verticalalignment, fontsize=fontsize, color=textcolor)
+            elif zunit in ['m']:
+                pass
+            else:
+                raise ValueError("Possible zunit options: 'km' or 'm'")
+            if site in include_site and not site in exclude_site:
+                ax.plot(lat, hgt, marker=marker, color=color, markersize=markersize, alpha=alpha)
+                if site in include_text and not site in exclude_text:
+                    ax.text(lat+textmargin, hgt, site, verticalalignment=verticalalignment, fontsize=fontsize, color=textcolor)
     
     return
 
