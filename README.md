@@ -59,6 +59,11 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.3.4
+### Fixed
+ - plot: Fix zunit and include/exclude sites in `icepop_sites`
+ - plot: Add grid options in `scatter`
+
 ## 0.3.3
 ### Fixed
  - util: Fix wrong MHS location in `icepop_sites`
