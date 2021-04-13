@@ -4,3 +4,5 @@ kkpy/__pycache__
 kkpy.egg-info/
 .ipynb_checkpoints
 dist/*.tar.gz
+build/
+.vscode/
