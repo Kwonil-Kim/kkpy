@@ -12,6 +12,7 @@ Functions to read and write files
     kkpy.plot.cartopy_grid
     kkpy.plot.tickint
     kkpy.plot.scatter
+    kkpy.plot.density2d
 
 """
 import numpy as np
@@ -313,11 +314,11 @@ def scatter(x, y,
             fmtstd='.3f',
             fmtcorr='.3f',
             grid=True,
-            grid_color=None,
-            grid_linestyle=None,
+            grid_color='#b0b0b0',
+            grid_linestyle='-',
             grid_alpha=None,
-            grid_linewidth=None,
-            grid_zorder=None,
+            grid_linewidth=0.8,
+            grid_zorder=2.0,
             grid_which='both'):
     """
     Draw scatter plot.
@@ -458,6 +459,250 @@ def scatter(x, y,
         ax.set_xlim(xlim)
     if ylim is not None:
         ax.set_ylim(ylim)
+    
+    # tick intervals
+    if xmajortickint is not None:
+        tickint(ax=ax, major=xmajortickint, which='xaxis')
+    if xminortickint is not None:
+        tickint(ax=ax, minor=xminortickint, which='xaxis')
+    if ymajortickint is not None:
+        tickint(ax=ax, major=ymajortickint, which='yaxis')
+    if yminortickint is not None:
+        tickint(ax=ax, minor=yminortickint, which='yaxis')
+    
+    # identityline
+    if identityline:
+        xlim = ax.get_xlim()
+        ylim = ax.get_xlim()
+        ax.plot(xlim, ylim,
+                color=identityline_color,
+                linestyle=identityline_linestyle,
+                alpha=identityline_alpha,
+                linewidth=identityline_linewidth)
+    
+    # aspect_equal
+    if aspect_equal:
+        ax.set_aspect('equal')
+    
+    # title
+    if title is not None:
+        ax.set_title(title)
+    
+    # score
+    if score:
+        scores, str_score = util.stats(x, y,
+                                       fmtbias=fmtbias,
+                                       fmtrmse=fmtrmse,
+                                       fmtstd=fmtstd,
+                                       fmtcorr=fmtcorr)
+        if isinstance(score_loc, list):
+            ax.annotate(str_score, xy=(score_loc[0], score_loc[1]), xycoords='axes fraction')
+        elif isinstance(score_loc, str):
+            if score_loc in 'upper left':
+                ax.annotate(str_score, xy=(0.05, 0.75), xycoords='axes fraction', fontsize=score_fontsize)
+            elif score_loc in 'upper right':
+                ax.annotate(str_score, xy=(0.62, 0.75), xycoords='axes fraction', fontsize=score_fontsize)
+            elif score_loc in 'lower left':
+                ax.annotate(str_score, xy=(0.05, 0.05), xycoords='axes fraction', fontsize=score_fontsize)
+            elif score_loc in 'lower right':
+                ax.annotate(str_score, xy=(0.62, 0.05), xycoords='axes fraction', fontsize=score_fontsize)
+            else:
+                raise ValueError("Invalid score_loc! Possible options are list([xpos,ypos]), 'upper left', 'upper right', 'lower left', and 'lower right'")
+        else:
+            raise ValueError("Invalid score_loc! Possible options are list([xpos,ypos]), 'upper left', 'upper right', 'lower left', and 'lower right'")
+    
+    # grid
+    if grid:
+        ax.grid(color=grid_color,
+                linestyle=grid_linestyle,
+                alpha=grid_alpha,
+                linewidth=grid_linewidth,
+                zorder=grid_zorder,
+                which=grid_which)
+    
+    # return
+    if score:
+        return scores
+    else:
+        return
+
+def density2d(x, y,
+            ax=None,
+            xlabel=None, ylabel=None,
+            xlim=None, ylim=None,
+            identityline=True,
+            identityline_color='k',
+            identityline_linestyle='dashed',
+            identityline_alpha=0.5,
+            identityline_linewidth=0.5,
+            xmajortickint=None,
+            xminortickint=None,
+            ymajortickint=None,
+            yminortickint=None,
+            aspect_equal=False,
+            title=None,
+            score=True,
+            score_loc='lower right',
+            score_fontsize=10,
+            fmtbias='.3f',
+            fmtrmse='.3f',
+            fmtstd='.3f',
+            fmtcorr='.3f',
+            grid=True,
+            grid_color='#b0b0b0',
+            grid_linestyle='-',
+            grid_alpha=None,
+            grid_linewidth=0.8,
+            grid_zorder=2.0,
+            grid_which='both',
+            bins=100,
+            cmap=None):
+    """
+    Draw 2D density plot.
+    
+    Examples
+    ---------
+    >>> x = np.random.rand(100)
+    >>> y = np.random.rand(100)
+    >>> fig = plt.figure(figsize=(4,4), dpi=300)
+    >>> ax = plt.subplot()
+    >>> scores = kkpy.plot.density2d(x, y, ax=ax)
+    >>> print(scores)
+    >>> plt.show()
+
+    >>> # without score, without identityline
+    >>> kkpy.plot.density2d(x, y, ax=ax, score=False, identityline=False)
+    
+    >>> # location of score text #1 (text)
+    >>> scores = kkpy.plot.density2d(x, y, ax=ax, score_loc='lower right')
+
+    >>> # location of score text #2 (list of xpos, ypos)
+    >>> scores = kkpy.plot.density2d(x, y, ax=ax, score_loc=[0.7, 0.05]) # near 'lower right'
+
+    >>> # more complicated options
+    >>> x = np.random.rand(100)
+    >>> y = np.random.rand(100)*3
+    >>> fig = plt.figure(figsize=(4,4), dpi=300)
+    >>> ax = plt.subplot()
+    >>> scores = kkpy.plot.density2d(
+            x, y, ax=ax, score_loc='upper left',
+            xlabel='X', ylabel='Y', xlim=[0,2], ylim=[0,3],
+            title='TITLE', xmajortickint=0.2, xminortickint=0.1,
+            ymajortickint=0.1, score_fontsize=12, fmtstd='.2f',
+            identityline_color='b', identityline_linewidth=2,
+            identityline_linestyle='solid'
+        )
+    >>> print(scores)
+    >>> plt.show()
+            
+    Parameters
+    ----------
+    x : array_like
+        Array containing multiple variables and observations.
+    y : array_like
+        Array containing multiple variables and observations. The shape should be same as **x**.
+    ax : axes
+        Axes class of matplotlib.
+    xlabel : str, optional
+        The label text of x axis.
+    ylabel : str, optional
+        The label text of y axis.
+    xlim : list, optional
+        The limits of x axis.
+    ylim : list, optional
+        The limits of y axis.
+    alpha : float, optional
+        Matplotlib alpha for scatter.
+    identityline : boolean, optional
+        True if draw identityline (one-to-one line). Default is True.
+    identityline_color : str, optional
+        Matplotlib color for identity line. Default is 'k'.
+    identityline_linestyle : str, optional
+        Matplotlib linestyle for identity line. Default is 'dashed'.
+    identityline_alpha : float, optional
+        Matplotlib alpha for identity line. Default is 0.5.
+    identityline_linewidth : float, optional
+        Matplotlib linewidth for identity line. Default is 0.5.
+    xmajortickint : float, optional
+        Major tick interval of x axis.
+    xminortickint : float, optional
+        Minor tick interval of x axis.
+    ymajortickint : float, optional
+        Major tick interval of y axis.
+    yminortickint : float, optional
+        Minor tick interval of y axis.
+    aspect_equal : boolean, optional
+        True if ax.set_aspect('equal'). Default is False.
+    title : str, optional
+        Title of the axis.
+    score : boolean, optional
+        True if annotate and return the evaluation score (bias, rmse, std, and corr)
+    score_loc : str, optional
+        Location of the evaluation score text in the plot. Possible options are list([xpos,ypos]), 'upper left', 'upper right', 'lower left', and 'lower right'. The xpos and ypos should be in the 'axes fraction' coordinate. Default is 'lower right'.
+    score_fontsize : float, optional
+        The fontsize of evaluation score text in the plot. Default is 10.
+    fmtbias : str, optional
+        String format for BIAS. Default is '.3f'.
+    fmtrmse : str, optional
+        String format for RMSE. Default is '.3f'.
+    fmtstd : str, optional
+        String format for STD. Default is '.3f'.
+    fmtcorr : str, optional
+        String format for CORR. Default is '.3f'.
+    grid : boolean, optioinal
+        True if draw grid.
+    grid_color : str, optioinal
+        Matplotlib color for grid.
+    grid_linestyle : str, optioinal
+        Matplotlib linestyle for grid.
+    grid_alpha : float, optioinal
+        Matplotlib alpha for grid.
+    grid_linewidth : float, optioinal
+        Matplotlib linewidth for grid.
+    grid_zorder : float, optioinal
+        Matplotlib zorder for grid.
+    grid_which : str, optioinal
+        The axis to draw the grid on. Possible options are 'both', 'xaxis', and 'yaxis'. Default is 'both'.
+    bins : int or array_like
+        Identical to bins of Matplotlib hist2d. Default is 100.
+    cmap : obj
+        Matplotlib cmap.
+
+    Returns
+    ---------
+    score : list
+        Return a score **if score is True**, otherwise no return.
+    """
+    from . import util
+    import scipy.stats
+
+    # xlim, ylim
+    if xlim is not None:
+        if ylim is not None:
+            range=[xlim, ylim]
+            ax.set_xlim(xlim)
+            ax.set_ylim(ylim)
+        else:
+            raise ValueError('Both xlim and ylim should be defined if one of them is given')
+    else:
+        range=None
+    
+    hist2d, xedge, yedge, _ = scipy.stats.binned_statistic_2d(
+        x, y, np.zeros(x.size),
+        statistic='count',
+        bins=bins,
+        range=range)
+    
+    hist2d[hist2d == 0] = np.nan
+    
+    pm = ax.pcolormesh(xedge, yedge, hist2d, cmap=cmap, shading='flat')
+    plt.colorbar(pm, ax=ax)
+    
+    # xlabel, ylabel
+    if xlabel is not None:
+        ax.set_xlabel(xlabel)
+    if ylabel is not None:
+        ax.set_ylabel(ylabel)
     
     # tick intervals
     if xmajortickint is not None:
