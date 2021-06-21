@@ -87,7 +87,7 @@ def wind2uv(wd=None, ws=None, radians=False, knots=False):
         wd = np.radians(wd)
     
     if knots:
-        ws = ms2knot(ws)
+        ws = knot2ms(ws)
     
     u = -ws * np.sin(wd)
     v = -ws * np.cos(wd)
