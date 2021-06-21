@@ -370,25 +370,21 @@ def read_dem(file=None, area='pyeongchang'):
     proj_dem : osr object
         Spatial reference system of the used coordinates.
     """
+    import cartopy.crs as ccrs
     
-    import wradlib as wrl
-    
-    if file is not None:
-        ds = wrl.io.open_raster(file)
+    if area in 'pyeongchang':
+        dem = np.load('/disk/WORKSPACE/kwonil/SRTM3_V2.1/NPY/pyeongchang_90m_dem.npy')
+        lon_dem = np.load('/disk/WORKSPACE/kwonil/SRTM3_V2.1/NPY/pyeongchang_90m_lon.npy')
+        lat_dem = np.load('/disk/WORKSPACE/kwonil/SRTM3_V2.1/NPY/pyeongchang_90m_lat.npy')
+    elif area in 'korea':
+        dem = np.load('/disk/WORKSPACE/kwonil/SRTM3_V2.1/NPY/korea_90m_dem.npy')
+        lon_dem = np.load('/disk/WORKSPACE/kwonil/SRTM3_V2.1/NPY/korea_90m_lon.npy')
+        lat_dem = np.load('/disk/WORKSPACE/kwonil/SRTM3_V2.1/NPY/korea_90m_lat.npy')
     else:
-        if area in 'pyeongchang':
-            ds = wrl.io.open_raster('/disk/WORKSPACE/kwonil/SRTM3_V2.1/TIF/pyeongchang_90m.tif')
-        elif area in 'korea':
-            ds = wrl.io.open_raster('/disk/WORKSPACE/kwonil/SRTM3_V2.1/TIF/korea_90m.tif')
-        else:
-            print('Please check area argument')
-            
-    dem, coord, proj_dem = wrl.georef.extract_raster_dataset(ds)
-    lon_dem = coord[:,:,0]
-    lat_dem = coord[:,:,1]
-    dem = dem.astype(float)
-    dem[dem <= 0] = np.nan
-
+        sys.exit(f'{__name__}: Check area argument')
+    
+    proj_dem = ccrs.PlateCarree()
+    
     return dem, lon_dem, lat_dem, proj_dem
 
 def get_fname(indir, pattern, dt, date_range=True, verbose=True):
