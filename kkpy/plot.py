@@ -12,6 +12,7 @@ Functions to read and write files
     kkpy.plot.cartopy_grid
     kkpy.plot.tickint
     kkpy.plot.scatter
+    kkpy.plot.density2d
 
 """
 import numpy as np

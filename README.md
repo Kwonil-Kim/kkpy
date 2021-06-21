@@ -59,6 +59,13 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.3.5
+### Fixed
+ - util: Fix unit conversion bug in `wind2uv`
+ - io: Fix wradlib warning in `read_dem`
+### Added
+ - plot: `density2d`
+
 ## 0.3.4
 ### Fixed
  - plot: Fix zunit and include/exclude sites in `icepop_sites`
