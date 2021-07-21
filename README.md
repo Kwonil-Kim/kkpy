@@ -59,6 +59,12 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.4.0
+### Added
+ - io: `read_wissdom`
+ - cm: `wind`
+ - util: `to_lower_resolution`
+
 ## 0.3.5
 ### Fixed
  - util: Fix unit conversion bug in `wind2uv`

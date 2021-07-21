@@ -17,6 +17,7 @@ dependencies:
 - scikit-image
 - astropy
 - parse
+- numba
 - pip
 - pip:
   - haversine

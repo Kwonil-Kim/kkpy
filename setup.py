@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='kkpy',
-    version='0.3.5',
+    version='0.4.0',
 #    packages=find_packages("kkpy", exclude=['tests*']),
     packages=['kkpy'],
     package_dir={'kkpy': 'kkpy'},
@@ -28,7 +28,8 @@ setup(
         'bottleneck',
         'scikit-image',
         'astropy',
-        'parse'],
+        'parse',
+        'numba'],
     url='https://github.com/Kwonil-Kim/kkpy',
     author='Kwonil Kim',
     author_email='kwonil.kim.0@gmail.com'
