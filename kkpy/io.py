@@ -12,6 +12,7 @@ Functions to read and write files
     kkpy.io.read_2dvd_rho
     kkpy.io.read_mxpol_rhi_with_hc
     kkpy.io.read_dem
+    kkpy.io.read_wissdom
 
 """
 import numpy as np
@@ -487,8 +488,6 @@ def get_fname(indir, pattern, dt, date_range=True, verbose=True):
     else:
         if not date_range:
             # the second easiest case
-            print(pattern)
-            print(f'{dt[0]:{pattern}}')
             fname = [f'{indir}/{_dt:{pattern}}' for _dt in dt]
         else:
             # check if only the last part of fmt contains format string
@@ -694,3 +693,352 @@ def _truncate_unnecessary_datetime(dt, highest_fmt_unnecessary):
         raise UserWarning('Something wrong!! Please report an issue to GitHub with error log')
     
     return dt_trunc
+
+def _get_proj_from_KNUwissdom(ds):
+    import cartopy.crs as ccrs
+    
+    lcc = ds['lcc_projection']
+    clon = lcc.longitude_of_central_meridian
+    clat = lcc.latitude_of_projection_origin
+    false_easting = lcc.false_easting
+    false_northing = lcc.false_northing
+    standard_parallel = lcc.standard_parallel
+    
+    proj = ccrs.LambertConformal(
+        central_longitude=clon,
+        central_latitude=clat,
+        standard_parallels=standard_parallel,
+        false_easting=false_easting,
+        false_northing=false_northing,
+        globe=ccrs.Globe(
+            ellipse=None,
+            semimajor_axis=6371008.77,
+            semiminor_axis=6371008.77)
+    )
+    
+    return proj
+
+def _get_proj_from_KMAwissdom():
+    proj = ccrs.LambertConformal(
+        central_longitude=126.0,
+        central_latitude=38.0,
+        standard_parallels=(30,60),
+        false_easting=440000,
+        false_northing=700000,
+        globe=ccrs.Globe(
+        ellipse=None,
+        semimajor_axis=6371008.77,
+        semiminor_axis=6371008.77)
+    )
+    
+    return proj
+
+def _read_wissdom_KNU1(fnames, degree='essential'):
+    ds = xr.open_mfdataset(fnames, concat_dim='NT', combine='nested')
+        
+    ds['proj'] = _get_proj_from_KNUwissdom(ds)
+    ds = ds.rename(
+        {'uu2':'u',
+         'vv2':'v',
+         'ww2':'w'
+        }
+    )
+    if degree in ['extensive', 'debug']:
+        ds = ds.rename(
+            {'rvort2':'vor',
+             'rdivg2':'div'
+            }
+        )
+    
+    if degree in ['essential', 'extensive']:
+        ds.attrs={}
+    
+    list_vars = []
+    for x in ds.variables.__iter__():
+        list_vars.append(x)
+    
+    if degree in ['essential']:
+        for var in ['u', 'v', 'w', 'x', 'y', 'lev', 'proj']:
+            list_vars.remove(var)
+        ds = ds.drop(list_vars)
+    
+    if degree in ['extensive']:
+        for var in ['u', 'v', 'w', 'vor', 'div', 'x', 'y', 'lev', 'proj']:
+            list_vars.remove(var)
+        ds = ds.drop(list_vars)
+    
+    ds = ds.rename_dims({'X':'nx', 'Y':'ny', 'lev':'nz'})
+    
+    return ds
+
+def _read_wissdom_KMAnc(fnames, degree='essential'):
+    ds = xr.open_mfdataset(fnames, concat_dim='NT', combine='nested')
+
+    ds['proj'] = _get_proj_from_KMAwissdom()
+    dataminus = ds.data_minus
+    datascale = ds.data_scale
+    dataout = ds.data_out
+
+    ds['x'] = ds['nx'].values * ds.grid_size
+    ds['y'] = ds['ny'].values * ds.grid_size
+    ds['height'] = ds['height'][0,:]
+    ds = ds.set_coords(("height")) # variable to coord
+
+    ds = ds.rename(
+        {'u_component':'u',
+         'v_component':'v',
+         'w_component':'w',
+         'height':'lev'
+        }
+    )
+    for f in ['u', 'v', 'w']:
+        ds[f] = xr.where(
+            ds[f] == dataout,
+            np.nan,
+            ds[f]
+        )
+        ds[f] = (ds[f]-dataminus)/datascale
+
+    if degree in ['extensive', 'debug']:
+        ds = ds.rename(
+            {'vertical_vorticity':'vor',
+             'divergence':'div'
+            }
+        )
+        for f in ['div', 'vor']:
+            ds[f] = xr.where(
+                ds[f] == dataout,
+                np.nan,
+                ds[f]
+            )
+            ds[f] = xr.where(
+                ds[f] <= 0,
+                10**((ds[f]-dataminus)/datascale),
+                -10**(-(ds[f]-dataminus)/datascale)
+            )
+    if degree in ['debug']:
+        ds = ds.rename(
+            {'vertical_velocity':'vt',
+             'reflectivity':'z'
+            }
+        )
+        for f in ['vt', 'z']:
+            ds[f] = xr.where(
+                ds[f] == dataout,
+                np.nan,
+                ds[f]
+            )
+            ds[f] = (ds[f]-dataminus)/datascale
+    
+    if degree in ['essential']:
+        ds = ds.drop_vars([
+            'vertical_vorticity',
+            'divergence',
+            'vertical_velocity',
+            'reflectivity'
+        ])
+    if degree in ['extensive']:
+        ds = ds.drop_vars([
+            'vertical_velocity',
+            'reflectivity'
+        ])
+    
+    if degree in ['essential', 'extensive']:
+        ds.attrs={}
+        
+    ds = ds.transpose('NT', 'ny', 'nx', 'nz', 'x', 'y')
+    
+    
+    ds['x'] = ds['x'].rename({'x':'nx'})
+    ds['y'] = ds['y'].rename({'y':'ny'})
+    ds = ds.drop(['nx', 'ny'])
+    
+    return ds
+
+def _read_wissdom_KMAbin(fname, degree='essential'):
+    from numba import njit
+    
+    @njit(fastmath=True)
+    def fastpow(value):
+        return 10.0**value
+
+    @njit(fastmath=True)
+    def invert_scaling1(arr, data_minus, data_scale):
+        res = np.empty(arr.shape)
+        for x in range(arr.shape[0]):
+            for y in range(arr.shape[1]):
+                for z in range(arr.shape[2]):
+                    res[x,y,z] = (arr[x,y,z]-data_minus)/data_scale
+        return res
+
+    import math
+    @njit(fastmath=True)
+    def invert_scaling2(arr, data_minus, data_scale):
+        res = np.empty(arr.shape)
+        for x in range(arr.shape[0]):
+            for y in range(arr.shape[1]):
+                for z in range(arr.shape[2]):
+                    if arr[x,y,z] <= 0:
+                        res[x,y,z] = fastpow((arr[x,y,z]-data_minus)/data_scale)
+                    else:
+                        res[x,y,z] = -fastpow(-(arr[x,y,z]-data_minus)/data_scale)
+        return res
+
+    def bin2str(binary):
+        return [ord(c) for c in binary.decode('latin-1')] ######## why not ascii ?????????
+
+    def timestr2dt(file):
+        yy = np.frombuffer(file.read(2), dtype=np.int16)[0]
+        mm = ord(file.read(1))
+        dd = ord(file.read(1))
+        hh = ord(file.read(1))
+        mi = ord(file.read(1))
+        ss = ord(file.read(1))
+        try:
+            return datetime.datetime(yy,mm,dd,hh,mi,ss)
+        except:
+            return -1
+
+    with gzip.open(fname,'rb') as f:
+        version    = ord(f.read(1)) # char
+        ptype      = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        tm         = timestr2dt(f) # struct
+        tm_in      = timestr2dt(f) # struct
+        num_stn    = ord(f.read(1)) # char
+        map_code   = ord(f.read(1)) # char
+        map_etc    = ord(f.read(1)) # char
+        nx         = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        ny         = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        nz         = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        dxy        = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        dz         = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        z_min      = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        num_data   = ord(f.read(1)) # char
+        dz2        = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        z_min2     = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        data_out   = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        data_in    = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        data_min   = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        data_minus = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        data_scale = np.frombuffer(f.read(2), dtype=np.int16)[0] # short
+        data_unit  = ord(f.read(1)) # char
+        etc        = np.frombuffer(f.read(16), dtype=np.int16) # short
+
+        u = np.frombuffer(f.read(2*nx*ny*nz), dtype=np.int16).copy().reshape(nz,ny,nx)
+        v = np.frombuffer(f.read(2*nx*ny*nz), dtype=np.int16).copy().reshape(nz,ny,nx)
+        w = np.frombuffer(f.read(2*nx*ny*nz), dtype=np.int16).copy().reshape(nz,ny,nx)
+        if degree in ['extensive','debug']:
+            div = np.frombuffer(f.read(2*nx*ny*nz), dtype=np.int16).copy().reshape(nz,ny,nx)
+            vor = np.frombuffer(f.read(2*nx*ny*nz), dtype=np.int16).copy().reshape(nz,ny,nx)
+        if degree in ['debug']:
+            dbz = np.frombuffer(f.read(2*nx*ny*nz), dtype=np.int16).copy().reshape(nz,ny,nx)
+            vt = np.frombuffer(f.read(2*nx*ny*nz), dtype=np.int16).copy().reshape(nz,ny,nx)
+
+    mask_u = u == data_out
+    mask_v = v == data_out
+    mask_w = w == data_out
+    if degree in ['extensive','debug']:
+        mask_div = div == data_out
+        mask_vor = vor == data_out
+    if degree in ['debug']:
+        mask_dbz = dbz == data_out
+        mask_vt = vt == data_out
+
+    u = invert_scaling1(u, data_minus, data_scale)
+    v = invert_scaling1(v, data_minus, data_scale)
+    w = invert_scaling1(w, data_minus, data_scale)
+    if degree in ['extensive','debug']:
+        div = invert_scaling2(div, data_minus, data_scale)
+        vor = invert_scaling2(vor, data_minus, data_scale)
+    if degree in ['debug']:
+        dbz = invert_scaling1(dbz, data_minus, data_scale)
+        vt = invert_scaling1(vt, data_minus, data_scale)
+
+    u[mask_u] = np.nan
+    v[mask_v] = np.nan
+    w[mask_w] = np.nan
+    if degree in ['extensive','debug']:
+        div[mask_div] = np.nan
+        vor[mask_vor] = np.nan
+    if degree in ['debug']:
+        dbz[mask_dbz] = np.nan
+        vt[mask_vt] = np.nan
+    
+    lev = np.arange(nz)*dz
+    x = np.arange(nx)*dxy
+    y = np.arange(ny)*dxy
+    
+    ds = xr.Dataset(
+        {
+            'u': (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(u,0,2),0,1),0)),
+            'v': (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(v,0,2),0,1),0)),
+            'w': (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(w,0,2),0,1),0)),
+        },
+        coords={
+            'lev': (["nz"],
+                (lev)),
+            'x': (["nx"],
+                (x)),
+            'y': (["ny"],
+                (y)),
+        }
+    )
+    if degree in ['extensive', 'debug']:
+        ds['div'] = (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(div,0,2),0,1),0))
+        ds['vor'] = (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(vor,0,2),0,1),0))
+    if degree in ['debug']:
+        pass
+    
+    ds['proj'] = _get_proj_from_KMAwissdom()
+    
+    return ds
+
+def read_wissdom(fnames, kind='KNUv2', degree='essential'):
+    """
+    Read WISSDOM wind field.
+    
+    Examples
+    ---------
+    >>> ds_wissdom = kkpy.io.read_wissdom('WISSDOM_VAR_201802280600.nc')
+    
+    >>> ds_wissdom = kkpy.io.read_wissdom('RDR_R3D_KMA_WD_201802280600.bin.gz', kind='KMAbin')
+    
+    >>> ds_wissdom = kkpy.io.read_wissdom('RDR_R3D_KMA_WD_201802280600.nc', kind='KMAnc', degree='extensive')
+    
+    Parameters
+    ----------
+    fnames : str or array_like
+        Filename(s) of WISSDOM to read.
+    kind : str, optional
+        Data format. Possible options are 'KNUv2', 'KMAnc', and 'KMAbin'. Default is 'KNUv2'.
+    degree : str, optional
+        Degree of variable type to read. Possible options are 'essential', 'extensive', and 'debug'. Default is 'essential'.
+        'essential' includes u, v, and w, while 'extensive' further includes divergence and vorticity. 'debug' returns all available variables.
+        Note that the time efficiency for 'extensive' is low when kind='KMAbin'.
+    
+    Returns
+    ---------
+    ds : xarray dataset object
+        Return WISSDOM wind field.
+    """
+    import xarray as xr
+    
+    if kind in ['KNUv2']:
+        ds = _read_wissdom_KNU1(fnames, degree=degree)
+        
+    elif kind in ['KMAnc']:
+        ds = _read_wissdom_KMAnc(fnames, degree=degree)
+        
+    elif kind in ['KMAbin']:
+        if isinstance(fnames, list):
+            dslist = []
+            for fname in fnames:
+                dslist.append(_read_wissdom_KMAbin(fname, degree=degree))
+            ds = xr.combine_nested(dslist, 'NT')
+        else:
+            ds = _read_wissdom_KMAbin(fnames, degree=degree)
+    
+    else:
+        raise UserWarning(f'Not supported: kind={kind}')
+    
+    return ds
