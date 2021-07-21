@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.util &mdash; KKpy 0.3.5 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.4.0 documentation</title>
   
 
   
@@ -20,10 +20,7 @@
 
   
   
-
   
-  
-
   
 
   
@@ -36,6 +33,7 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -57,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> KKpy
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> KKpy
           
 
           
@@ -67,7 +65,7 @@
             
             
               <div class="version">
-                0.3.5
+                0.4.0
               </div>
             
           
@@ -149,8 +147,6 @@
 
 
 
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -162,7 +158,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/util.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -225,7 +221,7 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.vel_atlas" title="kkpy.util.vel_atlas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.vel_atlas</span></code></a>(D)</p></td>
-<td><p>Get Atlas et al. (1973) fall velocity.</p></td>
+<td><p>Get Atlas et al.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.calc_dsdmoments" title="kkpy.util.calc_dsdmoments"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.calc_dsdmoments</span></code></a>(ND, D, dD[, VD, …])</p></td>
 <td><p>Get DSD moments from drop size distribution.</p></td>
@@ -266,6 +262,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.cross_section_2d" title="kkpy.util.cross_section_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.cross_section_2d</span></code></a>(xy0, xy1, x2d, …)</p></td>
 <td><p>Get values along the transect of two points (lon/lat) for 2D array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.to_lower_resolution" title="kkpy.util.to_lower_resolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.to_lower_resolution</span></code></a>(arr_in, …[, dBZ])</p></td>
+<td><p>Get 2D array with lower resolution.</p></td>
 </tr>
 </tbody>
 </table>
@@ -320,7 +319,7 @@
 </table>
 <dl class="py function">
 <dt id="kkpy.util.wind2uv">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">wind2uv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ws</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#wind2uv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.wind2uv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">wind2uv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wd</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">knots</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#wind2uv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.wind2uv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert wind direction and speed to u and v wind components.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">wind2uv</span><span class="p">(</span><span class="n">wd</span><span class="p">,</span> <span class="n">ws</span><span class="p">)</span>
@@ -331,8 +330,8 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>wd</strong> (<em>array_like</em>) – Array containing wind direction in <strong>degree</strong>. It should be <strong>meteorological</strong> direction, not mathematical.</p></li>
 <li><p><strong>ws</strong> (<em>array_like</em>) – Array containing wind speed in <strong>m/s</strong>.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>wd</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
-<li><p><strong>knots</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>ws</em> is <strong>knots</strong>. The default is False (i.e. <strong>m/s</strong>).</p></li>
+<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>wd</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
+<li><p><strong>knots</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>ws</em> is <strong>knots</strong>. The default is False (i.e. <strong>m/s</strong>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -347,7 +346,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.uv2wind">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">uv2wind</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#uv2wind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.uv2wind" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">uv2wind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#uv2wind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.uv2wind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert u and v wind components to wind direction and speed.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wd</span><span class="p">,</span> <span class="n">ws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">uv2wind</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
@@ -372,7 +371,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.ms2knot">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">ms2knot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ws_ms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#ms2knot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.ms2knot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">ms2knot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_ms</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#ms2knot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.ms2knot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert unit of wind speed from meter per seconds to knots.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ws_knot</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">ws_ms</span><span class="p">)</span>
@@ -393,7 +392,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.knot2ms">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">knot2ms</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ws_knot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#knot2ms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.knot2ms" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">knot2ms</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ws_knot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#knot2ms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.knot2ms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert unit of wind speed from knots to meter per seconds.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ws_ms</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">knot2ms</span><span class="p">(</span><span class="n">ws_knot</span><span class="p">)</span>
@@ -414,7 +413,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.nn_idx_2d">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">nn_idx_2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xtarget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ytarget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nn_idx_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.nn_idx_2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nn_idx_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xtarget</span></em>, <em class="sig-param"><span class="n">ytarget</span></em>, <em class="sig-param"><span class="n">x2d</span></em>, <em class="sig-param"><span class="n">y2d</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nn_idx_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.nn_idx_2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get nearest indices of the x and y values of target if 2D array is given.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x2d</span><span class="p">,</span> <span class="n">y2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span><span class="mi">38</span><span class="p">,</span><span class="mf">0.1</span><span class="p">))</span>
@@ -442,7 +441,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.cross_section_2d">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">cross_section_2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">xy0</span></em>, <em class="sig-param"><span class="pre">xy1</span></em>, <em class="sig-param"><span class="pre">x2d</span></em>, <em class="sig-param"><span class="pre">y2d</span></em>, <em class="sig-param"><span class="pre">value2d</span></em>, <em class="sig-param"><span class="pre">linewidth=1</span></em>, <em class="sig-param"><span class="pre">along='x'</span></em>, <em class="sig-param"><span class="pre">reduce_func=&lt;function</span> <span class="pre">mean&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#cross_section_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.cross_section_2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">cross_section_2d</code><span class="sig-paren">(</span><em class="sig-param">xy0</em>, <em class="sig-param">xy1</em>, <em class="sig-param">x2d</em>, <em class="sig-param">y2d</em>, <em class="sig-param">value2d</em>, <em class="sig-param">linewidth=1</em>, <em class="sig-param">along='x'</em>, <em class="sig-param">reduce_func=&lt;function mean&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#cross_section_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.cross_section_2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get values along the transect of two points (lon/lat) for 2D array.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dem</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">proj</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_dem</span><span class="p">(</span><span class="n">area</span><span class="o">=</span><span class="s1">&#39;pyeongchang&#39;</span><span class="p">)</span>
@@ -478,7 +477,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.proj_dfs">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">proj_dfs</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#proj_dfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.proj_dfs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">proj_dfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#proj_dfs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.proj_dfs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a lambert conformal conic projection of DFS (Digital Forecasting System) used in KMA.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
@@ -499,7 +498,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.proj_icepop">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">proj_icepop</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#proj_icepop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.proj_icepop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">proj_icepop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#proj_icepop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.proj_icepop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a lambert conformal conic projection for ICE-POP 2018 domain.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
@@ -521,7 +520,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.dist_bearing">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">dist_bearing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lonlat0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lonlat1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radians</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#dist_bearing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.dist_bearing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">dist_bearing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lonlat0</span></em>, <em class="sig-param"><span class="n">lonlat1</span></em>, <em class="sig-param"><span class="n">radians</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#dist_bearing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.dist_bearing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get distance [km] and bearing [deg] between two lon/lat points.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist_km</span><span class="p">,</span> <span class="n">bearing_deg</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dist_bearing</span><span class="p">([</span><span class="mf">127.5</span><span class="p">,</span><span class="mi">36</span><span class="p">],</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span><span class="mi">37</span><span class="p">])</span>
@@ -532,7 +531,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lonlat0</strong> (<em>1D Array</em>) – Array containing longitude and latitude of the first point. Longitude (latitude) should be at the first (second) element.</p></li>
 <li><p><strong>lonlat1</strong> (<em>1D Array</em>) – Array containing longitude and latitude of the second point. Longitude (latitude) should be at the first (second) element.</p></li>
-<li><p><strong>radians</strong> (<em>bool</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>bearing</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
+<li><p><strong>radians</strong> (<em>boolean</em><em>, </em><em>optional</em>) – If this is set to True, the unit of <em>bearing</em> is <strong>radian</strong>. The default is False (i.e. <strong>degree</strong>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -547,7 +546,7 @@
 
 <dl class="py function">
 <dt id="kkpy.util.nanconvolve2d">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">nanconvolve2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slab</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.99</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nanconvolve2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.nanconvolve2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanconvolve2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">slab</span></em>, <em class="sig-param"><span class="n">kernel</span></em>, <em class="sig-param"><span class="n">max_missing</span><span class="o">=</span><span class="default_value">0.99</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nanconvolve2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.nanconvolve2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get 2D convolution with missings ignored.</p>
 <p class="rubric">Examples</p>
 <p>Moving 2D standard deviation</p>
@@ -587,7 +586,7 @@ Modified by Kwonil Kim in November 2020: modify docstring format, remove verbose
 
 <dl class="py function">
 <dt id="kkpy.util.nanstd2d">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">nanstd2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nanstd2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.nanstd2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">nanstd2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#nanstd2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.nanstd2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get 2D standard deviation of 2D array efficiently with missings ignored.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">nanstd2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -611,7 +610,7 @@ Modified by Kwonil Kim in November 2020: modify docstring format, remove verbose
 
 <dl class="py function">
 <dt id="kkpy.util.std2d">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">std2d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#std2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.std2d" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">std2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">window_size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#std2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.std2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get 2D standard deviation of 2D array efficiently.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">std2d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">std2d</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -638,7 +637,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.dbzmean">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">dbzmean</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbz_arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outside_radar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">9999.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noprecip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">9998.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qced</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">9997.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#dbzmean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.dbzmean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">dbzmean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dbz_arr</span></em>, <em class="sig-param"><span class="n">outside_radar</span><span class="o">=</span><span class="default_value">- 9999.0</span></em>, <em class="sig-param"><span class="n">noprecip</span><span class="o">=</span><span class="default_value">- 9998.0</span></em>, <em class="sig-param"><span class="n">qced</span><span class="o">=</span><span class="default_value">- 9997.0</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#dbzmean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.dbzmean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get linear-scale average of reflectivity (dBZ).</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dbz_avg</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dbzmean</span><span class="p">(</span><span class="n">dbz_arr</span><span class="p">)</span>
@@ -669,7 +668,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.icepop_events">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">icepop_events</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">KST</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.icepop_events" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">icepop_events</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">KST</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.icepop_events" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get datetimes for nine major evnets in ICE-POP 2018.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dts</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_events</span><span class="p">()</span>
@@ -693,7 +692,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.icepop_sites">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">icepop_sites</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_sites"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.icepop_sites" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">icepop_sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_sites"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.icepop_sites" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get metadata of ICE-POP 2018 sites.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Plotting in Lon/Lat coordinates</span>
@@ -720,7 +719,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.icepop_extent">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">icepop_extent</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_extent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.icepop_extent" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">icepop_extent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#icepop_extent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.icepop_extent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get extent of ICE-POP 2018 domain.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">icepop_extent</span><span class="p">(),</span> <span class="n">crs</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
@@ -738,7 +737,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.vel_atlas">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">vel_atlas</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">D</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#vel_atlas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.vel_atlas" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">vel_atlas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#vel_atlas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.vel_atlas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get Atlas et al. (1973) fall velocity.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V_arr</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">vel_atlas</span><span class="p">(</span><span class="n">D_arr</span><span class="p">)</span>
@@ -759,7 +758,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.calc_dsdmoments">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">calc_dsdmoments</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ND</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dD</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VD</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Vatlas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#calc_dsdmoments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.calc_dsdmoments" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">calc_dsdmoments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ND</span></em>, <em class="sig-param"><span class="n">D</span></em>, <em class="sig-param"><span class="n">dD</span></em>, <em class="sig-param"><span class="n">VD</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">Vatlas</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#calc_dsdmoments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.calc_dsdmoments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get DSD moments from drop size distribution.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tdvd</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">calc_dsdmoments</span><span class="p">(</span><span class="n">ND_arr</span><span class="p">,</span> <span class="n">D_arr</span><span class="p">,</span> <span class="n">dD_arr</span><span class="p">,</span> <span class="n">VD</span><span class="o">=</span><span class="n">VD_arr</span><span class="p">)</span>
@@ -789,7 +788,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.stats">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">stats</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtbias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.3f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtrmse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.3f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtstd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.3f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fmtcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.3f'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.stats" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">stats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">fmtbias</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtrmse</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtstd</span><span class="o">=</span><span class="default_value">'.3f'</span></em>, <em class="sig-param"><span class="n">fmtcorr</span><span class="o">=</span><span class="default_value">'.3f'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.stats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get performance matrix BIAS, RMSE, STD, and CORR values and its f-string.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span><span class="p">,</span> <span class="n">str_stat</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">yarr</span><span class="p">)</span>
@@ -822,7 +821,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.summary">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cnt_print</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.summary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">summary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr</span></em>, <em class="sig-param"><span class="n">cnt_print</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#summary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.summary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get summary of the array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -836,7 +835,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 
 <dl class="py function">
 <dt id="kkpy.util.derivative">
-<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">derivative</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cnt_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixelsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.derivative" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">derivative</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var</span></em>, <em class="sig-param"><span class="n">cnt_x</span></em>, <em class="sig-param"><span class="n">pixelsize</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">axis</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#derivative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.derivative" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get derivative of 1D or 2D array.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Derivative of 1D array with a window size of 5.</span>
@@ -869,6 +868,37 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="kkpy.util.to_lower_resolution">
+<code class="sig-prename descclassname">kkpy.util.</code><code class="sig-name descname">to_lower_resolution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arr_in</span></em>, <em class="sig-param"><span class="n">ratio_x</span></em>, <em class="sig-param"><span class="n">ratio_y</span></em>, <em class="sig-param"><span class="n">dBZ</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#to_lower_resolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.util.to_lower_resolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 2D array with lower resolution.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span> <span class="c1"># shape: (250,150)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr2</span> <span class="o">=</span> <span class="n">to_lower_resolution</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># shape: (25,15)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr3</span> <span class="o">=</span> <span class="n">to_lower_resolution</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># shape: (50,15)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arr_in</strong> (<em>2D array</em>) – Array you want to lower the resolution.</p></li>
+<li><p><strong>ratio_x</strong> (<em>int</em>) – The reduction ratio over x axis. The size of <strong>arr_in</strong> xaxis should be able to be divided by <strong>ratio_x</strong>.</p></li>
+<li><p><strong>ratio_y</strong> (<em>int</em>) – The reduction ratio over y axis. The size of <strong>arr_in</strong> yaxis should be able to be divided by <strong>ratio_y</strong>.</p></li>
+<li><p><strong>dBZ</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if return a linear-scale average of reflectivity (dBZ).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>arr_out</strong> – Return an array with lower resolution.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>2D array</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This code is from Stack Overflow answer (<a class="reference external" href="https://stackoverflow.com/a/14916963/12272819">https://stackoverflow.com/a/14916963/12272819</a>), written by Jaime (<a class="reference external" href="https://stackoverflow.com/users/110026/jaime">https://stackoverflow.com/users/110026/jaime</a>).
+This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -877,29 +907,37 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
            
           </div>
           <footer>
+  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="cm.html" class="btn btn-neutral float-right" title="kkpy.cm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="io.html" class="btn btn-neutral float-left" title="kkpy.io" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+      
+        <a href="cm.html" class="btn btn-neutral float-right" title="kkpy.cm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="io.html" class="btn btn-neutral float-left" title="kkpy.io" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020-2021, Kwonil Kim.
+        
+        &copy; Copyright 2020-2021, Kwonil Kim
 
     </p>
   </div>
     
     
     
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
 

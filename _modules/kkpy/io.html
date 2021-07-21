@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.io &mdash; KKpy 0.3.5 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.4.0 documentation</title>
   
 
   
@@ -20,10 +20,7 @@
 
   
   
-
   
-  
-
   
 
   
@@ -36,6 +33,7 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -55,7 +53,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> KKpy
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> KKpy
           
 
           
@@ -65,7 +63,7 @@
             
             
               <div class="version">
-                0.3.5
+                0.4.0
               </div>
             
           
@@ -138,8 +136,6 @@
 
 
 
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -178,6 +174,7 @@
 <span class="sd">    kkpy.io.read_2dvd_rho</span>
 <span class="sd">    kkpy.io.read_mxpol_rhi_with_hc</span>
 <span class="sd">    kkpy.io.read_dem</span>
+<span class="sd">    kkpy.io.read_wissdom</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -653,8 +650,6 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">date_range</span><span class="p">:</span>
             <span class="c1"># the second easiest case</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:{</span><span class="n">pattern</span><span class="si">}}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">fname</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">_dt</span><span class="si">:{</span><span class="n">pattern</span><span class="si">}}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">_dt</span> <span class="ow">in</span> <span class="n">dt</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># check if only the last part of fmt contains format string</span>
@@ -860,31 +855,383 @@
         <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;Something wrong!! Please report an issue to GitHub with error log&#39;</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">dt_trunc</span>
+
+<span class="k">def</span> <span class="nf">_get_proj_from_KNUwissdom</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+    
+    <span class="n">lcc</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;lcc_projection&#39;</span><span class="p">]</span>
+    <span class="n">clon</span> <span class="o">=</span> <span class="n">lcc</span><span class="o">.</span><span class="n">longitude_of_central_meridian</span>
+    <span class="n">clat</span> <span class="o">=</span> <span class="n">lcc</span><span class="o">.</span><span class="n">latitude_of_projection_origin</span>
+    <span class="n">false_easting</span> <span class="o">=</span> <span class="n">lcc</span><span class="o">.</span><span class="n">false_easting</span>
+    <span class="n">false_northing</span> <span class="o">=</span> <span class="n">lcc</span><span class="o">.</span><span class="n">false_northing</span>
+    <span class="n">standard_parallel</span> <span class="o">=</span> <span class="n">lcc</span><span class="o">.</span><span class="n">standard_parallel</span>
+    
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span>
+        <span class="n">central_longitude</span><span class="o">=</span><span class="n">clon</span><span class="p">,</span>
+        <span class="n">central_latitude</span><span class="o">=</span><span class="n">clat</span><span class="p">,</span>
+        <span class="n">standard_parallels</span><span class="o">=</span><span class="n">standard_parallel</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="n">false_easting</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="n">false_northing</span><span class="p">,</span>
+        <span class="n">globe</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Globe</span><span class="p">(</span>
+            <span class="n">ellipse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">semimajor_axis</span><span class="o">=</span><span class="mf">6371008.77</span><span class="p">,</span>
+            <span class="n">semiminor_axis</span><span class="o">=</span><span class="mf">6371008.77</span><span class="p">)</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">proj</span>
+
+<span class="k">def</span> <span class="nf">_get_proj_from_KMAwissdom</span><span class="p">():</span>
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span>
+        <span class="n">central_longitude</span><span class="o">=</span><span class="mf">126.0</span><span class="p">,</span>
+        <span class="n">central_latitude</span><span class="o">=</span><span class="mf">38.0</span><span class="p">,</span>
+        <span class="n">standard_parallels</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">),</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="mi">440000</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="mi">700000</span><span class="p">,</span>
+        <span class="n">globe</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">Globe</span><span class="p">(</span>
+        <span class="n">ellipse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">semimajor_axis</span><span class="o">=</span><span class="mf">6371008.77</span><span class="p">,</span>
+        <span class="n">semiminor_axis</span><span class="o">=</span><span class="mf">6371008.77</span><span class="p">)</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">proj</span>
+
+<span class="k">def</span> <span class="nf">_read_wissdom_KNU1</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="s1">&#39;essential&#39;</span><span class="p">):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="s1">&#39;NT&#39;</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s1">&#39;nested&#39;</span><span class="p">)</span>
+        
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;proj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_proj_from_KNUwissdom</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;uu2&#39;</span><span class="p">:</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;vv2&#39;</span><span class="p">:</span><span class="s1">&#39;v&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;ww2&#39;</span><span class="p">:</span><span class="s1">&#39;w&#39;</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">,</span> <span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="p">{</span><span class="s1">&#39;rvort2&#39;</span><span class="p">:</span><span class="s1">&#39;vor&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;rdivg2&#39;</span><span class="p">:</span><span class="s1">&#39;div&#39;</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;essential&#39;</span><span class="p">,</span> <span class="s1">&#39;extensive&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">=</span><span class="p">{}</span>
+    
+    <span class="n">list_vars</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">():</span>
+        <span class="n">list_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;essential&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;lev&#39;</span><span class="p">,</span> <span class="s1">&#39;proj&#39;</span><span class="p">]:</span>
+            <span class="n">list_vars</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">list_vars</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;vor&#39;</span><span class="p">,</span> <span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;lev&#39;</span><span class="p">,</span> <span class="s1">&#39;proj&#39;</span><span class="p">]:</span>
+            <span class="n">list_vars</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">list_vars</span><span class="p">)</span>
+    
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">({</span><span class="s1">&#39;X&#39;</span><span class="p">:</span><span class="s1">&#39;nx&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span><span class="s1">&#39;ny&#39;</span><span class="p">,</span> <span class="s1">&#39;lev&#39;</span><span class="p">:</span><span class="s1">&#39;nz&#39;</span><span class="p">})</span>
+    
+    <span class="k">return</span> <span class="n">ds</span>
+
+<span class="k">def</span> <span class="nf">_read_wissdom_KMAnc</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="s1">&#39;essential&#39;</span><span class="p">):</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="s1">&#39;NT&#39;</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s1">&#39;nested&#39;</span><span class="p">)</span>
+
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;proj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_proj_from_KMAwissdom</span><span class="p">()</span>
+    <span class="n">dataminus</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_minus</span>
+    <span class="n">datascale</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_scale</span>
+    <span class="n">dataout</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_out</span>
+
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;nx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="n">ds</span><span class="o">.</span><span class="n">grid_size</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;ny&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">*</span> <span class="n">ds</span><span class="o">.</span><span class="n">grid_size</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,:]</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_coords</span><span class="p">((</span><span class="s2">&quot;height&quot;</span><span class="p">))</span> <span class="c1"># variable to coord</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;u_component&#39;</span><span class="p">:</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;v_component&#39;</span><span class="p">:</span><span class="s1">&#39;v&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;w_component&#39;</span><span class="p">:</span><span class="s1">&#39;w&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;height&#39;</span><span class="p">:</span><span class="s1">&#39;lev&#39;</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">==</span> <span class="n">dataout</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">-</span><span class="n">dataminus</span><span class="p">)</span><span class="o">/</span><span class="n">datascale</span>
+
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">,</span> <span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="p">{</span><span class="s1">&#39;vertical_vorticity&#39;</span><span class="p">:</span><span class="s1">&#39;vor&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;divergence&#39;</span><span class="p">:</span><span class="s1">&#39;div&#39;</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="s1">&#39;vor&#39;</span><span class="p">]:</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">==</span> <span class="n">dataout</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">10</span><span class="o">**</span><span class="p">((</span><span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">-</span><span class="n">dataminus</span><span class="p">)</span><span class="o">/</span><span class="n">datascale</span><span class="p">),</span>
+                <span class="o">-</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">-</span><span class="n">dataminus</span><span class="p">)</span><span class="o">/</span><span class="n">datascale</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="p">{</span><span class="s1">&#39;vertical_velocity&#39;</span><span class="p">:</span><span class="s1">&#39;vt&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;reflectivity&#39;</span><span class="p">:</span><span class="s1">&#39;z&#39;</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;vt&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">]:</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">==</span> <span class="n">dataout</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+                <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="o">-</span><span class="n">dataminus</span><span class="p">)</span><span class="o">/</span><span class="n">datascale</span>
+    
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;essential&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span>
+            <span class="s1">&#39;vertical_vorticity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;divergence&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;vertical_velocity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;reflectivity&#39;</span>
+        <span class="p">])</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span>
+            <span class="s1">&#39;vertical_velocity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;reflectivity&#39;</span>
+        <span class="p">])</span>
+    
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;essential&#39;</span><span class="p">,</span> <span class="s1">&#39;extensive&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">=</span><span class="p">{}</span>
+        
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s1">&#39;NT&#39;</span><span class="p">,</span> <span class="s1">&#39;ny&#39;</span><span class="p">,</span> <span class="s1">&#39;nx&#39;</span><span class="p">,</span> <span class="s1">&#39;nz&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+    
+    
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span><span class="s1">&#39;nx&#39;</span><span class="p">})</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;y&#39;</span><span class="p">:</span><span class="s1">&#39;ny&#39;</span><span class="p">})</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;nx&#39;</span><span class="p">,</span> <span class="s1">&#39;ny&#39;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">ds</span>
+
+<span class="k">def</span> <span class="nf">_read_wissdom_KMAbin</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="s1">&#39;essential&#39;</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
+    
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">fastpow</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">10.0</span><span class="o">**</span><span class="n">value</span>
+
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">invert_scaling1</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                    <span class="n">res</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span><span class="o">-</span><span class="n">data_minus</span><span class="p">)</span><span class="o">/</span><span class="n">data_scale</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="kn">import</span> <span class="nn">math</span>
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">invert_scaling2</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">res</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="n">fastpow</span><span class="p">((</span><span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span><span class="o">-</span><span class="n">data_minus</span><span class="p">)</span><span class="o">/</span><span class="n">data_scale</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">res</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">fastpow</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span><span class="o">-</span><span class="n">data_minus</span><span class="p">)</span><span class="o">/</span><span class="n">data_scale</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">def</span> <span class="nf">bin2str</span><span class="p">(</span><span class="n">binary</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">binary</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;latin-1&#39;</span><span class="p">)]</span> <span class="c1">######## why not ascii ?????????</span>
+
+    <span class="k">def</span> <span class="nf">timestr2dt</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">hh</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">ss</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">yy</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="n">dd</span><span class="p">,</span><span class="n">hh</span><span class="p">,</span><span class="n">mi</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">version</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">ptype</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">tm</span>         <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+        <span class="n">tm_in</span>      <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+        <span class="n">num_stn</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">map_code</span>   <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">map_etc</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">nx</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">ny</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">nz</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">dxy</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">dz</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">z_min</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">num_data</span>   <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">dz2</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">z_min2</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_out</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_in</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_min</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_minus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_unit</span>  <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">etc</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span> <span class="c1"># short</span>
+
+        <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">,</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+            <span class="n">div</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+            <span class="n">vor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+            <span class="n">dbz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+            <span class="n">vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+
+    <span class="n">mask_u</span> <span class="o">=</span> <span class="n">u</span> <span class="o">==</span> <span class="n">data_out</span>
+    <span class="n">mask_v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">==</span> <span class="n">data_out</span>
+    <span class="n">mask_w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">==</span> <span class="n">data_out</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">,</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">mask_div</span> <span class="o">=</span> <span class="n">div</span> <span class="o">==</span> <span class="n">data_out</span>
+        <span class="n">mask_vor</span> <span class="o">=</span> <span class="n">vor</span> <span class="o">==</span> <span class="n">data_out</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">mask_dbz</span> <span class="o">=</span> <span class="n">dbz</span> <span class="o">==</span> <span class="n">data_out</span>
+        <span class="n">mask_vt</span> <span class="o">=</span> <span class="n">vt</span> <span class="o">==</span> <span class="n">data_out</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="n">invert_scaling1</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">invert_scaling1</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">invert_scaling1</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">,</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">div</span> <span class="o">=</span> <span class="n">invert_scaling2</span><span class="p">(</span><span class="n">div</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">)</span>
+        <span class="n">vor</span> <span class="o">=</span> <span class="n">invert_scaling2</span><span class="p">(</span><span class="n">vor</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">dbz</span> <span class="o">=</span> <span class="n">invert_scaling1</span><span class="p">(</span><span class="n">dbz</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">)</span>
+        <span class="n">vt</span> <span class="o">=</span> <span class="n">invert_scaling1</span><span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">data_minus</span><span class="p">,</span> <span class="n">data_scale</span><span class="p">)</span>
+
+    <span class="n">u</span><span class="p">[</span><span class="n">mask_u</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">v</span><span class="p">[</span><span class="n">mask_v</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">w</span><span class="p">[</span><span class="n">mask_w</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">,</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">div</span><span class="p">[</span><span class="n">mask_div</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">vor</span><span class="p">[</span><span class="n">mask_vor</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">dbz</span><span class="p">[</span><span class="n">mask_dbz</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">vt</span><span class="p">[</span><span class="n">mask_vt</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    
+    <span class="n">lev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nz</span><span class="p">)</span><span class="o">*</span><span class="n">dz</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="n">dxy</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span><span class="o">*</span><span class="n">dxy</span>
+    
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;NT&quot;</span><span class="p">,</span><span class="s2">&quot;ny&quot;</span><span class="p">,</span><span class="s2">&quot;nx&quot;</span><span class="p">,</span><span class="s2">&quot;nz&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">)),</span>
+            <span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;NT&quot;</span><span class="p">,</span><span class="s2">&quot;ny&quot;</span><span class="p">,</span><span class="s2">&quot;nx&quot;</span><span class="p">,</span><span class="s2">&quot;nz&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">)),</span>
+            <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;NT&quot;</span><span class="p">,</span><span class="s2">&quot;ny&quot;</span><span class="p">,</span><span class="s2">&quot;nx&quot;</span><span class="p">,</span><span class="s2">&quot;nz&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">)),</span>
+        <span class="p">},</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;lev&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;nz&quot;</span><span class="p">],</span>
+                <span class="p">(</span><span class="n">lev</span><span class="p">)),</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;nx&quot;</span><span class="p">],</span>
+                <span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;ny&quot;</span><span class="p">],</span>
+                <span class="p">(</span><span class="n">y</span><span class="p">)),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;extensive&#39;</span><span class="p">,</span> <span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;div&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">([</span><span class="s2">&quot;NT&quot;</span><span class="p">,</span><span class="s2">&quot;ny&quot;</span><span class="p">,</span><span class="s2">&quot;nx&quot;</span><span class="p">,</span><span class="s2">&quot;nz&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">div</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;vor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">([</span><span class="s2">&quot;NT&quot;</span><span class="p">,</span><span class="s2">&quot;ny&quot;</span><span class="p">,</span><span class="s2">&quot;nx&quot;</span><span class="p">,</span><span class="s2">&quot;nz&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">vor</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">degree</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]:</span>
+        <span class="k">pass</span>
+    
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;proj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_proj_from_KMAwissdom</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">ds</span>
+
+<div class="viewcode-block" id="read_wissdom"><a class="viewcode-back" href="../../io.html#kkpy.io.read_wissdom">[docs]</a><span class="k">def</span> <span class="nf">read_wissdom</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;KNUv2&#39;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="s1">&#39;essential&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read WISSDOM wind field.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; ds_wissdom = kkpy.io.read_wissdom(&#39;WISSDOM_VAR_201802280600.nc&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; ds_wissdom = kkpy.io.read_wissdom(&#39;RDR_R3D_KMA_WD_201802280600.bin.gz&#39;, kind=&#39;KMAbin&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; ds_wissdom = kkpy.io.read_wissdom(&#39;RDR_R3D_KMA_WD_201802280600.nc&#39;, kind=&#39;KMAnc&#39;, degree=&#39;extensive&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of WISSDOM to read.</span>
+<span class="sd">    kind : str, optional</span>
+<span class="sd">        Data format. Possible options are &#39;KNUv2&#39;, &#39;KMAnc&#39;, and &#39;KMAbin&#39;. Default is &#39;KNUv2&#39;.</span>
+<span class="sd">    degree : str, optional</span>
+<span class="sd">        Degree of variable type to read. Possible options are &#39;essential&#39;, &#39;extensive&#39;, and &#39;debug&#39;. Default is &#39;essential&#39;.</span>
+<span class="sd">        &#39;essential&#39; includes u, v, and w, while &#39;extensive&#39; further includes divergence and vorticity. &#39;debug&#39; returns all available variables.</span>
+<span class="sd">        Note that the time efficiency for &#39;extensive&#39; is low when kind=&#39;KMAbin&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ds : xarray dataset object</span>
+<span class="sd">        Return WISSDOM wind field.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+    
+    <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;KNUv2&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">_read_wissdom_KNU1</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">degree</span><span class="p">)</span>
+        
+    <span class="k">elif</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;KMAnc&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">_read_wissdom_KMAnc</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">degree</span><span class="p">)</span>
+        
+    <span class="k">elif</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;KMAbin&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">dslist</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+                <span class="n">dslist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_read_wissdom_KMAbin</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">degree</span><span class="p">))</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">combine_nested</span><span class="p">(</span><span class="n">dslist</span><span class="p">,</span> <span class="s1">&#39;NT&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">_read_wissdom_KMAbin</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">degree</span><span class="p">)</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not supported: kind=</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ds</span></div>
 </pre></div>
 
            </div>
            
           </div>
           <footer>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020-2021, Kwonil Kim.
+        
+        &copy; Copyright 2020-2021, Kwonil Kim
 
     </p>
   </div>
     
     
     
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
 

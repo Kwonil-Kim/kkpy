@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.cm &mdash; KKpy 0.3.1 documentation</title>
+  <title>kkpy.cm &mdash; KKpy 0.4.0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.3.1
+                0.4.0
               </div>
             
           
@@ -179,6 +179,7 @@
 <span class="sd">    kkpy.cm.precip</span>
 <span class="sd">    kkpy.cm.precip_kma</span>
 <span class="sd">    kkpy.cm.precip_kma_aws</span>
+<span class="sd">    kkpy.cm.wind</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -194,13 +195,13 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.refl()</span>
 <span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, ref2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    levels : array_like</span>
+<span class="sd">    levels : array_like, optional</span>
 <span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
-<span class="sd">    snow : boolean</span>
+<span class="sd">    snow : boolean, optional</span>
 <span class="sd">        Return broader tick levels suitable for snow. Default is False.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -239,11 +240,11 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.doppler()</span>
 <span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, VD2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    levels : array_like</span>
+<span class="sd">    levels : array_like, optional</span>
 <span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -274,11 +275,11 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.zdr()</span>
 <span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, zdr2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    levels : array_like</span>
+<span class="sd">    levels : array_like, optional</span>
 <span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -309,11 +310,11 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.kdp()</span>
 <span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, kdp2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    levels : array_like</span>
+<span class="sd">    levels : array_like, optional</span>
 <span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -344,11 +345,11 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.rhohv()</span>
 <span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, rhohv2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    levels : array_like</span>
+<span class="sd">    levels : array_like, optional</span>
 <span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -379,13 +380,13 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.precip()</span>
 <span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, prec2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    levels : array_like</span>
+<span class="sd">    levels : array_like, optional</span>
 <span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
-<span class="sd">    coarse_ticks : boolean</span>
+<span class="sd">    coarse_ticks : boolean, optional</span>
 <span class="sd">        True if colorbar levels are too dense.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -418,13 +419,13 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.precip_kma()</span>
 <span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, prec2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    levels : array_like</span>
+<span class="sd">    levels : array_like, optional</span>
 <span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
-<span class="sd">    coarse_ticks : boolean</span>
+<span class="sd">    coarse_ticks : boolean, optional</span>
 <span class="sd">        True if colorbar levels are too dense.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -457,13 +458,13 @@
 <span class="sd">    ---------</span>
 <span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.precip_kma_aws()</span>
 <span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, prec2d.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, cmap=cmap[&#39;cmap&#39;], ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    levels : array_like</span>
+<span class="sd">    levels : array_like, optional</span>
 <span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
-<span class="sd">    coarse_ticks : boolean</span>
+<span class="sd">    coarse_ticks : boolean, optional</span>
 <span class="sd">        True if colorbar levels are too dense.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -488,6 +489,43 @@
     
     <span class="k">return</span> <span class="n">dict_cmap</span></div>
 
+<div class="viewcode-block" id="wind"><a class="viewcode-back" href="../../cm.html#kkpy.cm.wind">[docs]</a><span class="k">def</span> <span class="nf">wind</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wind direction colors (cyclic).</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; cmap = kkpy.cm.wind()</span>
+<span class="sd">    &gt;&gt;&gt; pm = ax.pcolormesh(lon2d, lat2d, winddir.T, cmap=cmap[&#39;cmap&#39;], norm=cmap[&#39;norm&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; cb = plt.colorbar(pm, ticks=cmap[&#39;ticks&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; cb.set_ticklabels([&#39;N&#39;, &#39;E&#39;, &#39;S&#39;, &#39;W&#39;, &#39;N&#39;])</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    levels : array_like, optional</span>
+<span class="sd">        Array containing user-defined color tick levels. It should have lower and upper bounds.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dict_cmap : dictionary</span>
+<span class="sd">        &#39;cmap&#39;: matplotlib colormap</span>
+<span class="sd">        &#39;norm&#39;: color tick levels for plot</span>
+<span class="sd">        &#39;ticks&#39;: color tick levels for colorbar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">270</span><span class="p">,</span><span class="mi">360</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">levels</span>
+    
+    <span class="n">cmap</span> <span class="o">=</span> <span class="n">_wind_color</span><span class="p">()</span>
+    
+    <span class="n">dict_cmap</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cmap</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">256</span><span class="p">),</span> <span class="n">ncolors</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+    <span class="n">dict_cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">level</span>
+    
+    <span class="k">return</span> <span class="n">dict_cmap</span></div>
 
 <span class="k">def</span> <span class="nf">_ref_color</span><span class="p">():</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#ffffff&#39;</span><span class="p">,</span>
@@ -564,6 +602,36 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuvel&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
 
+<span class="k">def</span> <span class="nf">_wind_color</span><span class="p">():</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#8000c3&#39;</span><span class="p">,</span><span class="s1">&#39;#7e00c4&#39;</span><span class="p">,</span><span class="s1">&#39;#7c00c5&#39;</span><span class="p">,</span><span class="s1">&#39;#7a00c6&#39;</span><span class="p">,</span><span class="s1">&#39;#7800c7&#39;</span><span class="p">,</span><span class="s1">&#39;#7600c8&#39;</span><span class="p">,</span><span class="s1">&#39;#7400c8&#39;</span><span class="p">,</span><span class="s1">&#39;#7200c9&#39;</span><span class="p">,</span><span class="s1">&#39;#7000ca&#39;</span><span class="p">,</span><span class="s1">&#39;#6e00cb&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#6c00cc&#39;</span><span class="p">,</span><span class="s1">&#39;#6a00cd&#39;</span><span class="p">,</span><span class="s1">&#39;#6800ce&#39;</span><span class="p">,</span><span class="s1">&#39;#6600cf&#39;</span><span class="p">,</span><span class="s1">&#39;#6400d0&#39;</span><span class="p">,</span><span class="s1">&#39;#6200d1&#39;</span><span class="p">,</span><span class="s1">&#39;#6000d2&#39;</span><span class="p">,</span><span class="s1">&#39;#5e00d3&#39;</span><span class="p">,</span><span class="s1">&#39;#5c00d4&#39;</span><span class="p">,</span><span class="s1">&#39;#5a00d5&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#5800d6&#39;</span><span class="p">,</span><span class="s1">&#39;#5600d7&#39;</span><span class="p">,</span><span class="s1">&#39;#5400d8&#39;</span><span class="p">,</span><span class="s1">&#39;#5200d9&#39;</span><span class="p">,</span><span class="s1">&#39;#5000da&#39;</span><span class="p">,</span><span class="s1">&#39;#4e00db&#39;</span><span class="p">,</span><span class="s1">&#39;#4c00dc&#39;</span><span class="p">,</span><span class="s1">&#39;#4a00dd&#39;</span><span class="p">,</span><span class="s1">&#39;#4800de&#39;</span><span class="p">,</span><span class="s1">&#39;#4600de&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#4400df&#39;</span><span class="p">,</span><span class="s1">&#39;#4200e0&#39;</span><span class="p">,</span><span class="s1">&#39;#4000e1&#39;</span><span class="p">,</span><span class="s1">&#39;#3e00e2&#39;</span><span class="p">,</span><span class="s1">&#39;#3c00e3&#39;</span><span class="p">,</span><span class="s1">&#39;#3a00e4&#39;</span><span class="p">,</span><span class="s1">&#39;#3800e5&#39;</span><span class="p">,</span><span class="s1">&#39;#3600e6&#39;</span><span class="p">,</span><span class="s1">&#39;#3400e7&#39;</span><span class="p">,</span><span class="s1">&#39;#3200e8&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#3000e9&#39;</span><span class="p">,</span><span class="s1">&#39;#2e00ea&#39;</span><span class="p">,</span><span class="s1">&#39;#2c00eb&#39;</span><span class="p">,</span><span class="s1">&#39;#2a00ec&#39;</span><span class="p">,</span><span class="s1">&#39;#2800ed&#39;</span><span class="p">,</span><span class="s1">&#39;#2600ee&#39;</span><span class="p">,</span><span class="s1">&#39;#2400ef&#39;</span><span class="p">,</span><span class="s1">&#39;#2200f0&#39;</span><span class="p">,</span><span class="s1">&#39;#2000f1&#39;</span><span class="p">,</span><span class="s1">&#39;#1e00f2&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#1c00f3&#39;</span><span class="p">,</span><span class="s1">&#39;#1a00f4&#39;</span><span class="p">,</span><span class="s1">&#39;#1800f5&#39;</span><span class="p">,</span><span class="s1">&#39;#1600f5&#39;</span><span class="p">,</span><span class="s1">&#39;#1400f6&#39;</span><span class="p">,</span><span class="s1">&#39;#1200f7&#39;</span><span class="p">,</span><span class="s1">&#39;#1000f8&#39;</span><span class="p">,</span><span class="s1">&#39;#0e00f9&#39;</span><span class="p">,</span><span class="s1">&#39;#0c00fa&#39;</span><span class="p">,</span><span class="s1">&#39;#0a00fb&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#0800fc&#39;</span><span class="p">,</span><span class="s1">&#39;#0600fd&#39;</span><span class="p">,</span><span class="s1">&#39;#0400fe&#39;</span><span class="p">,</span><span class="s1">&#39;#0200ff&#39;</span><span class="p">,</span><span class="s1">&#39;#0101ff&#39;</span><span class="p">,</span><span class="s1">&#39;#0505fb&#39;</span><span class="p">,</span><span class="s1">&#39;#0909f7&#39;</span><span class="p">,</span><span class="s1">&#39;#0d0df3&#39;</span><span class="p">,</span><span class="s1">&#39;#1111ef&#39;</span><span class="p">,</span><span class="s1">&#39;#1515eb&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#1919e7&#39;</span><span class="p">,</span><span class="s1">&#39;#1d1de3&#39;</span><span class="p">,</span><span class="s1">&#39;#2121df&#39;</span><span class="p">,</span><span class="s1">&#39;#2525db&#39;</span><span class="p">,</span><span class="s1">&#39;#2929d7&#39;</span><span class="p">,</span><span class="s1">&#39;#2d2dd3&#39;</span><span class="p">,</span><span class="s1">&#39;#3131cf&#39;</span><span class="p">,</span><span class="s1">&#39;#3535cb&#39;</span><span class="p">,</span><span class="s1">&#39;#3939c7&#39;</span><span class="p">,</span><span class="s1">&#39;#3d3dc3&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#4141bf&#39;</span><span class="p">,</span><span class="s1">&#39;#4545bb&#39;</span><span class="p">,</span><span class="s1">&#39;#4949b7&#39;</span><span class="p">,</span><span class="s1">&#39;#4d4db3&#39;</span><span class="p">,</span><span class="s1">&#39;#5151af&#39;</span><span class="p">,</span><span class="s1">&#39;#5555ab&#39;</span><span class="p">,</span><span class="s1">&#39;#5959a7&#39;</span><span class="p">,</span><span class="s1">&#39;#5d5da2&#39;</span><span class="p">,</span><span class="s1">&#39;#61619e&#39;</span><span class="p">,</span><span class="s1">&#39;#65659a&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#696996&#39;</span><span class="p">,</span><span class="s1">&#39;#6d6d92&#39;</span><span class="p">,</span><span class="s1">&#39;#71718e&#39;</span><span class="p">,</span><span class="s1">&#39;#75758a&#39;</span><span class="p">,</span><span class="s1">&#39;#797986&#39;</span><span class="p">,</span><span class="s1">&#39;#7d7d82&#39;</span><span class="p">,</span><span class="s1">&#39;#81817e&#39;</span><span class="p">,</span><span class="s1">&#39;#85857a&#39;</span><span class="p">,</span><span class="s1">&#39;#898976&#39;</span><span class="p">,</span><span class="s1">&#39;#8d8d72&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#91916e&#39;</span><span class="p">,</span><span class="s1">&#39;#95956a&#39;</span><span class="p">,</span><span class="s1">&#39;#999966&#39;</span><span class="p">,</span><span class="s1">&#39;#9d9d62&#39;</span><span class="p">,</span><span class="s1">&#39;#a1a15e&#39;</span><span class="p">,</span><span class="s1">&#39;#a5a55a&#39;</span><span class="p">,</span><span class="s1">&#39;#aaaa56&#39;</span><span class="p">,</span><span class="s1">&#39;#aeae52&#39;</span><span class="p">,</span><span class="s1">&#39;#b2b24e&#39;</span><span class="p">,</span><span class="s1">&#39;#b6b64a&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#baba46&#39;</span><span class="p">,</span><span class="s1">&#39;#bebe42&#39;</span><span class="p">,</span><span class="s1">&#39;#c2c23e&#39;</span><span class="p">,</span><span class="s1">&#39;#c6c63a&#39;</span><span class="p">,</span><span class="s1">&#39;#caca36&#39;</span><span class="p">,</span><span class="s1">&#39;#cece32&#39;</span><span class="p">,</span><span class="s1">&#39;#d2d22e&#39;</span><span class="p">,</span><span class="s1">&#39;#d6d62a&#39;</span><span class="p">,</span><span class="s1">&#39;#dada26&#39;</span><span class="p">,</span><span class="s1">&#39;#dede22&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#e2e21e&#39;</span><span class="p">,</span><span class="s1">&#39;#e6e61a&#39;</span><span class="p">,</span><span class="s1">&#39;#eaea16&#39;</span><span class="p">,</span><span class="s1">&#39;#eeee12&#39;</span><span class="p">,</span><span class="s1">&#39;#f2f20e&#39;</span><span class="p">,</span><span class="s1">&#39;#f6f60a&#39;</span><span class="p">,</span><span class="s1">&#39;#fafa06&#39;</span><span class="p">,</span><span class="s1">&#39;#fefe02&#39;</span><span class="p">,</span><span class="s1">&#39;#fffe00&#39;</span><span class="p">,</span><span class="s1">&#39;#fffa00&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#fff600&#39;</span><span class="p">,</span><span class="s1">&#39;#fff200&#39;</span><span class="p">,</span><span class="s1">&#39;#ffee00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffea00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffe600&#39;</span><span class="p">,</span><span class="s1">&#39;#ffe200&#39;</span><span class="p">,</span><span class="s1">&#39;#ffde00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffda00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffd600&#39;</span><span class="p">,</span><span class="s1">&#39;#ffd200&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#ffce00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffca00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffc600&#39;</span><span class="p">,</span><span class="s1">&#39;#ffc200&#39;</span><span class="p">,</span><span class="s1">&#39;#ffbe00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffba00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffb600&#39;</span><span class="p">,</span><span class="s1">&#39;#ffb200&#39;</span><span class="p">,</span><span class="s1">&#39;#ffae00&#39;</span><span class="p">,</span><span class="s1">&#39;#ffaa00&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#ffa600&#39;</span><span class="p">,</span><span class="s1">&#39;#ffa100&#39;</span><span class="p">,</span><span class="s1">&#39;#ff9d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff9900&#39;</span><span class="p">,</span><span class="s1">&#39;#ff9500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff9100&#39;</span><span class="p">,</span><span class="s1">&#39;#ff8d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff8900&#39;</span><span class="p">,</span><span class="s1">&#39;#ff8500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff8100&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#ff7d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff7900&#39;</span><span class="p">,</span><span class="s1">&#39;#ff7500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff7100&#39;</span><span class="p">,</span><span class="s1">&#39;#ff6d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff6900&#39;</span><span class="p">,</span><span class="s1">&#39;#ff6500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff6100&#39;</span><span class="p">,</span><span class="s1">&#39;#ff5d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff5900&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#ff5500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff5100&#39;</span><span class="p">,</span><span class="s1">&#39;#ff4d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff4900&#39;</span><span class="p">,</span><span class="s1">&#39;#ff4500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff4100&#39;</span><span class="p">,</span><span class="s1">&#39;#ff3d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff3900&#39;</span><span class="p">,</span><span class="s1">&#39;#ff3500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff3100&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#ff2d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff2900&#39;</span><span class="p">,</span><span class="s1">&#39;#ff2500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff2100&#39;</span><span class="p">,</span><span class="s1">&#39;#ff1d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff1900&#39;</span><span class="p">,</span><span class="s1">&#39;#ff1500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff1100&#39;</span><span class="p">,</span><span class="s1">&#39;#ff0d00&#39;</span><span class="p">,</span><span class="s1">&#39;#ff0900&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#ff0500&#39;</span><span class="p">,</span><span class="s1">&#39;#ff0100&#39;</span><span class="p">,</span><span class="s1">&#39;#fe0002&#39;</span><span class="p">,</span><span class="s1">&#39;#fc0005&#39;</span><span class="p">,</span><span class="s1">&#39;#fa0008&#39;</span><span class="p">,</span><span class="s1">&#39;#f8000b&#39;</span><span class="p">,</span><span class="s1">&#39;#f6000e&#39;</span><span class="p">,</span><span class="s1">&#39;#f40011&#39;</span><span class="p">,</span><span class="s1">&#39;#f20015&#39;</span><span class="p">,</span><span class="s1">&#39;#f00018&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#ee001b&#39;</span><span class="p">,</span><span class="s1">&#39;#ec001e&#39;</span><span class="p">,</span><span class="s1">&#39;#ea0021&#39;</span><span class="p">,</span><span class="s1">&#39;#e80024&#39;</span><span class="p">,</span><span class="s1">&#39;#e60027&#39;</span><span class="p">,</span><span class="s1">&#39;#e4002a&#39;</span><span class="p">,</span><span class="s1">&#39;#e2002d&#39;</span><span class="p">,</span><span class="s1">&#39;#e00030&#39;</span><span class="p">,</span><span class="s1">&#39;#de0033&#39;</span><span class="p">,</span><span class="s1">&#39;#dc0036&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#da0039&#39;</span><span class="p">,</span><span class="s1">&#39;#d8003c&#39;</span><span class="p">,</span><span class="s1">&#39;#d6003f&#39;</span><span class="p">,</span><span class="s1">&#39;#d40042&#39;</span><span class="p">,</span><span class="s1">&#39;#d20045&#39;</span><span class="p">,</span><span class="s1">&#39;#d00048&#39;</span><span class="p">,</span><span class="s1">&#39;#ce004b&#39;</span><span class="p">,</span><span class="s1">&#39;#cc004e&#39;</span><span class="p">,</span><span class="s1">&#39;#ca0051&#39;</span><span class="p">,</span><span class="s1">&#39;#c80054&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#c60057&#39;</span><span class="p">,</span><span class="s1">&#39;#c4005b&#39;</span><span class="p">,</span><span class="s1">&#39;#c2005e&#39;</span><span class="p">,</span><span class="s1">&#39;#c00061&#39;</span><span class="p">,</span><span class="s1">&#39;#be0064&#39;</span><span class="p">,</span><span class="s1">&#39;#bc0067&#39;</span><span class="p">,</span><span class="s1">&#39;#ba006a&#39;</span><span class="p">,</span><span class="s1">&#39;#b8006d&#39;</span><span class="p">,</span><span class="s1">&#39;#b60070&#39;</span><span class="p">,</span><span class="s1">&#39;#b40073&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#b20076&#39;</span><span class="p">,</span><span class="s1">&#39;#b00079&#39;</span><span class="p">,</span><span class="s1">&#39;#ae007c&#39;</span><span class="p">,</span><span class="s1">&#39;#ac007f&#39;</span><span class="p">,</span><span class="s1">&#39;#aa0082&#39;</span><span class="p">,</span><span class="s1">&#39;#a80085&#39;</span><span class="p">,</span><span class="s1">&#39;#a60088&#39;</span><span class="p">,</span><span class="s1">&#39;#a4008b&#39;</span><span class="p">,</span><span class="s1">&#39;#a2008e&#39;</span><span class="p">,</span><span class="s1">&#39;#a00091&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#9e0094&#39;</span><span class="p">,</span><span class="s1">&#39;#9c0097&#39;</span><span class="p">,</span><span class="s1">&#39;#9a009a&#39;</span><span class="p">,</span><span class="s1">&#39;#98009d&#39;</span><span class="p">,</span><span class="s1">&#39;#9600a0&#39;</span><span class="p">,</span><span class="s1">&#39;#9400a4&#39;</span><span class="p">,</span><span class="s1">&#39;#9200a7&#39;</span><span class="p">,</span><span class="s1">&#39;#9000aa&#39;</span><span class="p">,</span><span class="s1">&#39;#8e00ad&#39;</span><span class="p">,</span><span class="s1">&#39;#8c00b0&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;#8a00b3&#39;</span><span class="p">,</span><span class="s1">&#39;#8800b6&#39;</span><span class="p">,</span><span class="s1">&#39;#8600b9&#39;</span><span class="p">,</span><span class="s1">&#39;#8400bc&#39;</span><span class="p">,</span><span class="s1">&#39;#8200bf&#39;</span><span class="p">,</span><span class="s1">&#39;#8000c2&#39;</span><span class="p">]</span>
+    <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;kkpywind&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmap_colors</span>
 
 <span class="c1"># LEVELS</span>
 <span class="k">def</span> <span class="nf">_z_level_rain</span><span class="p">():</span>

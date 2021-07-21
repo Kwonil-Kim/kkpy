@@ -38,15 +38,6 @@ Read/plot DEM and korea map with DFS map projection
 
  .. code-block:: none
 
-    /home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/radolan.py:939: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
-    Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-      "add_offset": np.float(0),
-    /home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/radolan.py:948: DeprecationWarning: `np.float` is a deprecated alias for the builtin `float`. To silence this warning, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.
-    Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-      "add_offset": np.float(0),
-    /home/kwonil/.anaconda3/envs/py37/lib/python3.7/site-packages/wradlib/io/xarray.py:495: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
-    Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-      ("volume_number", np.int),
     /home/kwonil/git/kkpy/examples/plot_dem.py:28: MatplotlibDeprecationWarning: You are modifying the state of a globally registered colormap. In future versions, you will not be able to modify a registered colormap in-place. To remove this warning, you can make a copy of the colormap first. cmap = copy.copy(mpl.cm.get_cmap("terrain"))
       cmap.set_under('white')
 
@@ -98,9 +89,9 @@ Read/plot DEM and korea map with DFS map projection
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 2 minutes  32.645 seconds)
+   **Total running time of the script:** ( 2 minutes  9.395 seconds)
 
-**Estimated memory usage:**  10764 MB
+**Estimated memory usage:**  10478 MB
 
 
 .. _sphx_glr_download_auto_examples_plot_dem.py:

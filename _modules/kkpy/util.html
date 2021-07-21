@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.util &mdash; KKpy 0.3.5 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.4.0 documentation</title>
   
 
   
@@ -20,10 +20,7 @@
 
   
   
-
   
-  
-
   
 
   
@@ -36,6 +33,7 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -55,7 +53,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> KKpy
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> KKpy
           
 
           
@@ -65,7 +63,7 @@
             
             
               <div class="version">
-                0.3.5
+                0.4.0
               </div>
             
           
@@ -123,8 +121,6 @@
         <div class="rst-content">
         
           
-
-
 
 
 
@@ -203,6 +199,7 @@
 <span class="sd">.. autosummary::</span>
 <span class="sd">    kkpy.util.nn_idx_2d</span>
 <span class="sd">    kkpy.util.cross_section_2d</span>
+<span class="sd">    kkpy.util.to_lower_resolution</span>
 <span class="sd">    </span>
 <span class="sd">ICE-POP 2018</span>
 <span class="sd">--------------</span>
@@ -237,9 +234,9 @@
 <span class="sd">        Array containing wind direction in **degree**. It should be **meteorological** direction, not mathematical.</span>
 <span class="sd">    ws : array_like</span>
 <span class="sd">        Array containing wind speed in **m/s**.</span>
-<span class="sd">    radians : bool, optional</span>
+<span class="sd">    radians : boolean, optional</span>
 <span class="sd">        If this is set to True, the unit of *wd* is **radian**. The default is False (i.e. **degree**).</span>
-<span class="sd">    knots : bool, optional</span>
+<span class="sd">    knots : boolean, optional</span>
 <span class="sd">        If this is set to True, the unit of *ws* is **knots**. The default is False (i.e. **m/s**).</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -520,7 +517,7 @@
 <span class="sd">        Array containing longitude and latitude of the first point. Longitude (latitude) should be at the first (second) element.</span>
 <span class="sd">    lonlat1 : 1D Array</span>
 <span class="sd">        Array containing longitude and latitude of the second point. Longitude (latitude) should be at the first (second) element.</span>
-<span class="sd">    radians : bool, optional</span>
+<span class="sd">    radians : boolean, optional</span>
 <span class="sd">        If this is set to True, the unit of *bearing* is **radian**. The default is False (i.e. **degree**).</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
@@ -1119,31 +1116,91 @@
     <span class="n">derivative</span> <span class="o">=</span> <span class="n">result</span> <span class="o">/</span> <span class="n">pixelsize</span>
     
     <span class="k">return</span> <span class="n">derivative</span></div>
+
+<div class="viewcode-block" id="to_lower_resolution"><a class="viewcode-back" href="../../util.html#kkpy.util.to_lower_resolution">[docs]</a><span class="k">def</span> <span class="nf">to_lower_resolution</span><span class="p">(</span><span class="n">arr_in</span><span class="p">,</span> <span class="n">ratio_x</span><span class="p">,</span> <span class="n">ratio_y</span><span class="p">,</span> <span class="n">dBZ</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get 2D array with lower resolution.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; arr1 = np.random.rand(250,150) # shape: (250,150)</span>
+<span class="sd">    &gt;&gt;&gt; arr2 = to_lower_resolution(arr1,10,10) # shape: (25,15)</span>
+<span class="sd">    &gt;&gt;&gt; arr3 = to_lower_resolution(arr1,5,10) # shape: (50,15)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arr_in : 2D array</span>
+<span class="sd">        Array you want to lower the resolution.</span>
+<span class="sd">    ratio_x : int</span>
+<span class="sd">        The reduction ratio over x axis. The size of **arr_in** xaxis should be able to be divided by **ratio_x**.</span>
+<span class="sd">    ratio_y : int</span>
+<span class="sd">        The reduction ratio over y axis. The size of **arr_in** yaxis should be able to be divided by **ratio_y**.</span>
+<span class="sd">    dBZ : boolean, optional</span>
+<span class="sd">        True if return a linear-scale average of reflectivity (dBZ).</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    arr_out : 2D array</span>
+<span class="sd">        Return an array with lower resolution.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    ---------</span>
+<span class="sd">    This code is from Stack Overflow answer (https://stackoverflow.com/a/14916963/12272819), written by Jaime (https://stackoverflow.com/users/110026/jaime).</span>
+<span class="sd">    This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">arr_in</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;arr_in must be a 2D array&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ratio_x</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">ratio_y</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ratio_x and ratio_y must be greater than 1&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ratio_x</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ratio_y</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ratio_x and ratio_y must be an integer&quot;</span><span class="p">)</span>
+    
+    <span class="n">nx_in</span><span class="p">,</span> <span class="n">ny_in</span> <span class="o">=</span> <span class="n">arr_in</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">nx_out</span><span class="p">,</span> <span class="n">ny_out</span> <span class="o">=</span> <span class="n">nx_in</span><span class="o">/</span><span class="n">ratio_x</span><span class="p">,</span> <span class="n">ny_in</span><span class="o">/</span><span class="n">ratio_y</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nx_out</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;check ratio_x: nx_out=</span><span class="si">{</span><span class="n">nx_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ny_out</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;check ratio_y: ny_out=</span><span class="si">{</span><span class="n">ny_out</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">arr_out</span> <span class="o">=</span> <span class="n">arr_in</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">nx_out</span><span class="p">),</span> <span class="n">ratio_x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">ny_out</span><span class="p">),</span> <span class="n">ratio_y</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dBZ</span><span class="p">:</span>
+        <span class="n">arr_out</span> <span class="o">=</span> <span class="n">arr_out</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">arr_out</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dbzmean</span><span class="p">(</span><span class="n">arr_out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">arr_out</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">dbzmean</span><span class="p">(</span><span class="n">arr_out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">arr_out</span></div>
 </pre></div>
 
            </div>
            
           </div>
           <footer>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020-2021, Kwonil Kim.
+        
+        &copy; Copyright 2020-2021, Kwonil Kim
 
     </p>
   </div>
     
     
     
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
 

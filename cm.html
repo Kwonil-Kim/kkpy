@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.cm &mdash; KKpy 0.3.5 documentation</title>
+  <title>kkpy.cm &mdash; KKpy 0.4.0 documentation</title>
   
 
   
@@ -20,10 +20,7 @@
 
   
   
-
   
-  
-
   
 
   
@@ -36,6 +33,7 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -57,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> KKpy
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> KKpy
           
 
           
@@ -67,7 +65,7 @@
             
             
               <div class="version">
-                0.3.5
+                0.4.0
               </div>
             
           
@@ -140,8 +138,6 @@
 
 
 
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -153,7 +149,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/cm.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -201,23 +197,26 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.cm.precip_kma_aws" title="kkpy.cm.precip_kma_aws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.cm.precip_kma_aws</span></code></a>([levels, coarse_ticks])</p></td>
 <td><p>KMA AWS Precipitation colors.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.cm.wind" title="kkpy.cm.wind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.cm.wind</span></code></a>([levels])</p></td>
+<td><p>Wind direction colors (cyclic).</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt id="kkpy.cm.refl">
-<code class="sig-prename descclassname"><span class="pre">kkpy.cm.</span></code><code class="sig-name descname"><span class="pre">refl</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#refl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.cm.refl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">refl</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">snow</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#refl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.refl" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU reflectivity colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">refl</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">ref2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
-<li><p><strong>snow</strong> (<em>boolean</em>) – Return broader tick levels suitable for snow. Default is False.</p></li>
+<li><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
+<li><p><strong>snow</strong> (<em>boolean</em><em>, </em><em>optional</em>) – Return broader tick levels suitable for snow. Default is False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -233,17 +232,17 @@
 
 <dl class="py function">
 <dt id="kkpy.cm.doppler">
-<code class="sig-prename descclassname"><span class="pre">kkpy.cm.</span></code><code class="sig-name descname"><span class="pre">doppler</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#doppler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.cm.doppler" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">doppler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#doppler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.doppler" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU Doppler velocity colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">doppler</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">VD2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
+<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
@@ -258,17 +257,17 @@
 
 <dl class="py function">
 <dt id="kkpy.cm.zdr">
-<code class="sig-prename descclassname"><span class="pre">kkpy.cm.</span></code><code class="sig-name descname"><span class="pre">zdr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#zdr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.cm.zdr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">zdr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#zdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.zdr" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU differential reflectivity colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">zdr</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">zdr2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
+<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
@@ -283,17 +282,17 @@
 
 <dl class="py function">
 <dt id="kkpy.cm.kdp">
-<code class="sig-prename descclassname"><span class="pre">kkpy.cm.</span></code><code class="sig-name descname"><span class="pre">kdp</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#kdp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.cm.kdp" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">kdp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#kdp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.kdp" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU specific differential phase colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">kdp</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">kdp2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
+<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
@@ -308,17 +307,17 @@
 
 <dl class="py function">
 <dt id="kkpy.cm.rhohv">
-<code class="sig-prename descclassname"><span class="pre">kkpy.cm.</span></code><code class="sig-name descname"><span class="pre">rhohv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#rhohv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.cm.rhohv" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">rhohv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#rhohv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.rhohv" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU cross correlation coefficient colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rhohv</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">rhohv2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
+<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
@@ -333,19 +332,19 @@
 
 <dl class="py function">
 <dt id="kkpy.cm.precip">
-<code class="sig-prename descclassname"><span class="pre">kkpy.cm.</span></code><code class="sig-name descname"><span class="pre">precip</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coarse_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#precip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.cm.precip" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">precip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coarse_ticks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#precip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.precip" title="Permalink to this definition">¶</a></dt>
 <dd><p>KNU Precipitation colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">precip</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">prec2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
-<li><p><strong>coarse_ticks</strong> (<em>boolean</em>) – True if colorbar levels are too dense.</p></li>
+<li><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
+<li><p><strong>coarse_ticks</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if colorbar levels are too dense.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -361,19 +360,19 @@
 
 <dl class="py function">
 <dt id="kkpy.cm.precip_kma">
-<code class="sig-prename descclassname"><span class="pre">kkpy.cm.</span></code><code class="sig-name descname"><span class="pre">precip_kma</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coarse_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#precip_kma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.cm.precip_kma" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">precip_kma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coarse_ticks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#precip_kma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.precip_kma" title="Permalink to this definition">¶</a></dt>
 <dd><p>KMA Radar Precipitation colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">precip_kma</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">prec2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
-<li><p><strong>coarse_ticks</strong> (<em>boolean</em>) – True if colorbar levels are too dense.</p></li>
+<li><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
+<li><p><strong>coarse_ticks</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if colorbar levels are too dense.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -389,20 +388,46 @@
 
 <dl class="py function">
 <dt id="kkpy.cm.precip_kma_aws">
-<code class="sig-prename descclassname"><span class="pre">kkpy.cm.</span></code><code class="sig-name descname"><span class="pre">precip_kma_aws</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coarse_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#precip_kma_aws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.cm.precip_kma_aws" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">precip_kma_aws</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coarse_ticks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#precip_kma_aws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.precip_kma_aws" title="Permalink to this definition">¶</a></dt>
 <dd><p>KMA AWS Precipitation colors.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">precip_kma_aws</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">prec2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>levels</strong> (<em>array_like</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
-<li><p><strong>coarse_ticks</strong> (<em>boolean</em>) – True if colorbar levels are too dense.</p></li>
+<li><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p></li>
+<li><p><strong>coarse_ticks</strong> (<em>boolean</em><em>, </em><em>optional</em>) – True if colorbar levels are too dense.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
+‘norm’: color tick levels for plot
+‘ticks’: color tick levels for colorbar</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.cm.wind">
+<code class="sig-prename descclassname">kkpy.cm.</code><code class="sig-name descname">wind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">levels</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/cm.html#wind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kkpy.cm.wind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wind direction colors (cyclic).</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmap</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">wind</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">lon2d</span><span class="p">,</span> <span class="n">lat2d</span><span class="p">,</span> <span class="n">winddir</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span> <span class="n">norm</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="n">cmap</span><span class="p">[</span><span class="s1">&#39;ticks&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cb</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">([</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>levels</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Array containing user-defined color tick levels. It should have lower and upper bounds.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>dict_cmap</strong> – ‘cmap’: matplotlib colormap
@@ -422,29 +447,37 @@
            
           </div>
           <footer>
+  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="plot.html" class="btn btn-neutral float-right" title="kkpy.plot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="util.html" class="btn btn-neutral float-left" title="kkpy.util" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+      
+        <a href="plot.html" class="btn btn-neutral float-right" title="kkpy.plot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="util.html" class="btn btn-neutral float-left" title="kkpy.util" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020-2021, Kwonil Kim.
+        
+        &copy; Copyright 2020-2021, Kwonil Kim
 
     </p>
   </div>
     
     
     
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
 

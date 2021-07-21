@@ -50,8 +50,8 @@ Note that 1) the speed is enhanced, 2) the edge issue during the convolution is 
 
  .. code-block:: none
 
-    kkpy : 515 ms (18.0x faster)
-    slow : 9249 ms
+    kkpy : 575 ms (22.4x faster)
+    slow : 12872 ms
     Is equal? :  True
 
 
@@ -145,9 +145,9 @@ Note that 1) the speed is enhanced, 2) the edge issue during the convolution is 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.408 seconds)
+   **Total running time of the script:** ( 0 minutes  5.582 seconds)
 
-**Estimated memory usage:**  45 MB
+**Estimated memory usage:**  26 MB
 
 
 .. _sphx_glr_download_auto_examples_plot_derivative.py:
