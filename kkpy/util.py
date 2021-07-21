@@ -37,6 +37,7 @@ Spatial calculations
 .. autosummary::
     kkpy.util.nn_idx_2d
     kkpy.util.cross_section_2d
+    kkpy.util.to_lower_reolution
     
 ICE-POP 2018
 --------------
@@ -71,9 +72,9 @@ def wind2uv(wd=None, ws=None, radians=False, knots=False):
         Array containing wind direction in **degree**. It should be **meteorological** direction, not mathematical.
     ws : array_like
         Array containing wind speed in **m/s**.
-    radians : bool, optional
+    radians : boolean, optional
         If this is set to True, the unit of *wd* is **radian**. The default is False (i.e. **degree**).
-    knots : bool, optional
+    knots : boolean, optional
         If this is set to True, the unit of *ws* is **knots**. The default is False (i.e. **m/s**).
         
     Returns
@@ -354,7 +355,7 @@ def dist_bearing(lonlat0, lonlat1, radians=False):
         Array containing longitude and latitude of the first point. Longitude (latitude) should be at the first (second) element.
     lonlat1 : 1D Array
         Array containing longitude and latitude of the second point. Longitude (latitude) should be at the first (second) element.
-    radians : bool, optional
+    radians : boolean, optional
         If this is set to True, the unit of *bearing* is **radian**. The default is False (i.e. **degree**).
         
     Returns
@@ -953,3 +954,60 @@ def derivative(var, cnt_x, pixelsize=1, axis=0):
     derivative = result / pixelsize
     
     return derivative
+
+def to_lower_resolution(arr_in, ratio_x, ratio_y, dBZ=False):
+    """
+    Get 2D array with lower resolution.
+    
+    Examples
+    ---------
+    >>> arr1 = np.random.rand(250,150) # shape: (250,150)
+    >>> arr2 = to_lower_resolution(arr1,10,10) # shape: (25,15)
+    >>> arr3 = to_lower_resolution(arr1,5,10) # shape: (50,15)
+    
+    Parameters
+    ----------
+    arr_in : 2D array
+        Array you want to lower the resolution.
+    ratio_x : int
+        The reduction ratio over x axis. The size of **arr_in** xaxis should be able to be divided by **ratio_x**.
+    ratio_y : int
+        The reduction ratio over y axis. The size of **arr_in** yaxis should be able to be divided by **ratio_y**.
+    dBZ : boolean, optional
+        True if return a linear-scale average of reflectivity (dBZ).
+        
+    Returns
+    ---------
+    arr_out : 2D array
+        Return an array with lower resolution.
+    
+    Notes
+    ---------
+    This code is from Stack Overflow answer (https://stackoverflow.com/a/14916963/12272819), written by Jaime (https://stackoverflow.com/users/110026/jaime).
+    This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).
+    """
+    
+    if arr_in.ndim != 2:
+        raise ValueError("arr_in must be a 2D array")
+    if ratio_x <= 1 or ratio_y <= 1:
+        raise ValueError("ratio_x and ratio_y must be greater than 1")
+    if not isinstance(ratio_x, int) or not isinstance(ratio_y, int):
+        raise ValueError("ratio_x and ratio_y must be an integer")
+    
+    nx_in, ny_in = arr_in.shape
+    nx_out, ny_out = nx_in/ratio_x, ny_in/ratio_y
+    
+    if not nx_out.is_integer():
+        raise ValueError(f"check ratio_x: nx_out={nx_out}")
+    if not ny_out.is_integer():
+        raise ValueError(f"check ratio_y: ny_out={ny_out}")
+    
+    arr_out = arr_in.reshape(
+        [int(nx_out), ratio_x, int(ny_out), ratio_y])
+    if not dBZ:
+        arr_out = arr_out.mean(axis=3).mean(axis=1)
+    else:
+        arr_out = kkpy.util.dbzmean(arr_out, axis=3)
+        arr_out = kkpy.util.dbzmean(arr_out, axis=1)
+    
+    return arr_out
