@@ -734,6 +734,7 @@ def _get_proj_from_KMAwissdom():
     return proj
 
 def _read_wissdom_KNU1(fnames, degree='essential'):
+    import xarray as xr
     ds = xr.open_mfdataset(fnames, concat_dim='NT', combine='nested')
         
     ds['proj'] = _get_proj_from_KNUwissdom(ds)
@@ -772,6 +773,7 @@ def _read_wissdom_KNU1(fnames, degree='essential'):
     return ds
 
 def _read_wissdom_KMAnc(fnames, degree='essential'):
+    import xarray as xr
     ds = xr.open_mfdataset(fnames, concat_dim='NT', combine='nested')
 
     ds['proj'] = _get_proj_from_KMAwissdom()
@@ -856,6 +858,7 @@ def _read_wissdom_KMAnc(fnames, degree='essential'):
     return ds
 
 def _read_wissdom_KMAbin(fname, degree='essential'):
+    import xarray as xr
     from numba import njit
     
     @njit(fastmath=True)
