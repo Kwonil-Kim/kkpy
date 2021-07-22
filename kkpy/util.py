@@ -37,7 +37,7 @@ Spatial calculations
 .. autosummary::
     kkpy.util.nn_idx_2d
     kkpy.util.cross_section_2d
-    kkpy.util.to_lower_reolution
+    kkpy.util.to_lower_resolution
     
 ICE-POP 2018
 --------------
