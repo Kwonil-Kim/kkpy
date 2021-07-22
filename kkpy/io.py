@@ -719,6 +719,8 @@ def _get_proj_from_KNUwissdom(ds):
     return proj
 
 def _get_proj_from_KMAwissdom():
+    import cartopy.crs as ccrs
+
     proj = ccrs.LambertConformal(
         central_longitude=126.0,
         central_latitude=38.0,
