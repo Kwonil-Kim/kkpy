@@ -59,6 +59,11 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.4.1
+### Fixed
+ - io: Fix missing import in `read_wissdom`
+ - util: Fix docstring typo for `to_lower_resolution`
+
 ## 0.4.0
 ### Added
  - io: `read_wissdom`
