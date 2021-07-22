@@ -861,6 +861,7 @@ def _read_wissdom_KMAnc(fnames, degree='essential'):
 
 def _read_wissdom_KMAbin(fname, degree='essential'):
     import xarray as xr
+    import gzip
     from numba import njit
     
     @njit(fastmath=True)
