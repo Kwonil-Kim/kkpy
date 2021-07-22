@@ -1036,7 +1036,7 @@ def read_wissdom(fnames, kind='KNUv2', degree='essential'):
         ds = _read_wissdom_KMAnc(fnames, degree=degree)
         
     elif kind in ['KMAbin']:
-        if isinstance(fnames, list):
+        if isinstance(fnames, (list,np.ndarray)):
             dslist = []
             for fname in fnames:
                 dslist.append(_read_wissdom_KMAbin(fname, degree=degree))
