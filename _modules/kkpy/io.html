@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>kkpy.io &mdash; KKpy 0.4.0 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.4.1 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4.1
               </div>
             
           
@@ -896,6 +896,7 @@
     <span class="k">return</span> <span class="n">proj</span>
 
 <span class="k">def</span> <span class="nf">_read_wissdom_KNU1</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="s1">&#39;essential&#39;</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="s1">&#39;NT&#39;</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s1">&#39;nested&#39;</span><span class="p">)</span>
         
     <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;proj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_proj_from_KNUwissdom</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
@@ -934,6 +935,7 @@
     <span class="k">return</span> <span class="n">ds</span>
 
 <span class="k">def</span> <span class="nf">_read_wissdom_KMAnc</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="s1">&#39;essential&#39;</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="s1">&#39;NT&#39;</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s1">&#39;nested&#39;</span><span class="p">)</span>
 
     <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;proj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_proj_from_KMAwissdom</span><span class="p">()</span>
@@ -1018,6 +1020,7 @@
     <span class="k">return</span> <span class="n">ds</span>
 
 <span class="k">def</span> <span class="nf">_read_wissdom_KMAbin</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="s1">&#39;essential&#39;</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
     <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
     
     <span class="nd">@njit</span><span class="p">(</span><span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
