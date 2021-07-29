@@ -1007,7 +1007,7 @@ def to_lower_resolution(arr_in, ratio_x, ratio_y, dBZ=False):
     if not dBZ:
         arr_out = arr_out.mean(axis=3).mean(axis=1)
     else:
-        arr_out = kkpy.util.dbzmean(arr_out, axis=3)
-        arr_out = kkpy.util.dbzmean(arr_out, axis=1)
+        arr_out = dbzmean(arr_out, axis=3)
+        arr_out = dbzmean(arr_out, axis=1)
     
     return arr_out
