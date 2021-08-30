@@ -695,7 +695,7 @@ def density2d(x, y,
     
     hist2d[hist2d == 0] = np.nan
     
-    pm = ax.pcolormesh(xedge, yedge, hist2d.T, cmap=cmap, shading='flat')
+    pm = ax.pcolormesh(xedge, yedge, hist2d, cmap=cmap, shading='flat')
     plt.colorbar(pm, ax=ax)
     
     # xlabel, ylabel
