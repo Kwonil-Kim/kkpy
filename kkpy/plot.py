@@ -556,7 +556,9 @@ def density2d(x, y,
             grid_zorder=2.0,
             grid_which='both',
             bins=100,
-            cmap=None):
+            cmap=None,
+            vmin=None,
+            vmax=None):
     """
     Draw 2D density plot.
     
@@ -667,6 +669,10 @@ def density2d(x, y,
         Identical to bins of Matplotlib hist2d. Default is 100.
     cmap : obj
         Matplotlib cmap.
+    vmin : float, optional
+        Matplotlib vmin.
+    vmax : float, optional
+        Matplotlib vmax.
 
     Returns
     ---------
@@ -695,7 +701,7 @@ def density2d(x, y,
     
     hist2d[hist2d == 0] = np.nan
     
-    pm = ax.pcolormesh(xedge, yedge, hist2d, cmap=cmap, shading='flat')
+    pm = ax.pcolormesh(xedge, yedge, hist2d, cmap=cmap, vmin=vmin, vmax=vmax, shading='flat')
     plt.colorbar(pm, ax=ax)
     
     # xlabel, ylabel
