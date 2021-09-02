@@ -59,6 +59,15 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.4.2
+### Fixed
+ - io: Fix missing import in `read_wissdom`
+ - io: Fix when ndarray is given for `read_wissdom`
+ - util: Fix if dbz=True in `to_lower_resolution`
+ - plot: Fix transposed result for `density2d`
+### Added
+ - plot: Add `vmin`, `vmax` in `density2d`
+
 ## 0.4.1
 ### Fixed
  - io: Fix missing import in `read_wissdom`
