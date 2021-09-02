@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.plot &mdash; KKpy 0.4.1 documentation</title>
+  <title>kkpy.plot &mdash; KKpy 0.4.2 documentation</title>
   
 
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -33,7 +36,6 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -53,7 +55,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> KKpy
+            <a href="../../index.html" class="icon icon-home"> KKpy
           
 
           
@@ -63,7 +65,7 @@
             
             
               <div class="version">
-                0.4.1
+                0.4.2
               </div>
             
           
@@ -121,6 +123,8 @@
         <div class="rst-content">
         
           
+
+
 
 
 
@@ -718,7 +722,9 @@
             <span class="n">grid_zorder</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
             <span class="n">grid_which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span>
             <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Draw 2D density plot.</span>
 <span class="sd">    </span>
@@ -829,6 +835,10 @@
 <span class="sd">        Identical to bins of Matplotlib hist2d. Default is 100.</span>
 <span class="sd">    cmap : obj</span>
 <span class="sd">        Matplotlib cmap.</span>
+<span class="sd">    vmin : float, optional</span>
+<span class="sd">        Matplotlib vmin.</span>
+<span class="sd">    vmax : float, optional</span>
+<span class="sd">        Matplotlib vmax.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ---------</span>
@@ -857,7 +867,7 @@
     
     <span class="n">hist2d</span><span class="p">[</span><span class="n">hist2d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     
-    <span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">xedge</span><span class="p">,</span> <span class="n">yedge</span><span class="p">,</span> <span class="n">hist2d</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;flat&#39;</span><span class="p">)</span>
+    <span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">xedge</span><span class="p">,</span> <span class="n">yedge</span><span class="p">,</span> <span class="n">hist2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;flat&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
     
     <span class="c1"># xlabel, ylabel</span>
@@ -937,28 +947,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020-2021, Kwonil Kim
+        &#169; Copyright 2020-2021, Kwonil Kim.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
