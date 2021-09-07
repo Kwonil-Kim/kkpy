@@ -593,6 +593,7 @@ def _fname2dt(fnames, pattern):
     is_duplicate = len(set(dtfmt)) != len(dtfmt)
     replace = {
         '(%Y)': '{Y:04d}',
+        '(%y)': '{y:02d}',
         '(%m)': '{m:02d}',
         '(%d)': '{d:02d}',
         '(%j)': '{j:03d}',
