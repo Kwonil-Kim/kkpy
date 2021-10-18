@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.4.2 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.4.3 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.4.2
+                0.4.3
               </div>
             
           
@@ -193,6 +193,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_wissdom" title="kkpy.io.read_wissdom"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_wissdom</span></code></a>(fnames[, kind, degree])</p></td>
 <td><p>Read WISSDOM wind field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_vertix" title="kkpy.io.read_vertix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_vertix</span></code></a>(fnames)</p></td>
+<td><p>Read VertiX (nc).</p></td>
 </tr>
 </tbody>
 </table>
@@ -419,6 +422,27 @@ Note that the time efficiency for ‘extensive’ is low when kind=’KMAbin’.
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> – Return WISSDOM wind field.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xarray dataset object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_vertix">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_vertix</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_vertix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_vertix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read VertiX (nc).</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds_vtx</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_vertix</span><span class="p">(</span><span class="n">list_of_vertixfnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of VertiX to read.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> – Return VertiX dataset.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>xarray dataset object</p>

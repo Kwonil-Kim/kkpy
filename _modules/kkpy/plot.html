@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.plot &mdash; KKpy 0.4.2 documentation</title>
+  <title>kkpy.plot &mdash; KKpy 0.4.3 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.4.2
+                0.4.3
               </div>
             
           
@@ -722,6 +722,7 @@
             <span class="n">grid_zorder</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
             <span class="n">grid_which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span>
             <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">lognorm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">vmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">vmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -833,6 +834,8 @@
 <span class="sd">        The axis to draw the grid on. Possible options are &#39;both&#39;, &#39;xaxis&#39;, and &#39;yaxis&#39;. Default is &#39;both&#39;.</span>
 <span class="sd">    bins : int or array_like</span>
 <span class="sd">        Identical to bins of Matplotlib hist2d. Default is 100.</span>
+<span class="sd">    lognorm : boolean, optional</span>
+<span class="sd">        True if normalize cmap with matplotlib.colors.LogNorm().</span>
 <span class="sd">    cmap : obj</span>
 <span class="sd">        Matplotlib cmap.</span>
 <span class="sd">    vmin : float, optional</span>
@@ -847,6 +850,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">util</span>
     <span class="kn">import</span> <span class="nn">scipy.stats</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">colors</span>
 
     <span class="c1"># xlim, ylim</span>
     <span class="k">if</span> <span class="n">xlim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -867,7 +871,10 @@
     
     <span class="n">hist2d</span><span class="p">[</span><span class="n">hist2d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     
-    <span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">xedge</span><span class="p">,</span> <span class="n">yedge</span><span class="p">,</span> <span class="n">hist2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;flat&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">lognorm</span><span class="p">:</span>
+        <span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">xedge</span><span class="p">,</span> <span class="n">yedge</span><span class="p">,</span> <span class="n">hist2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;flat&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pm</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">xedge</span><span class="p">,</span> <span class="n">yedge</span><span class="p">,</span> <span class="n">hist2d</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">colors</span><span class="o">.</span><span class="n">LogNorm</span><span class="p">())</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pm</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
     
     <span class="c1"># xlabel, ylabel</span>
