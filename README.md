@@ -59,6 +59,10 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.4.3
+### Added
+ - plot: Add lognorm in `density2d`
+
 ## 0.4.2
 ### Fixed
  - io: Fix missing import in `read_wissdom`
