@@ -556,6 +556,7 @@ def density2d(x, y,
             grid_zorder=2.0,
             grid_which='both',
             bins=100,
+            lognorm=False,
             cmap=None,
             vmin=None,
             vmax=None):
@@ -667,6 +668,8 @@ def density2d(x, y,
         The axis to draw the grid on. Possible options are 'both', 'xaxis', and 'yaxis'. Default is 'both'.
     bins : int or array_like
         Identical to bins of Matplotlib hist2d. Default is 100.
+    lognorm : boolean, optional
+        True if normalize cmap with matplotlib.colors.LogNorm().
     cmap : obj
         Matplotlib cmap.
     vmin : float, optional
@@ -681,6 +684,7 @@ def density2d(x, y,
     """
     from . import util
     import scipy.stats
+    import matplotlib.colors as colors
 
     # xlim, ylim
     if xlim is not None:
@@ -701,7 +705,10 @@ def density2d(x, y,
     
     hist2d[hist2d == 0] = np.nan
     
-    pm = ax.pcolormesh(xedge, yedge, hist2d.T, cmap=cmap, vmin=vmin, vmax=vmax, shading='flat')
+    if not lognorm:
+        pm = ax.pcolormesh(xedge, yedge, hist2d.T, cmap=cmap, vmin=vmin, vmax=vmax, shading='flat')
+    else:
+        pm = ax.pcolormesh(xedge, yedge, hist2d.T, cmap=cmap, vmin=vmin, vmax=vmax, shading='flat', norm=colors.LogNorm())
     plt.colorbar(pm, ax=ax)
     
     # xlabel, ylabel
