@@ -24,15 +24,15 @@ https://kwonil-kim.github.io/kkpy/
 ### Preparation
 - Replace `${env_name}` to the name of the conda environment you want
 ```
-conda create -n ${env_name} python=3.7
+conda create -n ${env_name} python=3.8
 conda activate ${env_name}
-conda install -c conda-forge cartopy arm_pyart gdal
+conda install -c conda-forge cartopy arm_pyart gdal numba
 ```
 
 - Or you can just install in the existing environment (make sure you have a proper version of python)
 ```
 conda activate ${env_name}
-conda install -c conda-forge cartopy arm_pyart gdal
+conda install -c conda-forge cartopy arm_pyart gdal numba
 ```
 
 ### Installation

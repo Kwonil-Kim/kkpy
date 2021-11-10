@@ -6,3 +6,5 @@ kkpy.egg-info/
 dist/*.tar.gz
 build/
 .vscode/
+.tox/
+*.pyc
