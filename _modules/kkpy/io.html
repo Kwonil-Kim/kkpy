@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.4.3 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.5.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.5.0
               </div>
             
           
@@ -180,10 +180,17 @@
 <span class="sd">    kkpy.io.read_dem</span>
 <span class="sd">    kkpy.io.read_wissdom</span>
 <span class="sd">    kkpy.io.read_vertix</span>
+<span class="sd">    kkpy.io.read_vet</span>
+<span class="sd">    kkpy.io.read_hsr</span>
+<span class="sd">    kkpy.io.read_sounding</span>
+<span class="sd">    kkpy.io.read_lidar_wind</span>
+<span class="sd">    kkpy.io.read_wpr_kma</span>
+<span class="sd">    kkpy.io.read_pluvio_raw</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -191,7 +198,7 @@
 
 <div class="viewcode-block" id="read_aws"><a class="viewcode-back" href="../../io.html#kkpy.io.read_aws">[docs]</a><span class="k">def</span> <span class="nf">read_aws</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">date_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">datadir</span><span class="o">=</span><span class="s1">&#39;/disk/STORAGE/OBS/AWS/&#39;</span><span class="p">,</span> <span class="n">stnid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dask</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Read AWS_MIN files into dataframe.</span>
+<span class="sd">    Read AWS (AWS_MIN).</span>
 <span class="sd">    </span>
 <span class="sd">    Examples</span>
 <span class="sd">    ---------</span>
@@ -219,6 +226,10 @@
 <span class="sd">    ---------</span>
 <span class="sd">    df_aws : dataframe</span>
 <span class="sd">        Return dataframe of aws data.</span>
+<span class="sd">    </span>
+<span class="sd">    Warnings</span>
+<span class="sd">    ---------</span>
+<span class="sd">    This routine will be updated to receive argument for only filenames. The syntax will be likely changed in the near future.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">dask.dataframe</span> <span class="k">as</span> <span class="nn">dd</span>
     
@@ -557,7 +568,7 @@
 
 <div class="viewcode-block" id="get_fname"><a class="viewcode-back" href="../../io.html#kkpy.io.get_fname">[docs]</a><span class="k">def</span> <span class="nf">get_fname</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">date_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get filename matching the datetime and format.</span>
+<span class="sd">    Get filename corresponds to the given datetime(s) and format.</span>
 <span class="sd">    </span>
 <span class="sd">    Examples</span>
 <span class="sd">    ---------</span>
@@ -1223,7 +1234,7 @@
 <span class="sd">    </span>
 <span class="sd">    Examples</span>
 <span class="sd">    ---------</span>
-<span class="sd">    &gt;&gt;&gt; ds_vtx = kkpy.io.read_vertix(list_of_vertixfnames)</span>
+<span class="sd">    &gt;&gt;&gt; ds_vtx = kkpy.io.read_vertix(fnames)</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1236,6 +1247,7 @@
 <span class="sd">        Return VertiX dataset.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">cftime</span> <span class="kn">import</span> <span class="n">num2date</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
     
     <span class="c1"># read data</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span>
@@ -1265,6 +1277,579 @@
         <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ds</span><span class="o">.</span><span class="n">nodata</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">ds</span></div>
+
+<div class="viewcode-block" id="read_vet"><a class="viewcode-back" href="../../io.html#kkpy.io.read_vet">[docs]</a><span class="k">def</span> <span class="nf">read_vet</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read WRC VET motion vector.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; ds_vet = kkpy.io.read_vet(fnames)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of VET motion vector to read.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ds : xarray dataset object</span>
+<span class="sd">        Return WRC VET motion vector dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+    
+    <span class="n">dss</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i_f</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+            <span class="n">_ds</span> <span class="o">=</span> <span class="n">_read_vet</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">dss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ds</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dss</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">_read_vet</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ds</span></div>
+    
+
+<span class="k">def</span> <span class="nf">_read_vet</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+    
+    <span class="n">nx_vet</span> <span class="o">=</span> <span class="mi">25</span>
+    <span class="n">ny_vet</span> <span class="o">=</span> <span class="mi">25</span>
+    <span class="n">dxy_vet</span> <span class="o">=</span> <span class="mi">32000</span> <span class="c1"># meter</span>
+    <span class="n">border_vet</span> <span class="o">=</span> <span class="mi">112</span>
+    <span class="n">clon_vet</span> <span class="o">=</span> <span class="mf">126.0</span>
+    <span class="n">clat_vet</span> <span class="o">=</span> <span class="mf">38.0</span>
+    <span class="n">fe_vet</span> <span class="o">=</span> <span class="mi">440000</span>
+    <span class="n">fn_vet</span> <span class="o">=</span> <span class="mi">770000</span>
+
+    <span class="n">proj_vet</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span>
+        <span class="n">central_longitude</span><span class="o">=</span><span class="n">clon_vet</span><span class="p">,</span>
+        <span class="n">central_latitude</span><span class="o">=</span><span class="n">clat_vet</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="n">fe_vet</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="n">fn_vet</span><span class="p">,</span>
+        <span class="n">standard_parallels</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># READ DATA</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;6i2&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;pixel_res_km&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;border_pix&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;i4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;ew_arsize&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;i4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;sn_arsize&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;i4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;velf_ew_size&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;i4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;velf_sn_size&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;i4&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;uv&#39;</span><span class="p">,</span> <span class="s1">&#39;(25,25,2)f4&#39;</span><span class="p">)]</span>
+    <span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
+    
+    <span class="c1"># Resolution of vector data, assuming that N-S and E-W grids are same</span>
+    <span class="n">cnt_vec</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;velf_ew_size&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cnt_border</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;border_pix&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cnt_pixel</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ew_arsize&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">res_vec</span> <span class="o">=</span> <span class="p">(</span><span class="n">cnt_pixel</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">cnt_border</span><span class="p">)</span><span class="o">/</span><span class="n">cnt_vec</span>
+    
+    <span class="c1"># DEFINE DATASET</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;t&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;uv&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,:,:,</span><span class="mi">0</span><span class="p">][</span><span class="kc">None</span><span class="p">,:,:]),</span>
+            <span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;t&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;uv&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,:,:,</span><span class="mi">1</span><span class="p">][</span><span class="kc">None</span><span class="p">,:,:]),</span>
+        <span class="p">},</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+                <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cnt_vec</span><span class="p">)</span><span class="o">*</span><span class="n">res_vec</span> <span class="o">+</span> <span class="n">res_vec</span><span class="o">/</span><span class="mf">2.</span> <span class="o">+</span> <span class="n">cnt_border</span><span class="p">)</span><span class="o">*</span><span class="mf">1e3</span><span class="p">),</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+                <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cnt_vec</span><span class="p">)</span><span class="o">*</span><span class="n">res_vec</span> <span class="o">+</span> <span class="n">res_vec</span><span class="o">/</span><span class="mf">2.</span> <span class="o">+</span> <span class="n">cnt_border</span><span class="p">)</span><span class="o">*</span><span class="mf">1e3</span><span class="p">),</span>
+            <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;t&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">16</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">])]),</span>
+        <span class="p">},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Output of variational echo tracking by KMA&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;time_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;KST&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;vector_resolution&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">res_vec</span><span class="si">}</span><span class="s1"> km&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">proj_vet</span><span class="o">.</span><span class="n">proj4_init</span><span class="p">,</span>
+            <span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">proj_vet</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ds</span>
+
+<div class="viewcode-block" id="read_hsr"><a class="viewcode-back" href="../../io.html#kkpy.io.read_hsr">[docs]</a><span class="k">def</span> <span class="nf">read_hsr</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read WRC HSR reflectivity.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; ds_vet = kkpy.io.read_hsr(fnames)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of HSR reflectivity to read.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ds : xarray dataset object</span>
+<span class="sd">        Return WRC HSR reflectivity dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+    
+    <span class="n">dss</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i_f</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+            <span class="n">_ds</span> <span class="o">=</span> <span class="n">_read_hsr</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">dss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ds</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dss</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">_read_hsr</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+<span class="k">def</span> <span class="nf">_read_hsr</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">gzip</span>
+    <span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+    
+    <span class="k">def</span> <span class="nf">bin2str</span><span class="p">(</span><span class="n">binary</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">binary</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">timestr2dt</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">hh</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">ss</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">yy</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="n">dd</span><span class="p">,</span><span class="n">hh</span><span class="p">,</span><span class="n">mi</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">version</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">ptype</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">tm</span>         <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+        <span class="n">tm_in</span>      <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+        <span class="n">num_stn</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">map_code</span>   <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">map_etc</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">nx</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">ny</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">nz</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">dxy</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">dz</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">z_min</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">num_data</span>   <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">data_code</span>  <span class="o">=</span> <span class="n">bin2str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">16</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">etc</span>        <span class="o">=</span> <span class="n">bin2str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span> <span class="c1"># char</span>
+        
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">48</span><span class="p">):</span>
+            <span class="n">stn_cd</span> <span class="o">=</span> <span class="n">bin2str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span> <span class="c1"># char</span>
+            <span class="n">_tm</span>    <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+            <span class="n">_tm_in</span> <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+        
+        <span class="n">refl</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+        
+    <span class="n">refl</span> <span class="o">=</span> <span class="n">refl</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span> <span class="o">/</span> <span class="mi">100</span>
+    <span class="n">refl</span><span class="p">[</span><span class="n">refl</span> <span class="o">==</span> <span class="o">-</span><span class="mi">300</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9999</span> <span class="c1"># outside radar observable range</span>
+    <span class="n">refl</span><span class="p">[</span><span class="n">refl</span> <span class="o">==</span> <span class="o">-</span><span class="mi">250</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9998</span> <span class="c1"># no echo</span>
+    <span class="n">refl</span><span class="p">[(</span><span class="n">refl</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">refl</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">9000</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9997</span> <span class="c1"># null</span>
+    
+    <span class="c1"># hsr = {}</span>
+    <span class="c1"># hsr[&#39;reflectivity&#39;] = refl</span>
+    <span class="c1"># hsr[&#39;nx&#39;] = nx</span>
+    <span class="c1"># hsr[&#39;ny&#39;] = ny</span>
+    <span class="c1"># hsr[&#39;dxy&#39;] = dxy # meter</span>
+    <span class="c1"># hsr[&#39;clon&#39;] = clon_hsr # degN</span>
+    <span class="c1"># hsr[&#39;clat&#39;] = clat_hsr # degE</span>
+    <span class="c1"># hsr[&#39;false_easting&#39;] = fe_hsr # meter</span>
+    <span class="c1"># hsr[&#39;false_northing&#39;] = fn_hsr # meter</span>
+    <span class="c1"># hsr[&#39;cnt_radar&#39;] = num_stn</span>
+    <span class="c1"># hsr[&#39;time&#39;] = tm # datetime object</span>
+    
+    <span class="n">clon_hsr</span> <span class="o">=</span> <span class="mf">126.0</span>
+    <span class="n">clat_hsr</span> <span class="o">=</span> <span class="mf">38.0</span>
+    <span class="n">fe_hsr</span> <span class="o">=</span> <span class="mi">560500</span> <span class="c1"># meter</span>
+    <span class="n">fn_hsr</span> <span class="o">=</span> <span class="mi">840500</span> <span class="c1"># meter</span>
+    <span class="n">proj_hsr</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span>
+        <span class="n">central_longitude</span><span class="o">=</span><span class="n">clon_hsr</span><span class="p">,</span>
+        <span class="n">central_latitude</span><span class="o">=</span><span class="n">clat_hsr</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="n">fe_hsr</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="n">fn_hsr</span><span class="p">,</span>
+        <span class="n">standard_parallels</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># DEFINE DATASET</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;reflectivity&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;t&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">refl</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]),</span>
+        <span class="p">},</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="n">dxy</span><span class="p">,</span> <span class="n">dxy</span><span class="p">)),</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span><span class="o">*</span><span class="n">dxy</span><span class="p">,</span> <span class="n">dxy</span><span class="p">)),</span>
+            <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;t&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">)[</span><span class="o">-</span><span class="mi">19</span><span class="p">:</span><span class="o">-</span><span class="mi">7</span><span class="p">])]),</span>
+        <span class="p">},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;HSR product generated by KMA&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;time_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;KST&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;cnt_radar&#39;</span><span class="p">:</span> <span class="n">num_stn</span><span class="p">,</span>
+            <span class="s1">&#39;outside_radar_observable_range&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+            <span class="s1">&#39;no_echo&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9998</span><span class="p">,</span>
+            <span class="s1">&#39;null&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9997</span><span class="p">,</span>
+            <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">proj_hsr</span><span class="o">.</span><span class="n">proj4_init</span><span class="p">,</span>
+            <span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">proj_hsr</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ds</span>
+
+
+<div class="viewcode-block" id="read_sounding"><a class="viewcode-back" href="../../io.html#kkpy.io.read_sounding">[docs]</a><span class="k">def</span> <span class="nf">read_sounding</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read sounding.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; df = kkpy.io.read_sounding(fnames)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of sounding to read.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    df : pandas dataframe object</span>
+<span class="sd">        Return sounding dataframe.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Columns:</span>
+<span class="sd">        - &#39;P&#39;: pressure [hPa]</span>
+<span class="sd">        - &#39;T&#39;: temperature [degC]</span>
+<span class="sd">        - &#39;RH&#39;: relative humidity [%]</span>
+<span class="sd">        - &#39;WS&#39;: wind speed [m s-1]</span>
+<span class="sd">        - &#39;WD&#39;: wind direction [deg]</span>
+<span class="sd">        - &#39;Lon&#39;: longitude [oE]</span>
+<span class="sd">        - &#39;Lat&#39;: latitude [oN]</span>
+<span class="sd">        - &#39;Alt&#39;: altitude from mean sea level [m]</span>
+<span class="sd">        - &#39;Geo&#39;: geopotential height [gpm]</span>
+<span class="sd">        - &#39;Dew&#39;: dew-point temperature [degC]</span>
+<span class="sd">        - &#39;U&#39;: u-wind [m s-1]</span>
+<span class="sd">        - &#39;V&#39;: v-wind [m s-1]</span>
+<span class="sd">        - &#39;Uknot&#39;: u-wind [knot]</span>
+<span class="sd">        - &#39;Vknot&#39;: v-wind [knot]</span>
+<span class="sd">        - &#39;time&#39;: launch time [file-dependent, generally UTC]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i_f</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+            <span class="n">_df</span> <span class="o">=</span> <span class="n">_read_sounding</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">_read_sounding</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<span class="k">def</span> <span class="nf">_read_sounding</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">util</span>
+
+    <span class="k">def</span> <span class="nf">read_sounding_v1</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span>
+                         <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">skiprows</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                         <span class="n">on_bad_lines</span><span class="o">=</span><span class="s1">&#39;skip&#39;</span><span class="p">,</span>
+                         <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;euc-kr&#39;</span>
+                        <span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Time(min:sec)&#39;</span><span class="p">,</span> <span class="s1">&#39;Asc(m/m)&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;RH&#39;</span><span class="p">,</span> <span class="s1">&#39;WS&#39;</span><span class="p">,</span> <span class="s1">&#39;WD&#39;</span><span class="p">,</span> <span class="s1">&#39;Lon&#39;</span><span class="p">,</span> <span class="s1">&#39;Lat&#39;</span><span class="p">,</span> <span class="s1">&#39;Alt&#39;</span><span class="p">,</span><span class="s1">&#39;Geo&#39;</span><span class="p">,</span> <span class="s1">&#39;Dew&#39;</span><span class="p">]</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;WS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">knot2ms</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;WS&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">read_sounding_v2</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span>
+                         <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">skiprows</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                         <span class="n">on_bad_lines</span><span class="o">=</span><span class="s1">&#39;skip&#39;</span><span class="p">,</span>
+                         <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span>
+                        <span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;m/s.1&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;RH&#39;</span><span class="p">,</span> <span class="s1">&#39;WS&#39;</span><span class="p">,</span> <span class="s1">&#39;WD&#39;</span><span class="p">,</span> <span class="s1">&#39;Alt&#39;</span><span class="p">,</span> <span class="s1">&#39;Geo&#39;</span><span class="p">,</span> <span class="s1">&#39;Dew&#39;</span><span class="p">,</span> <span class="s1">&#39;Lat&#39;</span><span class="p">,</span> <span class="s1">&#39;Lon&#39;</span><span class="p">]</span>
+        <span class="c1"># df[&#39;WS&#39;] = util.ms2knot(df[&#39;WS&#39;])</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">clean_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">to_float</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">list_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;RH&#39;</span><span class="p">,</span> <span class="s1">&#39;WS&#39;</span><span class="p">,</span> <span class="s1">&#39;WD&#39;</span><span class="p">,</span> <span class="s1">&#39;Alt&#39;</span><span class="p">,</span><span class="s1">&#39;Geo&#39;</span><span class="p">,</span> <span class="s1">&#39;Dew&#39;</span><span class="p">,</span> <span class="s1">&#39;Lat&#39;</span><span class="p">,</span> <span class="s1">&#39;Lon&#39;</span><span class="p">]</span>
+
+        <span class="n">_df</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">list_cols</span><span class="p">:</span>
+            <span class="n">valid_index</span> <span class="o">=</span> <span class="n">_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">to_float</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
+            <span class="n">_df</span> <span class="o">=</span> <span class="n">_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">valid_index</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">list_cols</span><span class="p">:</span>
+            <span class="n">_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">_df</span>
+    
+    <span class="k">def</span> <span class="nf">get_launch_time</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;CP949&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">hdr</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                <span class="n">launch_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">hdr</span><span class="p">[</span><span class="mi">31</span><span class="p">:</span><span class="mi">50</span><span class="p">],</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;ISO-8859-1&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">mdy</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()[</span><span class="o">-</span><span class="mi">9</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">his</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()[</span><span class="o">-</span><span class="mi">9</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">launch_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mdy</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">his</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%y %H:%M:%S&#39;</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed reading launch time : </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">launch_time</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">read_sounding_v1</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">read_sounding_v2</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cannot read this kind of format: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">clean_df</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">wind2uv</span><span class="p">(</span><span class="n">wd</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;WD&#39;</span><span class="p">],</span> <span class="n">ws</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;WS&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Uknot&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Vknot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]),</span> <span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_launch_time</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="k">def</span> <span class="nf">_read_lidar_wind</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">util</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+        <span class="n">fname</span><span class="p">,</span>
+        <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Alt&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;WS&#39;</span><span class="p">,</span> <span class="s1">&#39;WD&#39;</span><span class="p">,</span> <span class="s1">&#39;Valid&#39;</span><span class="p">],</span>
+        <span class="n">na_values</span><span class="o">=-</span><span class="mi">999</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Uknot&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Vknot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]),</span> <span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">df</span>
+
+<div class="viewcode-block" id="read_lidar_wind"><a class="viewcode-back" href="../../io.html#kkpy.io.read_lidar_wind">[docs]</a><span class="k">def</span> <span class="nf">read_lidar_wind</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">ftimes</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read lidar wind profile.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; df = kkpy.io.read_lidar_wind(fnames)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of lidar wind profile to read.</span>
+<span class="sd">    ftimes : str or array_like</span>
+<span class="sd">        Datetime(s) of lidar wind profile to read (see: kkpy.io.get_fname).</span>
+<span class="sd">    dropna : boolean (optional)</span>
+<span class="sd">        True if drop rows containing NaN values.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    df : pandas dataframe object</span>
+<span class="sd">        Return lidar wind profile dataframe.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Columns:</span>
+<span class="sd">        - &#39;Alt&#39;: altitude from lidar [m]</span>
+<span class="sd">        - &#39;U&#39;: u-wind [m s-1]</span>
+<span class="sd">        - &#39;V&#39;: v-wind [m s-1]</span>
+<span class="sd">        - &#39;W&#39;: w-wind [m s-1]</span>
+<span class="sd">        - &#39;WS&#39;: wind speed [m s-1]</span>
+<span class="sd">        - &#39;WD&#39;: wind direction [deg]</span>
+<span class="sd">        - &#39;Valid&#39;: Proportion of the number of data available for wind calculation along the azimuth direction [%]</span>
+<span class="sd">        - &#39;Uknot&#39;: u-wind [knot]</span>
+<span class="sd">        - &#39;Vknot&#39;: v-wind [knot]</span>
+<span class="sd">        - &#39;time&#39;: measurement time [file-dependent, generally KST]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i_f</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+            <span class="n">_df</span> <span class="o">=</span> <span class="n">_read_lidar_wind</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ftimes</span><span class="p">[</span><span class="n">i_f</span><span class="p">]</span>
+            <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">_read_lidar_wind</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ftimes</span>
+    
+    <span class="k">if</span> <span class="n">dropna</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<span class="k">def</span> <span class="nf">_read_wpr_kma</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">util</span>
+    
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">split</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s1">&#39;Alt&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">7</span><span class="p">]),</span>
+        <span class="s1">&#39;WD&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">3</span><span class="p">::</span><span class="mi">7</span><span class="p">]),</span>
+        <span class="s1">&#39;WS&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">4</span><span class="p">::</span><span class="mi">7</span><span class="p">]),</span>
+        <span class="s1">&#39;U&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">5</span><span class="p">::</span><span class="mi">7</span><span class="p">]),</span>
+        <span class="s1">&#39;V&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">6</span><span class="p">::</span><span class="mi">7</span><span class="p">]),</span>
+        <span class="s1">&#39;Uknot&#39;</span><span class="p">:</span> <span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">5</span><span class="p">::</span><span class="mi">7</span><span class="p">])),</span>
+        <span class="s1">&#39;Vknot&#39;</span><span class="p">:</span> <span class="n">util</span><span class="o">.</span><span class="n">ms2knot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">6</span><span class="p">::</span><span class="mi">7</span><span class="p">])),</span>
+        <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="kc">None</span>
+    <span class="p">})</span>
+    
+    <span class="k">return</span> <span class="n">df</span>
+
+<div class="viewcode-block" id="read_wpr_kma"><a class="viewcode-back" href="../../io.html#kkpy.io.read_wpr_kma">[docs]</a><span class="k">def</span> <span class="nf">read_wpr_kma</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">ftimes</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read KMA wind profiler.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; df = kkpy.io.read_wpr_kma(fnames)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of KMA wind profiler data to read.</span>
+<span class="sd">    ftimes : str or array_like</span>
+<span class="sd">        Datetime(s) of KMA wind profiler data to read (see: kkpy.io.get_fname).</span>
+<span class="sd">    dropna : boolean (optional)</span>
+<span class="sd">        True if drop rows containing NaN values.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    df : pandas dataframe object</span>
+<span class="sd">        Return KMA wind profiler data dataframe.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Columns:</span>
+<span class="sd">        - &#39;Alt&#39;: altitude from wind profiler [m]</span>
+<span class="sd">        - &#39;WD&#39;: wind direction [deg]</span>
+<span class="sd">        - &#39;WS&#39;: wind speed [m s-1]</span>
+<span class="sd">        - &#39;U&#39;: u-wind [m s-1]</span>
+<span class="sd">        - &#39;V&#39;: v-wind [m s-1]</span>
+<span class="sd">        - &#39;Uknot&#39;: u-wind [knot]</span>
+<span class="sd">        - &#39;Vknot&#39;: v-wind [knot]</span>
+<span class="sd">        - &#39;time&#39;: measurement time [file-dependent, generally KST]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i_f</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+            <span class="n">_df</span> <span class="o">=</span> <span class="n">_read_wpr_kma</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">_df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ftimes</span><span class="p">[</span><span class="n">i_f</span><span class="p">]</span>
+            <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">_read_wpr_kma</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ftimes</span>
+    
+    <span class="k">if</span> <span class="n">dropna</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<span class="k">def</span> <span class="nf">_read_pluvio_raw</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+        <span class="n">fname</span><span class="p">,</span>
+        <span class="n">skiprows</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span>
+        <span class="n">names</span><span class="o">=</span><span class="p">[</span>
+            <span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;STIN&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;PRT&#39;</span><span class="p">,</span> <span class="s1">&#39;PA&#39;</span><span class="p">,</span> <span class="s1">&#39;PNRT&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;PATNRT&#39;</span><span class="p">,</span> <span class="s1">&#39;BRT&#39;</span><span class="p">,</span> <span class="s1">&#39;BNRT&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;HStatus&#39;</span><span class="p">,</span> <span class="s1">&#39;Status&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;dummy1&#39;</span><span class="p">,</span> <span class="s1">&#39;dummy2&#39;</span><span class="p">,</span> <span class="s1">&#39;dummy3&#39;</span><span class="p">],</span>
+        <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">],</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">%H:%M:%S&#39;</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span>
+        <span class="s1">&#39;STIN&#39;</span><span class="p">,</span><span class="s1">&#39;HStatus&#39;</span><span class="p">,</span><span class="s1">&#39;Status&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Date&#39;</span><span class="p">,</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;dummy1&#39;</span><span class="p">,</span><span class="s1">&#39;dummy2&#39;</span><span class="p">,</span><span class="s1">&#39;dummy3&#39;</span><span class="p">],</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<div class="viewcode-block" id="read_pluvio_raw"><a class="viewcode-back" href="../../io.html#kkpy.io.read_pluvio_raw">[docs]</a><span class="k">def</span> <span class="nf">read_pluvio_raw</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">dropna</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read pluvio raw data.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; df = kkpy.io.read_pluvio(fnames)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of pluvio raw data to read.</span>
+<span class="sd">    dropna : boolean (optional)</span>
+<span class="sd">        True if drop rows containing NaN values.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    df : pandas dataframe object</span>
+<span class="sd">        Return pluvio raw data dataframe.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    ---------</span>
+<span class="sd">    Columns:</span>
+<span class="sd">        - &#39;PRT&#39;: Intensity RT [mm hr-1]</span>
+<span class="sd">        - &#39;PA&#39;: Accu RT-NRT [mm]</span>
+<span class="sd">        - &#39;PNRT&#39;: Accu NRT [mm]</span>
+<span class="sd">        - &#39;PATNRT&#39;: Accu total NRT [mm]</span>
+<span class="sd">        - &#39;BRT&#39;: Bucket RT [mm]</span>
+<span class="sd">        - &#39;BNRT&#39;: Bucket NRT [mm]</span>
+<span class="sd">        - &#39;T&#39;: Temperature of load cell [degC]</span>
+<span class="sd">        - &#39;time&#39;: measurement time [file-dependent, generally UTC]</span>
+<span class="sd">    </span>
+<span class="sd">    See details at OTT manual (pluvio operating instructions). The variable names are based on the document number 70.020.000.B.E 04-0515.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i_f</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+            <span class="n">_df</span> <span class="o">=</span> <span class="n">_read_pluvio_raw</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_df</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">_read_pluvio_raw</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dropna</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span></div>
 </pre></div>
 
            </div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.4.3 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.5.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.4.3
+                0.5.0
               </div>
             
           
@@ -177,10 +177,10 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.get_fname" title="kkpy.io.get_fname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.get_fname</span></code></a>(indir, pattern, dt[, …])</p></td>
-<td><p>Get filename matching the datetime and format.</p></td>
+<td><p>Get filename corresponds to the given datetime(s) and format.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_aws" title="kkpy.io.read_aws"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_aws</span></code></a>(time[, date_range, …])</p></td>
-<td><p>Read AWS_MIN files into dataframe.</p></td>
+<td><p>Read AWS (AWS_MIN).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd_rho" title="kkpy.io.read_2dvd_rho"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd_rho</span></code></a>(time[, date_range, …])</p></td>
 <td><p>Read 2DVD density files into dataframe.</p></td>
@@ -197,12 +197,30 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_vertix" title="kkpy.io.read_vertix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_vertix</span></code></a>(fnames)</p></td>
 <td><p>Read VertiX (nc).</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_vet" title="kkpy.io.read_vet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_vet</span></code></a>(fnames)</p></td>
+<td><p>Read WRC VET motion vector.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_hsr" title="kkpy.io.read_hsr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_hsr</span></code></a>(fnames)</p></td>
+<td><p>Read WRC HSR reflectivity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_sounding" title="kkpy.io.read_sounding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_sounding</span></code></a>(fnames)</p></td>
+<td><p>Read sounding.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_lidar_wind" title="kkpy.io.read_lidar_wind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_lidar_wind</span></code></a>(fnames, ftimes[, dropna])</p></td>
+<td><p>Read lidar wind profile.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_wpr_kma" title="kkpy.io.read_wpr_kma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_wpr_kma</span></code></a>(fnames, ftimes[, dropna])</p></td>
+<td><p>Read KMA wind profiler.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_pluvio_raw" title="kkpy.io.read_pluvio_raw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_pluvio_raw</span></code></a>(fnames[, dropna])</p></td>
+<td><p>Read pluvio raw data.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt id="kkpy.io.read_aws">
 <code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_aws</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datadir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/disk/STORAGE/OBS/AWS/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stnid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_aws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_aws" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read AWS_MIN files into dataframe.</p>
+<dd><p>Read AWS (AWS_MIN).</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df_aws</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_aws</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
@@ -230,6 +248,10 @@ If this is array of elements and keyword <em>date_range</em> is False, it will r
 <dd class="field-odd"><p>dataframe</p>
 </dd>
 </dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This routine will be updated to receive argument for only filenames. The syntax will be likely changed in the near future.</p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -336,7 +358,7 @@ The number and the order of elements should match with <cite>rhifile_nc</cite>.<
 <dl class="py function">
 <dt id="kkpy.io.get_fname">
 <code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">get_fname</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#get_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.get_fname" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get filename matching the datetime and format.</p>
+<dd><p>Get filename corresponds to the given datetime(s) and format.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get radar filename</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fname</span><span class="p">,</span> <span class="n">fdatetime</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span><span class="s1">&#39;/disk/STORAGE/OBS/Radar/ICE-POP/PPI/NOQC/KST/&#39;</span><span class="p">,</span>
@@ -434,7 +456,7 @@ Note that the time efficiency for ‘extensive’ is low when kind=’KMAbin’.
 <code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_vertix</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_vertix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_vertix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read VertiX (nc).</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds_vtx</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_vertix</span><span class="p">(</span><span class="n">list_of_vertixfnames</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds_vtx</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_vertix</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -448,6 +470,209 @@ Note that the time efficiency for ‘extensive’ is low when kind=’KMAbin’.
 <dd class="field-odd"><p>xarray dataset object</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_vet">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_vet</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_vet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_vet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read WRC VET motion vector.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds_vet</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_vet</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of VET motion vector to read.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> – Return WRC VET motion vector dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xarray dataset object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_hsr">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_hsr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_hsr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_hsr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read WRC HSR reflectivity.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds_vet</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_hsr</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of HSR reflectivity to read.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> – Return WRC HSR reflectivity dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xarray dataset object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_sounding">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_sounding</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_sounding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_sounding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read sounding.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_sounding</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of sounding to read.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Return sounding dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe object</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>Columns:</dt><dd><ul class="simple">
+<li><p>‘P’: pressure [hPa]</p></li>
+<li><p>‘T’: temperature [degC]</p></li>
+<li><p>‘RH’: relative humidity [%]</p></li>
+<li><p>‘WS’: wind speed [m s-1]</p></li>
+<li><p>‘WD’: wind direction [deg]</p></li>
+<li><p>‘Lon’: longitude [oE]</p></li>
+<li><p>‘Lat’: latitude [oN]</p></li>
+<li><p>‘Alt’: altitude from mean sea level [m]</p></li>
+<li><p>‘Geo’: geopotential height [gpm]</p></li>
+<li><p>‘Dew’: dew-point temperature [degC]</p></li>
+<li><p>‘U’: u-wind [m s-1]</p></li>
+<li><p>‘V’: v-wind [m s-1]</p></li>
+<li><p>‘Uknot’: u-wind [knot]</p></li>
+<li><p>‘Vknot’: v-wind [knot]</p></li>
+<li><p>‘time’: launch time [file-dependent, generally UTC]</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_lidar_wind">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_lidar_wind</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftimes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_lidar_wind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_lidar_wind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read lidar wind profile.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_lidar_wind</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of lidar wind profile to read.</p></li>
+<li><p><strong>ftimes</strong> (<em>str</em><em> or </em><em>array_like</em>) – Datetime(s) of lidar wind profile to read (see: kkpy.io.get_fname).</p></li>
+<li><p><strong>dropna</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – True if drop rows containing NaN values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Return lidar wind profile dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe object</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>Columns:</dt><dd><ul class="simple">
+<li><p>‘Alt’: altitude from lidar [m]</p></li>
+<li><p>‘U’: u-wind [m s-1]</p></li>
+<li><p>‘V’: v-wind [m s-1]</p></li>
+<li><p>‘W’: w-wind [m s-1]</p></li>
+<li><p>‘WS’: wind speed [m s-1]</p></li>
+<li><p>‘WD’: wind direction [deg]</p></li>
+<li><p>‘Valid’: Proportion of the number of data available for wind calculation along the azimuth direction [%]</p></li>
+<li><p>‘Uknot’: u-wind [knot]</p></li>
+<li><p>‘Vknot’: v-wind [knot]</p></li>
+<li><p>‘time’: measurement time [file-dependent, generally KST]</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_wpr_kma">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_wpr_kma</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftimes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_wpr_kma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_wpr_kma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read KMA wind profiler.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_wpr_kma</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of KMA wind profiler data to read.</p></li>
+<li><p><strong>ftimes</strong> (<em>str</em><em> or </em><em>array_like</em>) – Datetime(s) of KMA wind profiler data to read (see: kkpy.io.get_fname).</p></li>
+<li><p><strong>dropna</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – True if drop rows containing NaN values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Return KMA wind profiler data dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe object</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>Columns:</dt><dd><ul class="simple">
+<li><p>‘Alt’: altitude from wind profiler [m]</p></li>
+<li><p>‘WD’: wind direction [deg]</p></li>
+<li><p>‘WS’: wind speed [m s-1]</p></li>
+<li><p>‘U’: u-wind [m s-1]</p></li>
+<li><p>‘V’: v-wind [m s-1]</p></li>
+<li><p>‘Uknot’: u-wind [knot]</p></li>
+<li><p>‘Vknot’: v-wind [knot]</p></li>
+<li><p>‘time’: measurement time [file-dependent, generally KST]</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_pluvio_raw">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_pluvio_raw</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_pluvio_raw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_pluvio_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read pluvio raw data.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_pluvio</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of pluvio raw data to read.</p></li>
+<li><p><strong>dropna</strong> (<em>boolean</em><em> (</em><em>optional</em><em>)</em>) – True if drop rows containing NaN values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Return pluvio raw data dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe object</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>Columns:</dt><dd><ul class="simple">
+<li><p>‘PRT’: Intensity RT [mm hr-1]</p></li>
+<li><p>‘PA’: Accu RT-NRT [mm]</p></li>
+<li><p>‘PNRT’: Accu NRT [mm]</p></li>
+<li><p>‘PATNRT’: Accu total NRT [mm]</p></li>
+<li><p>‘BRT’: Bucket RT [mm]</p></li>
+<li><p>‘BNRT’: Bucket NRT [mm]</p></li>
+<li><p>‘T’: Temperature of load cell [degC]</p></li>
+<li><p>‘time’: measurement time [file-dependent, generally UTC]</p></li>
+</ul>
+</dd>
+</dl>
+<p>See details at OTT manual (pluvio operating instructions). The variable names are based on the document number 70.020.000.B.E 04-0515.</p>
 </dd></dl>
 
 </div>
