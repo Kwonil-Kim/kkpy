@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='kkpy',
-    version='0.4.3',
+    version='0.5.0',
 #    packages=find_packages("kkpy", exclude=['tests*']),
     packages=['kkpy'],
     package_dir={'kkpy': 'kkpy'},
