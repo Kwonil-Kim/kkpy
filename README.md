@@ -59,6 +59,10 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.5.1
+### Added
+ - io: `read_2dvd`, `read_wxt520`
+
 ## 0.5.0
 ### Added
  - io: `read_vertix`, `read_vet`, `read_hsr`, `read_sounding`, `read_lidar_wind`, `read_wpr_kma`, and `read_pluvio_raw`
