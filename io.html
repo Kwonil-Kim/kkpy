@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.5.0 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.5.1 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.5.0
+                0.5.1
               </div>
             
           
@@ -214,6 +214,12 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_pluvio_raw" title="kkpy.io.read_pluvio_raw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_pluvio_raw</span></code></a>(fnames[, dropna])</p></td>
 <td><p>Read pluvio raw data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd" title="kkpy.io.read_2dvd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd</span></code></a>(fnames[, verbose])</p></td>
+<td><p>Read 2DVD ascii file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_wxt520" title="kkpy.io.read_wxt520"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_wxt520</span></code></a>(fnames[, verbose])</p></td>
+<td><p>Read WXT520 ascii file.</p></td>
 </tr>
 </tbody>
 </table>
@@ -673,6 +679,51 @@ Note that the time efficiency for ‘extensive’ is low when kind=’KMAbin’.
 </dd>
 </dl>
 <p>See details at OTT manual (pluvio operating instructions). The variable names are based on the document number 70.020.000.B.E 04-0515.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_2dvd">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_2dvd</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_2dvd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_2dvd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read 2DVD ascii file.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df_2dvd</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_2dvd</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of 2DVD to read.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – True if print reading status</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Return 2dvd dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_wxt520">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_wxt520</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_wxt520"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_wxt520" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read WXT520 ascii file.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df_wxt</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_wxt520</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of WXT520 to read.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Return wxt520 dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe object</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
