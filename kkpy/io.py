@@ -20,6 +20,8 @@ Functions to read and write files
     kkpy.io.read_lidar_wind
     kkpy.io.read_wpr_kma
     kkpy.io.read_pluvio_raw
+    kkpy.io.read_2dvd
+    kkpy.io.read_wxt520
 
 """
 import numpy as np
@@ -1665,6 +1667,7 @@ def read_pluvio_raw(fnames, dropna=True):
         - 'BNRT': Bucket NRT [mm]
         - 'T': Temperature of load cell [degC]
         - 'time': measurement time [file-dependent, generally UTC]
+    
     See details at OTT manual (pluvio operating instructions). The variable names are based on the document number 70.020.000.B.E 04-0515.
     """
     dfs = []
@@ -1681,5 +1684,229 @@ def read_pluvio_raw(fnames, dropna=True):
         df = df.dropna()
     
     df = df.reset_index(drop=True)
+    
+    return df
+
+def _read_2dvd(filename):
+    def _yydoy2dt(yydoy):
+        return datetime.datetime.strptime(yydoy, '%y%j')
+
+    def _2dvd_set_index_dt1(df, fname):
+        yydoy = os.path.basename(fname)[1:6]
+        dt_date = _yydoy2dt(yydoy)
+        df['year'] = dt_date.year
+        df['month'] = dt_date.month
+        df['day'] = dt_date.day
+
+        columns_date = ['year','month','day','hour','minute','second','millisecond']
+        df = df.set_index(pd.to_datetime(df[columns_date]))
+
+        return df.drop(columns_date, axis=1)
+
+    def _2dvd_set_index_dt2(df, fname):
+        dt_date = datetime.datetime.strptime(os.path.basename(fname)[16:24], '%Y%m%d')
+        df['year'] = dt_date.year
+        df['month'] = dt_date.month
+        df['day'] = dt_date.day
+        df['hour'] = df['HHMM'] // 100
+        df['minute'] = df['HHMM'] % 100
+        df = df.drop('HHMM', axis=1)
+
+        columns_date = ['year','month','day','hour','minute']
+        df = df.set_index(pd.to_datetime(df[columns_date]))
+
+        return df.drop(columns_date, axis=1)
+    
+    def read_2dvd_asc1(fname):
+        """
+        P R I N T O U T   O F   .\DATASET7\V20231_1.hyd 
+        TIME STAMP       DIAM    VOL     VEL     OBL    AREA     A>=  A<=  B>=  B<=
+        hr mi sc msc     mm      mm3     m/s            mm2
+        03 20 36 563     0.40    0.03    0.67    0.27  10907.40  457  461  104  111 
+        """
+        df = pd.read_csv(
+            fname,
+            header=None, delim_whitespace=True,
+            skiprows=3,
+            names=['hour','minute','second','millisecond','D_mm',
+                   'VOL_mm3','VEL_ms','OBL','AREA_mm2',
+                   'A1','A2','B1','B2'],
+            engine='python',
+        )
+        if isinstance(df.index, pd.MultiIndex):
+            raise UserWarning('Failed to read the format')
+        df = _2dvd_set_index_dt1(df, fname)
+        return df
+    
+    def read_2dvd_asc2(fname):
+        """
+        ^[[2J
+
+        ====================================================================
+        |                                                                  |
+        |         T H E   2 D - V I D E O - D I S T R O M E T E R          |
+        |                                                                  |
+        |      HYD2ASC                                                     |
+        |      sample how to print some hydrometeor-parameters             |
+        |      to an ASCII file                                            |
+        |                                                                  |
+        |      (Feb. 09, 2004, internal version no. 7.002)                 |
+        |                                                                  |
+        |                                                                  |
+        |                                 JOANNEUM RESEARCH, GRAZ/AUSTRIA  |
+        ====================================================================
+
+
+
+        P R I N T O U T   O F   C:\2dvddata\before_201806\hyd\V18100_1.hyd
+
+        09 51 59 787     0.39    0.03    3.99    0.89  10977.31  540  544  319  322
+        """
+        df = pd.read_csv(
+            fname,
+            header=None, delim_whitespace=True,
+            skiprows=20, skipfooter=1,
+            names=['hour','minute','second','millisecond','D_mm',
+                   'VOL_mm3','VEL_ms','OBL','AREA_mm2',
+                   'A1','A2','B1','B2'],
+            engine='python',
+        )
+        if isinstance(df.index, pd.MultiIndex):
+            raise UserWarning('Failed to read the format')
+        df = _2dvd_set_index_dt1(df, fname)
+        return df
+
+    def read_2dvd_asc3(fname):
+        """
+        TYPE_SNO printout of V17340_1.sno 
+        TIME STAMP       DIAM    VOL     VEL     OBL    AREA     A>=  A<=  B>=  B<=  wid_A  obl_A  wid_B  obl_B
+        hr mi sc msc     mm      mm3     m/s            mm2
+        00 01 42 891     3.97   32.7610    0.92    0.00   9819.97  343  380   11   49   4.36   0.76   5.86   0.59
+        """
+        df = pd.read_csv(
+            fname,
+            header=None, delim_whitespace=True,
+            skiprows=3,
+            names=['hour','minute','second','millisecond','D_mm',
+                   'VOL_mm3','VEL_ms','OBL','AREA_mm2',
+                   'A1','A2','B1','B2','WA','OA','WB','OB'],
+            engine='python',
+        )
+        if isinstance(df.index, pd.MultiIndex):
+            raise UserWarning('Failed to read the format')
+        df = _2dvd_set_index_dt1(df, fname)
+        return df
+
+    def read_2dvd_rho1(fname):
+        """
+        HOUR  MINUTE SEC MSEC [UTC] APPARENT_DIAMETER VELOCIY DENSITY WA HA WB HB Deq
+        0139      0.4257243      1.1390000      0.7007125      0.0109990      0.5010000      0.3910000      0.5010000      0.4330000      0.4250000
+        """
+        df = pd.read_csv(
+            fname,
+            delim_whitespace=True,
+            names=['HHMM', 'Dapp_mm', 'VEL_ms', 'Rho_gcm3', 'AREA_m2', 'WA', 'HA', 'WB', 'HB', 'D_mm'],
+            skiprows=1
+        )
+        if isinstance(df.index, pd.MultiIndex):
+            raise UserWarning('Failed to read the format')
+        df['AREA_mm2'] = df['AREA_m2'] * 1e6
+        df = df.drop('AREA_m2', axis=1)
+
+        df = _2dvd_set_index_dt2(df, fname)
+        return df
+
+    try:
+        df = read_2dvd_asc1(filename)
+    except:
+        try:
+            df = read_2dvd_asc2(filename)
+        except:
+            try:
+                df = read_2dvd_asc3(filename)
+            except:
+                try:
+                    df = read_2dvd_rho1(filename)
+                except:
+                    raise UserWarning(f'Cannot read this kind of format: {filename}')
+    
+    return df
+    
+def read_2dvd(fnames, verbose=False):
+    """
+    Read 2DVD ascii file.
+    
+    Examples
+    ---------
+    >>> df_2dvd = kkpy.io.read_2dvd(fnames)
+    
+    Parameters
+    ----------
+    fnames : str or array_like
+        Filename(s) of 2DVD to read.
+    verbose : bool, optional
+        True if print reading status
+    
+    Returns
+    ---------
+    df : pandas dataframe object
+        Return 2dvd dataframe.
+    """
+    import pandas as pd
+    
+    dfs = []
+    
+    if isinstance(fnames, (list, np.ndarray)):
+        for i_f, fname in enumerate(fnames):
+            if verbose:
+                print(i_f, fname)
+            _df = _read_2dvd(fname)
+            dfs.append(_df)
+        df = pd.concat(dfs)
+    else:
+        df = _read_2dvd(fnames)
+    
+    return df
+
+def _read_wxt520(fname):
+    import pandas as pd
+    from . import util
+    
+    df = pd.read_csv(fname)
+    df = df.set_index(pd.to_datetime(df['Timestamp'], format='%Y/%m/%d %H:%M:%S.%f'))
+    df = df.drop(['Timestamp','TZ','Hail Accum. (hits/cm2)'], axis=1)
+    df.columns = ['WD', 'WS', 'MWS', 'T', 'RH', 'P', 'R_ACC']
+    df['U'], df['V'] = util.wind2uv(wd=df['WD'], ws=df['WS'])
+    return df
+
+def read_wxt520(fnames, verbose=False):
+    """
+    Read WXT520 ascii file.
+    
+    Examples
+    ---------
+    >>> df_wxt = kkpy.io.read_wxt520(fnames)
+    
+    Parameters
+    ----------
+    fnames : str or array_like
+        Filename(s) of WXT520 to read.
+    
+    Returns
+    ---------
+    df : pandas dataframe object
+        Return wxt520 dataframe.
+    """
+    import pandas as pd
+    
+    dfs = []
+    
+    if isinstance(fnames, (list, np.ndarray)):
+        for i_f, fname in enumerate(fnames):
+            _df = _read_wxt520(fname)
+            dfs.append(_df)
+        df = pd.concat(dfs)
+    else:
+        df = _read_wxt520(fnames)
     
     return df

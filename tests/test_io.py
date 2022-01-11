@@ -219,3 +219,89 @@ def test_read_pluvio_raw():
                 df.columns,
                 ['PRT', 'PA', 'PNRT', 'PATNRT', 'BRT', 'BNRT', 'T', 'time']
             )) == 8
+
+def test_read_2dvd():
+    list_fname = [
+        '/disk/STORAGE/OBS/2DVD/2dvddata/asc/V12294_1.hyd.txt', # T H E   2 D - V I D E O - D I S T R O M E T E R
+        '/disk/common/mpq2k/IC_2DVD/ASC/202008/V20231_1.txt', # P R I N T O U T   O F ~~~/~~~.hyd
+        '/disk/common/mpq2k/With_kwonil/BKC_2DVD_RA/ASC/V18008_1.txt', # P R I N T O U T   O F ~~~.hyd
+        '/disk/common/mpq2k/ICE_DISTRO/2DVD/level1/KNU/V17340_1.txt', # TYPE_SNO printout of ~~~.sno
+        '/disk/common/kwonil_rainy/RHO_2DVD/2DVD_Dapp_v_rho_20171206_all_kwonil_Deq.txt', # HOUR  MINUTE SEC MSEC [UTC] APPARENT_DIAMETER ...
+        [
+            '/disk/common/mpq2k/IC_2DVD/ASC/202008/V20230_1.txt', # P R I N T O U T   O F ~~~/~~~.hyd
+            '/disk/common/mpq2k/IC_2DVD/ASC/202008/V20231_1.txt',
+        ],
+        [
+            '/disk/common/kwonil_rainy/RHO_2DVD/2DVD_Dapp_v_rho_20171206_all_kwonil_Deq.txt', # HOUR  MINUTE SEC MSEC [UTC] APPARENT_DIAMETER ...
+            '/disk/common/kwonil_rainy/RHO_2DVD/2DVD_Dapp_v_rho_20180203_all_kwonil_Deq.txt',
+        ]
+    ]
+    expected = [
+        [(17, 9), datetime.datetime(2012,10,20,2,26,0), datetime.datetime(2012,10,20,8,59,4), 0.54, 10994.82],
+        [(30, 9), datetime.datetime(2020,8,18,3,20,36), datetime.datetime(2020,8,18,22,55,24), 0.4, 10907.4],
+        [(1624, 9), datetime.datetime(2018,1,8,11,14,58), datetime.datetime(2018,1,8,19,51,40), 0.72, 12369.59],
+        [(361, 13), datetime.datetime(2017,12,6,0,1,42), datetime.datetime(2017,12,6,2,22,28), 3.97, 9819.97],
+        [(132, 9), datetime.datetime(2017,12,6,0,1,0), datetime.datetime(2017,12,6,1,59,0), 4.063, 10039.0],
+        [(83, 9), datetime.datetime(2020,8,17,3,50,1), datetime.datetime(2020,8,18,22,55,24), 0.51, 10959.83],
+        [(5703, 9), datetime.datetime(2017,12,6,0,1,0), datetime.datetime(2018,2,3,17,42,0), 4.063, 10039.0],
+    ]
+
+    for i_test, fname in enumerate(list_fname):
+        df = kkpy.io.read_2dvd(fname)
+        assert isinstance(df, pd.core.frame.DataFrame)
+        print(i_test, fname)
+        assert df.shape == expected[i_test][0]
+        assert df.index[0].replace(microsecond=0) == expected[i_test][1]
+        assert df.index[-1].replace(microsecond=0) == expected[i_test][2]
+        assert_almost_equal(df.D_mm[0], expected[i_test][3])
+        assert_almost_equal(df.AREA_mm2[0], expected[i_test][4])
+        if i_test < 3 or i_test == 5:
+            assert np.count_nonzero(
+                np.isin(
+                    df.columns,
+                    ['D_mm', 'VOL_mm3', 'VEL_ms', 'OBL', 'AREA_mm2', 'A1', 'A2', 'B1', 'B2']
+                )) == 9
+        elif i_test == 3:
+            assert np.count_nonzero(
+                np.isin(
+                    df.columns,
+                    ['D_mm', 'VOL_mm3', 'VEL_ms', 'OBL', 'AREA_mm2', 'A1', 'A2', 'B1', 'B2', 'WA', 'OA', 'WB', 'OB']
+                )) == 13
+        elif i_test == 4 or i_test == 6:
+            assert np.count_nonzero(
+                np.isin(
+                    df.columns,
+                    ['Dapp_mm', 'VEL_ms', 'Rho_gcm3', 'WA', 'HA', 'WB', 'HB', 'D_mm', 'AREA_mm2']
+                )) == 9
+        else:
+            raise UserWarning('Unknown i_test')
+
+def test_read_wxt520():
+    list_fname = [
+        '/disk/WORKSPACE/kwonil/WXT520/201802/20180228.csv',
+        [
+            '/disk/WORKSPACE/kwonil/WXT520/201802/20180228.csv',
+            '/disk/WORKSPACE/kwonil/WXT520/201803/20180301.csv',
+        ]
+    ]
+    
+    expected = [
+        [(8640, 9), datetime.datetime(2018,2,28,0,0,0), datetime.datetime(2018,2,28,23,59,50), 93, 1.5, -1.4979443021318608],
+        [(17280, 9), datetime.datetime(2018,2,28,0,0,0), datetime.datetime(2018,3,1,23,59,50), 93, 1.5, -1.4979443021318608],
+    ]
+    
+    for i_test, fname in enumerate(list_fname):
+        df = kkpy.io.read_wxt520(fname)
+        assert isinstance(df, pd.core.frame.DataFrame)
+        assert df.shape == expected[i_test][0]
+        assert df.index[0].replace(microsecond=0) == expected[i_test][1]
+        assert df.index[-1].replace(microsecond=0) == expected[i_test][2]
+        assert_almost_equal(df.WD[0], expected[i_test][3])
+        assert_almost_equal(df.WS[0], expected[i_test][4])
+        assert_almost_equal(df.U[0], expected[i_test][5])
+        assert np.count_nonzero(
+            np.isin(
+                df.columns,
+                ['WD', 'WS', 'MWS', 'T', 'RH', 'P', 'R_ACC', 'U', 'V']
+            )) == 9
+
