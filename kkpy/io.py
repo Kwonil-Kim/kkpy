@@ -404,7 +404,7 @@ def read_dem(file=None, area='pyeongchang'):
 
 def get_fname(indir, pattern, dt, date_range=True, verbose=True):
     """
-    Get filename corresponds to the given datetime(s) and format.
+    Get filename corresponding to the given datetime(s) and format.
     
     Examples
     ---------
@@ -562,7 +562,6 @@ def get_fname(indir, pattern, dt, date_range=True, verbose=True):
             
             # check if any file found
             if wh.size == 0:
-                print(candidate_dt)
                 raise UserWarning('No matched file found')
             
             # store matched files only
