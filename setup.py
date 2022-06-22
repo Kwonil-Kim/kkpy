@@ -2,14 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='kkpy',
-    version='0.5.1',
-#    packages=find_packages("kkpy", exclude=['tests*']),
+    version='0.5.2',
     packages=['kkpy'],
     package_dir={'kkpy': 'kkpy'},
     package_data={'kkpy': ['SHP/*']},
     license='MIT',
     description='Python library for my meteorological research',
-#    long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
     long_description=open('README.md').read(),
     install_requires=[

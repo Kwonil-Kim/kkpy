@@ -3,4 +3,4 @@ from . import util
 from . import cm
 from . import plot
 
-__version__ = '0.5.1'
+__version__ = '0.5.2'

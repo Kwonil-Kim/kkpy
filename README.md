@@ -59,6 +59,11 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.5.2
+### Fixed
+ - io: Add support for a new KMA sounding format
+ - io: Prevent print during get_fname and fix typo
+ 
 ## 0.5.1
 ### Added
  - io: `read_2dvd`, `read_wxt520`
