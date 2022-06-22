@@ -59,6 +59,11 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.5.3
+### Fixed
+ - io: Fix support for a new KMA sounding format
+ - Update test for `read_sounding`
+
 ## 0.5.2
 ### Fixed
  - io: Add support for a new KMA sounding format
