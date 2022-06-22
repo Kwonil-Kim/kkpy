@@ -83,6 +83,37 @@ def test_read_hsr():
         assert isinstance(ds['t'].values[0], (datetime.date,np.datetime64))
         assert pd.to_datetime(ds['t'].values[0]) == datetime.datetime(2020,7,5,0,10)
         assert isinstance(ds.projection, ccrs.LambertConformal)
+
+def test_read_d3d():
+    list_fname = [
+        '/disk/STORAGE/OBS/Radar/KMA/OBS_ta_D3D/202106/04/RDR_OBS_pa_D3D_202106040000.bin.gz',
+        '/disk/STORAGE/OBS/Radar/KMA/OBS_ta_D3D/202106/04/RDR_OBS_ta_D3D_202106040000.bin.gz',
+        '/disk/STORAGE/OBS/Radar/KMA/OBS_ta_D3D/202106/04/RDR_OBS_td_D3D_202106040000.bin.gz',
+        [
+            '/disk/STORAGE/OBS/Radar/KMA/OBS_ta_D3D/202106/04/RDR_OBS_pa_D3D_202106040000.bin.gz',
+            '/disk/STORAGE/OBS/Radar/KMA/OBS_ta_D3D/202106/04/RDR_OBS_pa_D3D_202106040010.bin.gz',
+        ]
+    ]
+    
+    expected = [
+        [257, 257, 61, 1, 'air_pressure'],
+        [257, 257, 61, 1, 'air_temperature'],
+        [257, 257, 61, 1, 'dew_point_temperature'],
+        [257, 257, 61, 2, 'air_pressure'],
+    ]
+    
+    for i_test, fname in enumerate(list_fname):
+        ds = kkpy.io.read_d3d(fname)
+        assert isinstance(ds, xr.core.dataset.Dataset)
+        assert ds.x.size == expected[i_test][0]
+        assert ds.y.size == expected[i_test][1]
+        assert ds.z.size == expected[i_test][2]
+        assert ds.t.size == expected[i_test][3]
+        assert list(ds.variables.keys())[0] == expected[i_test][4]
+        assert isinstance(ds[list(ds.variables.keys())[0]], xr.core.dataarray.DataArray)
+        assert isinstance(ds['t'].values[0], (datetime.date,np.datetime64))
+        assert pd.to_datetime(ds['t'].values[0]) == datetime.datetime(2021,6,4,0,0)
+        assert isinstance(ds.projection, ccrs.LambertConformal)
         
 def test_read_sounding():
     list_fname = [
@@ -98,7 +129,7 @@ def test_read_sounding():
     
     expected = [
         [5.81322172, (6637, 15), datetime.datetime(2021,8,19,23,18,24), -3.736667, -7.263500, datetime.datetime(2021,8,19,23,18,24)],
-        [5.8, (6509, 15), datetime.datetime(2022,6,4,11,16,21), -4.443058, -8.636614, datetime.datetime(2022,6,4,11,16,21)],
+        [2.98377752, (6509, 15), datetime.datetime(2022,6,4,11,16,21), -2.2857062, -4.4430577, datetime.datetime(2022,6,4,11,16,21)],
         [5.81322172, (22432, 15), datetime.datetime(2021,8,19,23,18,24), -3.736667, -7.263500, datetime.datetime(2018,7,10,11,20,35)]
     ]
     
@@ -225,13 +256,13 @@ def test_read_pluvio_raw():
 def test_read_2dvd():
     list_fname = [
         '/disk/STORAGE/OBS/2DVD/2dvddata/asc/V12294_1.hyd.txt', # T H E   2 D - V I D E O - D I S T R O M E T E R
-        '/disk/common/mpq2k/IC_2DVD/ASC/202008/V20231_1.txt', # P R I N T O U T   O F ~~~/~~~.hyd
+        '/disk/common/mpq2k/2DVD_RELATE/RAIN_DATASET/KNU_SN57/2020_Inchern/ASC/202008/V20231_1.txt', # P R I N T O U T   O F ~~~/~~~.hyd
         '/disk/common/mpq2k/With_kwonil/BKC_2DVD_RA/ASC/V18008_1.txt', # P R I N T O U T   O F ~~~.hyd
         '/disk/common/mpq2k/ICE_DISTRO/2DVD/level1/KNU/V17340_1.txt', # TYPE_SNO printout of ~~~.sno
         '/disk/common/kwonil_rainy/RHO_2DVD/2DVD_Dapp_v_rho_20171206_all_kwonil_Deq.txt', # HOUR  MINUTE SEC MSEC [UTC] APPARENT_DIAMETER ...
         [
-            '/disk/common/mpq2k/IC_2DVD/ASC/202008/V20230_1.txt', # P R I N T O U T   O F ~~~/~~~.hyd
-            '/disk/common/mpq2k/IC_2DVD/ASC/202008/V20231_1.txt',
+            '/disk/common/mpq2k/2DVD_RELATE/RAIN_DATASET/KNU_SN57/2020_Inchern/ASC/202008/V20230_1.txt', # P R I N T O U T   O F ~~~/~~~.hyd
+            '/disk/common/mpq2k/2DVD_RELATE/RAIN_DATASET/KNU_SN57/2020_Inchern/ASC/202008/V20231_1.txt',
         ],
         [
             '/disk/common/kwonil_rainy/RHO_2DVD/2DVD_Dapp_v_rho_20171206_all_kwonil_Deq.txt', # HOUR  MINUTE SEC MSEC [UTC] APPARENT_DIAMETER ...
