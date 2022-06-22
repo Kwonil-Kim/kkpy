@@ -87,6 +87,7 @@ def test_read_hsr():
 def test_read_sounding():
     list_fname = [
         '/disk/STORAGE/OBS/SONDE/KMA/202108/20/UPP_RAW_47102_2021082000.txt',
+        '/disk/STORAGE/OBS/SONDE/KMA/202206/04/UPP_RAW_47138_2022060412.txt',
         [
             '/disk/STORAGE/OBS/SONDE/KMA/202108/20/UPP_RAW_47102_2021082000.txt',
             '/disk/STORAGE/OBS/SONDE/KMA/201802/28/UPP_RAW_47102_2018022800.txt',
@@ -97,6 +98,7 @@ def test_read_sounding():
     
     expected = [
         [5.81322172, (6637, 15), datetime.datetime(2021,8,19,23,18,24), -3.736667, -7.263500, datetime.datetime(2021,8,19,23,18,24)],
+        [5.8, (6509, 15), datetime.datetime(2022,6,4,11,16,21), -4.443058, -8.636614, datetime.datetime(2022,6,4,11,16,21)],
         [5.81322172, (22432, 15), datetime.datetime(2021,8,19,23,18,24), -3.736667, -7.263500, datetime.datetime(2018,7,10,11,20,35)]
     ]
     

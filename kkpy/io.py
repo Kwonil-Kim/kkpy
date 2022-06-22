@@ -1457,12 +1457,17 @@ def _read_sounding(filename):
                 launch_time = datetime.datetime.strptime(hdr[31:50], '%Y-%m-%d %H:%M:%S')
         except:
             try:
-                with open(fname, encoding='ISO-8859-1') as f:
-                    mdy = f.readline()[-9:-1]
-                    his = f.readline()[-9:-1]
-                    launch_time = pd.to_datetime(f'{mdy} {his}', format='%d/%m/%y %H:%M:%S')
+                with open(fname, encoding='CP949') as f:
+                    hdr = f.readline()
+                    launch_time = datetime.datetime.strptime(hdr[29:48], '%Y-%m-%d %H:%M:%S')
             except:
-                raise UserWarning(f'Failed reading launch time : {fname}')
+                try:
+                    with open(fname, encoding='ISO-8859-1') as f:
+                        mdy = f.readline()[-9:-1]
+                        his = f.readline()[-9:-1]
+                        launch_time = pd.to_datetime(f'{mdy} {his}', format='%d/%m/%y %H:%M:%S')
+                except:
+                    raise UserWarning(f'Failed reading launch time : {fname}')
         return launch_time
     
     try:
