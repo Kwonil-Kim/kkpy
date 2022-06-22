@@ -1419,6 +1419,18 @@ def _read_sounding(filename):
         # df['WS'] = util.ms2knot(df['WS'])
         return df
 
+    def read_sounding_v3(filename):
+        df = pd.read_csv(filename,
+                         delim_whitespace=True,
+                         skiprows=10,
+                         on_bad_lines='skip',
+                         encoding='euc-kr'
+                        )
+        df = df.drop(['Time(mm:ss)', 'Asc(m/m)'], axis=1)
+        df.columns = ['P', 'T', 'RH', 'WS', 'WD', 'Lon', 'Lat', 'Alt','Geo', 'Dew']
+        df['WS'] = util.knot2ms(df['WS'])
+        return df
+    
     def clean_df(df):
         def to_float(x):
             try:
@@ -1459,7 +1471,10 @@ def _read_sounding(filename):
         try:
             df = read_sounding_v2(filename)
         except:
-            raise UserWarning(f'Cannot read this kind of format: {filename}')
+            try:
+                df = read_sounding_v3(filename)
+            except:
+                raise UserWarning(f'Cannot read this kind of format: {filename}')
 
     df = clean_df(df)
     df['U'], df['V'] = util.wind2uv(wd=df['WD'], ws=df['WS'])
