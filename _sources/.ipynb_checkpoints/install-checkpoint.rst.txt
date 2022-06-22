@@ -49,7 +49,6 @@ Update
    $ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 
 - If you get dependency errors, you can try the following before `pip install`:
-
 .. code-block:: bash
    :linenos:
 

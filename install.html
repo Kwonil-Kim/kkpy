@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>How to install KKpy &mdash; KKpy 0.5.1 documentation</title>
+  <title>How to install KKpy &mdash; KKpy 0.5.2 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.5.1
+                0.5.2
               </div>
             
           
@@ -181,9 +181,9 @@
 </ul>
 <div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ conda create -n <span class="si">${</span><span class="nv">env_name</span><span class="si">}</span> <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.7
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ conda create -n <span class="si">${</span><span class="nv">env_name</span><span class="si">}</span> <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8
 $ conda activate <span class="si">${</span><span class="nv">env_name</span><span class="si">}</span>
-$ conda install -c conda-forge cartopy arm_pyart gdal
+$ conda install -c conda-forge cartopy arm_pyart gdal numba
 </pre></div>
 </td></tr></table></div>
 <ul class="simple">
@@ -191,7 +191,7 @@ $ conda install -c conda-forge cartopy arm_pyart gdal
 </ul>
 <div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ conda activate <span class="si">${</span><span class="nv">env_name</span><span class="si">}</span>
-$ conda install -c conda-forge cartopy arm_pyart gdal
+$ conda install -c conda-forge cartopy arm_pyart gdal numba
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -219,6 +219,12 @@ $ conda install -c conda-forge cartopy arm_pyart gdal
 $ pip install --upgrade kkpy
 $ <span class="c1"># latest version</span>
 $ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li><p>If you get dependency errors, you can try the following before <cite>pip install</cite>:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ conda install -c conda-forge cartopy arm_pyart gdal numba
 </pre></div>
 </td></tr></table></div>
 </div>
