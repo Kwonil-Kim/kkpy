@@ -55,6 +55,7 @@ Miscellaneous
     kkpy.util.derivative
     kkpy.util.stats
     kkpy.util.summary
+    kkpy.util.get_intersect
 """
 import numpy as np
 
@@ -812,11 +813,11 @@ def stats(x, y,
     fmtbias : str, optional
         String format for BIAS. Default is '.3f'.
     fmtrmse : str, optional
-        String format for RMSE. Default is '.3f'.        
+        String format for RMSE. Default is '.3f'.
     fmtstd : str, optional
-        String format for STD. Default is '.3f'.        
+        String format for STD. Default is '.3f'.
     fmtcorr : str, optional
-        String format for CORR. Default is '.3f'.        
+        String format for CORR. Default is '.3f'.
 
     Returns
     ---------
@@ -887,7 +888,7 @@ def derivative(var, cnt_x, pixelsize=1, axis=0):
     
     >>> # This example gives the derivative of arr2d along x axis with a window size of 20.
     >>> # Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.
-    >>> dzdx = kkpy.util.derivative(arr2d, 20, pixelsize=3000, axis=1)
+    >>> dzdx = kkpy.util.derivative(arr2d, 11, pixelsize=3000, axis=1)
     
     Parameters
     ----------
@@ -1011,3 +1012,32 @@ def to_lower_resolution(arr_in, ratio_x, ratio_y, dBZ=False):
         arr_out = dbzmean(arr_out, axis=1)
     
     return arr_out
+
+def get_intersect(list_array):
+    """
+    Get intersection of multiple 1D arrays.
+    
+    Examples
+    ---------
+    >>> arr1 = np.array([0,1,2,4,5,6])
+    >>> arr2 = np.array([0,1,3,4,6])
+    >>> arr_inter = kkpy.util.get_intersect([arr1, arr2]) # [0,1,4,6]
+    
+    Parameters
+    ----------
+    list_array : array_like
+        List of 1D numpy arrays.
+        
+    Returns
+    ---------
+    intersection : array_like
+        Return an array with lower resolution.
+    
+    Notes
+    ---------
+    This code is based on Stack Exchange answer (https://codereview.stackexchange.com/a/145210), written by Peilonrayz (https://codereview.stackexchange.com/users/42401/peilonrayz).
+    This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).
+    """
+    from functools import reduce
+    intersection = reduce(np.intersect1d, list_array)
+    return intersection
