@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.util &mdash; KKpy 0.5.3 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.6.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.5.3
+                0.6.0
               </div>
             
           
@@ -318,6 +318,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.util.summary" title="kkpy.util.summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.summary</span></code></a>(arr[, cnt_print])</p></td>
 <td><p>Get summary of the array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.util.get_intersect" title="kkpy.util.get_intersect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.util.get_intersect</span></code></a>(list_array)</p></td>
+<td><p>Get intersection of multiple 1D arrays.</p></td>
 </tr>
 </tbody>
 </table>
@@ -851,7 +854,7 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># This example gives the derivative of arr2d along x axis with a window size of 20.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dzdx</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">pixelsize</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dzdx</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">arr2d</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">pixelsize</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -900,6 +903,32 @@ Modified by Kwonil Kim in November 2020: add docstring, modify function name</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>This code is from Stack Overflow answer (<a class="reference external" href="https://stackoverflow.com/a/14916963/12272819">https://stackoverflow.com/a/14916963/12272819</a>), written by Jaime (<a class="reference external" href="https://stackoverflow.com/users/110026/jaime">https://stackoverflow.com/users/110026/jaime</a>).
+This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.util.get_intersect">
+<code class="sig-prename descclassname"><span class="pre">kkpy.util.</span></code><code class="sig-name descname"><span class="pre">get_intersect</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/util.html#get_intersect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.util.get_intersect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get intersection of multiple 1D arrays.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr_inter</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">get_intersect</span><span class="p">([</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">])</span> <span class="c1"># [0,1,4,6]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list_array</strong> (<em>array_like</em>) – List of 1D numpy arrays.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>intersection</strong> – Return an array with lower resolution.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array_like</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This code is based on Stack Exchange answer (<a class="reference external" href="https://codereview.stackexchange.com/a/145210">https://codereview.stackexchange.com/a/145210</a>), written by Peilonrayz (<a class="reference external" href="https://codereview.stackexchange.com/users/42401/peilonrayz">https://codereview.stackexchange.com/users/42401/peilonrayz</a>).
 This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).</p>
 </dd></dl>
 

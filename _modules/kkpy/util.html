@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.util &mdash; KKpy 0.4.2 documentation</title>
+  <title>kkpy.util &mdash; KKpy 0.6.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.4.2
+                0.6.0
               </div>
             
           
@@ -221,6 +221,7 @@
 <span class="sd">    kkpy.util.derivative</span>
 <span class="sd">    kkpy.util.stats</span>
 <span class="sd">    kkpy.util.summary</span>
+<span class="sd">    kkpy.util.get_intersect</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -978,11 +979,11 @@
 <span class="sd">    fmtbias : str, optional</span>
 <span class="sd">        String format for BIAS. Default is &#39;.3f&#39;.</span>
 <span class="sd">    fmtrmse : str, optional</span>
-<span class="sd">        String format for RMSE. Default is &#39;.3f&#39;.        </span>
+<span class="sd">        String format for RMSE. Default is &#39;.3f&#39;.</span>
 <span class="sd">    fmtstd : str, optional</span>
-<span class="sd">        String format for STD. Default is &#39;.3f&#39;.        </span>
+<span class="sd">        String format for STD. Default is &#39;.3f&#39;.</span>
 <span class="sd">    fmtcorr : str, optional</span>
-<span class="sd">        String format for CORR. Default is &#39;.3f&#39;.        </span>
+<span class="sd">        String format for CORR. Default is &#39;.3f&#39;.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    ---------</span>
@@ -1053,7 +1054,7 @@
 <span class="sd">    </span>
 <span class="sd">    &gt;&gt;&gt; # This example gives the derivative of arr2d along x axis with a window size of 20.</span>
 <span class="sd">    &gt;&gt;&gt; # Assume that you have an arr2d[iy,ix] with horizontal resolution of 3 km.</span>
-<span class="sd">    &gt;&gt;&gt; dzdx = kkpy.util.derivative(arr2d, 20, pixelsize=3000, axis=1)</span>
+<span class="sd">    &gt;&gt;&gt; dzdx = kkpy.util.derivative(arr2d, 11, pixelsize=3000, axis=1)</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1177,6 +1178,35 @@
         <span class="n">arr_out</span> <span class="o">=</span> <span class="n">dbzmean</span><span class="p">(</span><span class="n">arr_out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">arr_out</span></div>
+
+<div class="viewcode-block" id="get_intersect"><a class="viewcode-back" href="../../util.html#kkpy.util.get_intersect">[docs]</a><span class="k">def</span> <span class="nf">get_intersect</span><span class="p">(</span><span class="n">list_array</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get intersection of multiple 1D arrays.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; arr1 = np.array([0,1,2,4,5,6])</span>
+<span class="sd">    &gt;&gt;&gt; arr2 = np.array([0,1,3,4,6])</span>
+<span class="sd">    &gt;&gt;&gt; arr_inter = kkpy.util.get_intersect([arr1, arr2]) # [0,1,4,6]</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    list_array : array_like</span>
+<span class="sd">        List of 1D numpy arrays.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    intersection : array_like</span>
+<span class="sd">        Return an array with lower resolution.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    ---------</span>
+<span class="sd">    This code is based on Stack Exchange answer (https://codereview.stackexchange.com/a/145210), written by Peilonrayz (https://codereview.stackexchange.com/users/42401/peilonrayz).</span>
+<span class="sd">    This is licensed under the Creative Commons Attribution-ShareAlike 3.0 license (CC BY-SA 3.0).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+    <span class="n">intersection</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">intersect1d</span><span class="p">,</span> <span class="n">list_array</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">intersection</span></div>
 </pre></div>
 
            </div>
