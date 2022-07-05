@@ -534,6 +534,10 @@ def get_fname(indir, pattern, dt, date_range=True, verbose=True):
                 # filename to datetime
                 candidate_dt = _fname2dt(candidate_fn, f'{indir}/{pattern}')
             
+            # check if any file found
+            if len(candidate_dt) == 0:
+                raise UserWarning('No matched file found')
+            
             # match with the datetime range
             lowest_dtfmt = _get_lowest_order_datetimeformat(pattern_fn)
             one_order_lower = {
@@ -554,6 +558,7 @@ def get_fname(indir, pattern, dt, date_range=True, verbose=True):
                 '%f': 0
             }
             lower_dtfmt = one_order_lower[lowest_dtfmt]
+            candidate_dt = np.array(candidate_dt)
             if int(datetime.datetime.strftime(dt[0], lower_dtfmt)) != default_dtvalue[lower_dtfmt]:
                 # Truncate unnecessary start time (eg. filename: 20180228, start_datetime: 20180228 13:00 --> 20180228 00:00)
                 dt0_trunc = _truncate_unnecessary_datetime(dt[0], lower_dtfmt)
