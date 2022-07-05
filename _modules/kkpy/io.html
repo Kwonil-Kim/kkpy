@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.6.0 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.6.1 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.6.1
               </div>
             
           
@@ -700,6 +700,10 @@
                 <span class="c1"># filename to datetime</span>
                 <span class="n">candidate_dt</span> <span class="o">=</span> <span class="n">_fname2dt</span><span class="p">(</span><span class="n">candidate_fn</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             
+            <span class="c1"># check if any file found</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidate_dt</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;No matched file found&#39;</span><span class="p">)</span>
+            
             <span class="c1"># match with the datetime range</span>
             <span class="n">lowest_dtfmt</span> <span class="o">=</span> <span class="n">_get_lowest_order_datetimeformat</span><span class="p">(</span><span class="n">pattern_fn</span><span class="p">)</span>
             <span class="n">one_order_lower</span> <span class="o">=</span> <span class="p">{</span>
@@ -720,6 +724,7 @@
                 <span class="s1">&#39;</span><span class="si">%f</span><span class="s1">&#39;</span><span class="p">:</span> <span class="mi">0</span>
             <span class="p">}</span>
             <span class="n">lower_dtfmt</span> <span class="o">=</span> <span class="n">one_order_lower</span><span class="p">[</span><span class="n">lowest_dtfmt</span><span class="p">]</span>
+            <span class="n">candidate_dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">candidate_dt</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lower_dtfmt</span><span class="p">))</span> <span class="o">!=</span> <span class="n">default_dtvalue</span><span class="p">[</span><span class="n">lower_dtfmt</span><span class="p">]:</span>
                 <span class="c1"># Truncate unnecessary start time (eg. filename: 20180228, start_datetime: 20180228 13:00 --&gt; 20180228 00:00)</span>
                 <span class="n">dt0_trunc</span> <span class="o">=</span> <span class="n">_truncate_unnecessary_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lower_dtfmt</span><span class="p">)</span>
