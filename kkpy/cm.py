@@ -373,7 +373,6 @@ def _ref_color():
      '#b40000', '#E6468C', '#7828a0',
      '#000000']
     cmap_colors = col.ListedColormap(colors)
-    plt.cm.register_cmap(name='knuref', cmap=cmap_colors)
     return cmap_colors
 
 def _ref_color_snow():
@@ -384,7 +383,6 @@ def _ref_color_snow():
      '#b40000', '#7828a0',
      '#000000']
     cmap_colors = col.ListedColormap(colors)
-    plt.cm.register_cmap(name='knuref', cmap=cmap_colors)
     return cmap_colors
 
 def _rain_color():
@@ -397,7 +395,6 @@ def _rain_color():
      '#c55aff', '#c234ff', '#ad07ff', '#9200e4', '#7f00bf',
      '#333333']
     cmap_colors = col.ListedColormap(colors)
-    plt.cm.register_cmap(name='knurain', cmap=cmap_colors)
     return cmap_colors
 
 def _rain_color_kma():
@@ -408,7 +405,6 @@ def _rain_color_kma():
      '#b40000', '#e0a9ff', '#cc6aff', '#b329ff', '#9300e4',
      '#b3b4de', '#4c4eb1', '#000390', '#333333']
     cmap_colors = col.ListedColormap(colors)
-    plt.cm.register_cmap(name='kmarain', cmap=cmap_colors)
     return cmap_colors
 
 def _rain_color_kma_aws():
@@ -421,7 +417,6 @@ def _rain_color_kma_aws():
      '#fa8585', '#f63e3e', '#ee0b0b', '#d50000', '#bf0000',
      '#333333']
     cmap_colors = col.ListedColormap(colors)
-    plt.cm.register_cmap(name='kmaawsrain', cmap=cmap_colors)
     return cmap_colors
 
 def _vel_color():
@@ -430,14 +425,12 @@ def _vel_color():
      '#ffff00', '#e6b400', '#ff9600', '#ff0000', '#b40000',
      '#e6468c', '#7828a0', '#000000']
     cmap_colors = col.ListedColormap(colors)
-    plt.cm.register_cmap(name='knuvel', cmap=cmap_colors)
     return cmap_colors
     
 def _vel_color_vpr_snow():
     colors =['#e6e6e6', '#005a00', '#007300', '#008c00', '#00be02', '#00f500', '#0000f5', '#0051f8', '#009bf5',
      '#00b2fa', '#00c8ff', '#646464', '#ffff00', '#ff9600', '#ff0000', '#b50000', '#7828a0']
     cmap_colors = col.ListedColormap(colors)
-    plt.cm.register_cmap(name='knuvel', cmap=cmap_colors)
     return cmap_colors
 
 def _wind_color():
@@ -468,7 +461,6 @@ def _wind_color():
               '#9e0094','#9c0097','#9a009a','#98009d','#9600a0','#9400a4','#9200a7','#9000aa','#8e00ad','#8c00b0',
               '#8a00b3','#8800b6','#8600b9','#8400bc','#8200bf','#8000c2']
     cmap_colors = col.ListedColormap(colors)
-    plt.cm.register_cmap(name='kkpywind', cmap=cmap_colors)
     return cmap_colors
 
 # LEVELS
