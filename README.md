@@ -59,6 +59,10 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.6.2
+### Fixed
+ - cm: Fix for matplotlib error concerning duplicated cmap registration
+
 ## 0.6.1
 ### Fixed
  - io: Fix for zero-sized candidate in `get_fname`
