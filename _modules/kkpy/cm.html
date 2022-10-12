@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.cm &mdash; KKpy 0.4.1 documentation</title>
+  <title>kkpy.cm &mdash; KKpy 0.6.2 documentation</title>
   
 
   
@@ -20,7 +20,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -33,7 +36,6 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/language_data.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -53,7 +55,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> KKpy
+            <a href="../../index.html" class="icon icon-home"> KKpy
           
 
           
@@ -63,7 +65,7 @@
             
             
               <div class="version">
-                0.4.1
+                0.6.2
               </div>
             
           
@@ -121,6 +123,8 @@
         <div class="rst-content">
         
           
+
+
 
 
 
@@ -535,7 +539,6 @@
      <span class="s1">&#39;#b40000&#39;</span><span class="p">,</span> <span class="s1">&#39;#E6468C&#39;</span><span class="p">,</span> <span class="s1">&#39;#7828a0&#39;</span><span class="p">,</span>
      <span class="s1">&#39;#000000&#39;</span><span class="p">]</span>
     <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuref&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
 
 <span class="k">def</span> <span class="nf">_ref_color_snow</span><span class="p">():</span>
@@ -546,7 +549,6 @@
      <span class="s1">&#39;#b40000&#39;</span><span class="p">,</span> <span class="s1">&#39;#7828a0&#39;</span><span class="p">,</span>
      <span class="s1">&#39;#000000&#39;</span><span class="p">]</span>
     <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuref&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
 
 <span class="k">def</span> <span class="nf">_rain_color</span><span class="p">():</span>
@@ -559,7 +561,6 @@
      <span class="s1">&#39;#c55aff&#39;</span><span class="p">,</span> <span class="s1">&#39;#c234ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#ad07ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#9200e4&#39;</span><span class="p">,</span> <span class="s1">&#39;#7f00bf&#39;</span><span class="p">,</span>
      <span class="s1">&#39;#333333&#39;</span><span class="p">]</span>
     <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knurain&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
 
 <span class="k">def</span> <span class="nf">_rain_color_kma</span><span class="p">():</span>
@@ -570,7 +571,6 @@
      <span class="s1">&#39;#b40000&#39;</span><span class="p">,</span> <span class="s1">&#39;#e0a9ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#cc6aff&#39;</span><span class="p">,</span> <span class="s1">&#39;#b329ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#9300e4&#39;</span><span class="p">,</span>
      <span class="s1">&#39;#b3b4de&#39;</span><span class="p">,</span> <span class="s1">&#39;#4c4eb1&#39;</span><span class="p">,</span> <span class="s1">&#39;#000390&#39;</span><span class="p">,</span> <span class="s1">&#39;#333333&#39;</span><span class="p">]</span>
     <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;kmarain&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
 
 <span class="k">def</span> <span class="nf">_rain_color_kma_aws</span><span class="p">():</span>
@@ -583,7 +583,6 @@
      <span class="s1">&#39;#fa8585&#39;</span><span class="p">,</span> <span class="s1">&#39;#f63e3e&#39;</span><span class="p">,</span> <span class="s1">&#39;#ee0b0b&#39;</span><span class="p">,</span> <span class="s1">&#39;#d50000&#39;</span><span class="p">,</span> <span class="s1">&#39;#bf0000&#39;</span><span class="p">,</span>
      <span class="s1">&#39;#333333&#39;</span><span class="p">]</span>
     <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;kmaawsrain&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
 
 <span class="k">def</span> <span class="nf">_vel_color</span><span class="p">():</span>
@@ -592,14 +591,12 @@
      <span class="s1">&#39;#ffff00&#39;</span><span class="p">,</span> <span class="s1">&#39;#e6b400&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff9600&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span> <span class="s1">&#39;#b40000&#39;</span><span class="p">,</span>
      <span class="s1">&#39;#e6468c&#39;</span><span class="p">,</span> <span class="s1">&#39;#7828a0&#39;</span><span class="p">,</span> <span class="s1">&#39;#000000&#39;</span><span class="p">]</span>
     <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuvel&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
     
 <span class="k">def</span> <span class="nf">_vel_color_vpr_snow</span><span class="p">():</span>
     <span class="n">colors</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;#e6e6e6&#39;</span><span class="p">,</span> <span class="s1">&#39;#005a00&#39;</span><span class="p">,</span> <span class="s1">&#39;#007300&#39;</span><span class="p">,</span> <span class="s1">&#39;#008c00&#39;</span><span class="p">,</span> <span class="s1">&#39;#00be02&#39;</span><span class="p">,</span> <span class="s1">&#39;#00f500&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000f5&#39;</span><span class="p">,</span> <span class="s1">&#39;#0051f8&#39;</span><span class="p">,</span> <span class="s1">&#39;#009bf5&#39;</span><span class="p">,</span>
      <span class="s1">&#39;#00b2fa&#39;</span><span class="p">,</span> <span class="s1">&#39;#00c8ff&#39;</span><span class="p">,</span> <span class="s1">&#39;#646464&#39;</span><span class="p">,</span> <span class="s1">&#39;#ffff00&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff9600&#39;</span><span class="p">,</span> <span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span> <span class="s1">&#39;#b50000&#39;</span><span class="p">,</span> <span class="s1">&#39;#7828a0&#39;</span><span class="p">]</span>
     <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;knuvel&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
 
 <span class="k">def</span> <span class="nf">_wind_color</span><span class="p">():</span>
@@ -630,7 +627,6 @@
               <span class="s1">&#39;#9e0094&#39;</span><span class="p">,</span><span class="s1">&#39;#9c0097&#39;</span><span class="p">,</span><span class="s1">&#39;#9a009a&#39;</span><span class="p">,</span><span class="s1">&#39;#98009d&#39;</span><span class="p">,</span><span class="s1">&#39;#9600a0&#39;</span><span class="p">,</span><span class="s1">&#39;#9400a4&#39;</span><span class="p">,</span><span class="s1">&#39;#9200a7&#39;</span><span class="p">,</span><span class="s1">&#39;#9000aa&#39;</span><span class="p">,</span><span class="s1">&#39;#8e00ad&#39;</span><span class="p">,</span><span class="s1">&#39;#8c00b0&#39;</span><span class="p">,</span>
               <span class="s1">&#39;#8a00b3&#39;</span><span class="p">,</span><span class="s1">&#39;#8800b6&#39;</span><span class="p">,</span><span class="s1">&#39;#8600b9&#39;</span><span class="p">,</span><span class="s1">&#39;#8400bc&#39;</span><span class="p">,</span><span class="s1">&#39;#8200bf&#39;</span><span class="p">,</span><span class="s1">&#39;#8000c2&#39;</span><span class="p">]</span>
     <span class="n">cmap_colors</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">register_cmap</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;kkpywind&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cmap_colors</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmap_colors</span>
 
 <span class="c1"># LEVELS</span>
@@ -670,28 +666,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020-2021, Kwonil Kim
+        &#169; Copyright 2020-2021, Kwonil Kim.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
