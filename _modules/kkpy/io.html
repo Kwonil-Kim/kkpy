@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.6.2 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.7.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.6.2
+                0.7.0
               </div>
             
           
@@ -183,6 +183,7 @@
 <span class="sd">    kkpy.io.read_vet</span>
 <span class="sd">    kkpy.io.read_hsr</span>
 <span class="sd">    kkpy.io.read_d3d</span>
+<span class="sd">    kkpy.io.read_r3d</span>
 <span class="sd">    kkpy.io.read_sounding</span>
 <span class="sd">    kkpy.io.read_lidar_wind</span>
 <span class="sd">    kkpy.io.read_wpr_kma</span>
@@ -1387,7 +1388,7 @@
 <span class="sd">    </span>
 <span class="sd">    Examples</span>
 <span class="sd">    ---------</span>
-<span class="sd">    &gt;&gt;&gt; ds_vet = kkpy.io.read_hsr(fnames)</span>
+<span class="sd">    &gt;&gt;&gt; ds_hsr = kkpy.io.read_hsr(fnames)</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1631,6 +1632,242 @@
         <span class="p">}</span>
     <span class="p">)</span>
     
+    <span class="k">return</span> <span class="n">ds</span>
+
+<div class="viewcode-block" id="read_r3d"><a class="viewcode-back" href="../../io.html#kkpy.io.read_r3d">[docs]</a><span class="k">def</span> <span class="nf">read_r3d</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;nc&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read WRC R3D product.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; ds_r3d = kkpy.io.read_r3d(fnames)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of R3D product to read. Variables in all files must be of the same type.</span>
+<span class="sd">    kind : str, optional</span>
+<span class="sd">        Data format. Possible options are &#39;nc&#39; and &#39;bin&#39;. Default is &#39;nc&#39;.</span>
+
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; ds_r3d = kkpy.io.read_r3d(&#39;RDR_R3D_EXT_KD_202301011740.nc&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; ds_r3d = kkpy.io.read_r3d(&#39;RDR_R3D_EXT_HCI_202007010950.bin.gz&#39;, kind=&#39;bin&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; ds_r3d = kkpy.io.read_r3d([&#39;RDR_R3D_EXT_CZ_202007010740.bin.gz&#39;,&#39;RDR_R3D_EXT_CZ_202007010745.bin.gz&#39;], kind=&#39;bin&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : str or array_like</span>
+<span class="sd">        Filename(s) of WISSDOM to read.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ds : xarray dataset object</span>
+<span class="sd">        Return WRC R3D product dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+    <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;nc&#39;</span><span class="p">]:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">_read_r3d_nc</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+        
+    <span class="k">elif</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;bin&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="n">dss</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+                <span class="n">dss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_read_r3d_bin</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">combine_nested</span><span class="p">(</span><span class="n">dss</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ds</span> <span class="o">=</span> <span class="n">_read_r3d_bin</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not supported: kind=</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ds</span></div>
+
+<span class="k">def</span> <span class="nf">_read_r3d_nc</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+    <span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+    
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s1">&#39;nested&#39;</span><span class="p">)</span>
+    
+    <span class="n">fnames</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+        <span class="n">fnames</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;_CZ&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;reflectivity&#39;</span>
+    <span class="k">elif</span> <span class="s1">&#39;_DR&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;differential_reflectivity&#39;</span>
+    <span class="k">elif</span> <span class="s1">&#39;_KD&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;specific_differential_phase&#39;</span>
+    <span class="k">elif</span> <span class="s1">&#39;_RH&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;CopolarCorrelation&#39;</span>
+    <span class="k">elif</span> <span class="s1">&#39;_HCI&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;radar_echo_classification&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;Variable type is not recognized&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span>
+        <span class="n">central_longitude</span><span class="o">=</span><span class="mf">126.0</span><span class="p">,</span>
+        <span class="n">central_latitude</span><span class="o">=</span><span class="mf">38.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="mi">440500</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="mi">770500</span><span class="p">,</span>
+        <span class="n">standard_parallels</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">dataminus</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data_minus</span>
+    <span class="n">datascale</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data_scale</span>
+    <span class="n">dataout</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">data_out</span>
+
+    <span class="c1"># ds[&#39;x&#39;] = ds.grid_nx * ds.grid_size</span>
+    <span class="c1"># ds[&#39;y&#39;] = ds.grid_ny * ds.grid_size</span>
+    <span class="c1"># ds = ds.set_coords((&quot;height&quot;)) # variable to coord</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+        <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span><span class="n">varname</span><span class="p">}</span>
+    <span class="p">)</span>
+    
+    <span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">==</span> <span class="n">dataout</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">-</span><span class="n">dataminus</span><span class="p">)</span><span class="o">/</span><span class="n">datascale</span>
+    
+    <span class="k">if</span> <span class="n">fnames</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fn</span><span class="p">)[</span><span class="o">-</span><span class="mi">15</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">15</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">])]</span>
+    
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename_dims</span><span class="p">({</span><span class="s1">&#39;nx&#39;</span><span class="p">:</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;ny&#39;</span><span class="p">:</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;nz&#39;</span><span class="p">:</span><span class="s1">&#39;z&#39;</span><span class="p">})</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">grid_nx</span><span class="p">)</span><span class="o">*</span><span class="n">ds</span><span class="o">.</span><span class="n">grid_size</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">grid_size</span><span class="p">)),</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">grid_ny</span><span class="p">)</span><span class="o">*</span><span class="n">ds</span><span class="o">.</span><span class="n">grid_size</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">grid_size</span><span class="p">)),</span>
+        <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;z&quot;</span><span class="p">],</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]),</span>
+        <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;t&quot;</span><span class="p">],</span> <span class="n">times</span><span class="p">),</span>
+    <span class="p">})</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">)</span>
+    
+    <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;R3D product generated by KMA&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;time_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;KST&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">proj</span><span class="o">.</span><span class="n">proj4_init</span><span class="p">,</span>
+        <span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">proj</span><span class="p">,</span>
+    <span class="p">}</span>
+            
+    <span class="k">return</span> <span class="n">ds</span>
+
+<span class="k">def</span> <span class="nf">_read_r3d_bin</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+    <span class="kn">import</span> <span class="nn">gzip</span>
+    
+    <span class="k">def</span> <span class="nf">bin2str</span><span class="p">(</span><span class="n">binary</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">binary</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">timestr2dt</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">hh</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">ss</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">fname</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">yy</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="n">dd</span><span class="p">,</span><span class="n">hh</span><span class="p">,</span><span class="n">mi</span><span class="p">,</span><span class="n">ss</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;_CZ&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;reflectivity&#39;</span>
+    <span class="k">elif</span> <span class="s1">&#39;_DR&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;differential_reflectivity&#39;</span>
+    <span class="k">elif</span> <span class="s1">&#39;_KD&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;specific_differential_phase&#39;</span>
+    <span class="k">elif</span> <span class="s1">&#39;_RH&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;CopolarCorrelation&#39;</span>
+    <span class="k">elif</span> <span class="s1">&#39;_HCI&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">varname</span> <span class="o">=</span> <span class="s1">&#39;radar_echo_classification&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;Variable type is not recognized&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">version</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">ptype</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">tm</span>         <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+        <span class="n">tm_in</span>      <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+        <span class="n">num_stn</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">map_code</span>   <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">map_etc</span>    <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">nx</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">ny</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">nz</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">dxy</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">dz</span>         <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">z_min</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">num_data</span>   <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">dz2</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">z_min2</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_out</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_in</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_min</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_minus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># short</span>
+        <span class="n">data_unit</span>  <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># char</span>
+        <span class="n">etc</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span> <span class="c1"># short</span>
+        
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">48</span><span class="p">):</span>
+            <span class="n">stn_cd</span> <span class="o">=</span> <span class="n">bin2str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span> <span class="c1"># char</span>
+            <span class="n">_tm</span>    <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+            <span class="n">_tm_in</span> <span class="o">=</span> <span class="n">timestr2dt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="c1"># struct</span>
+        
+        <span class="n">data</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+
+    <span class="n">r3d_1d_scaled</span>   <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">&amp;</span> <span class="mh">0x07FF</span><span class="p">)</span>
+    <span class="n">mask_outside_1d</span> <span class="o">=</span> <span class="p">(</span><span class="n">r3d_1d_scaled</span> <span class="o">==</span> <span class="n">data_out</span><span class="p">)</span>
+    <span class="n">mask_qced_1d</span>    <span class="o">=</span> <span class="p">(</span><span class="n">r3d_1d_scaled</span> <span class="o">==</span> <span class="n">data_in</span><span class="p">)</span>
+    <span class="n">r3d_1d</span> <span class="o">=</span> <span class="p">(</span><span class="n">r3d_1d_scaled</span> <span class="o">-</span> <span class="n">data_minus</span><span class="p">)</span><span class="o">/</span><span class="n">data_scale</span>
+
+    <span class="n">_r3d</span> <span class="o">=</span> <span class="n">r3d_1d</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+    <span class="n">mask_outside</span>      <span class="o">=</span> <span class="n">mask_outside_1d</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+    <span class="n">mask_qced</span>         <span class="o">=</span> <span class="n">mask_qced_1d</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nz</span><span class="p">,</span><span class="n">ny</span><span class="p">,</span><span class="n">nx</span><span class="p">)</span>
+    <span class="n">_r3d</span><span class="p">[</span><span class="n">mask_outside</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9999</span>
+    <span class="n">_r3d</span><span class="p">[</span><span class="n">mask_qced</span><span class="p">]</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">9998</span>
+
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span>
+        <span class="n">central_longitude</span><span class="o">=</span><span class="mf">126.0</span><span class="p">,</span>
+        <span class="n">central_latitude</span><span class="o">=</span><span class="mf">38.0</span><span class="p">,</span>
+        <span class="n">false_easting</span><span class="o">=</span><span class="mi">440500</span><span class="p">,</span>
+        <span class="n">false_northing</span><span class="o">=</span><span class="mi">770500</span><span class="p">,</span>
+        <span class="n">standard_parallels</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># DEFINE DATASET</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="n">varname</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;t&quot;</span><span class="p">,</span><span class="s2">&quot;z&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">_r3d</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]),</span>
+        <span class="p">},</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="n">dxy</span><span class="p">,</span> <span class="n">dxy</span><span class="p">)),</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span><span class="o">*</span><span class="n">dxy</span><span class="p">,</span> <span class="n">dxy</span><span class="p">)),</span>
+            <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;z&quot;</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">(</span><span class="n">nz</span><span class="p">)</span><span class="o">*</span><span class="n">dz</span><span class="p">,</span> <span class="n">dz</span><span class="p">)),</span>
+            <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;t&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">19</span><span class="p">:</span><span class="o">-</span><span class="mi">7</span><span class="p">])]),</span>
+        <span class="p">},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;R3D product generated by KMA&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;time_unit&#39;</span><span class="p">:</span> <span class="s1">&#39;KST&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">proj</span><span class="o">.</span><span class="n">proj4_init</span><span class="p">,</span>
+            <span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="n">proj</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
     <span class="k">return</span> <span class="n">ds</span>
 
 <div class="viewcode-block" id="read_sounding"><a class="viewcode-back" href="../../io.html#kkpy.io.read_sounding">[docs]</a><span class="k">def</span> <span class="nf">read_sounding</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>

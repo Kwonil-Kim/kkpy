@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>kkpy.io &mdash; KKpy 0.6.2 documentation</title>
+  <title>kkpy.io &mdash; KKpy 0.7.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.6.2
+                0.7.0
               </div>
             
           
@@ -206,22 +206,25 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_d3d" title="kkpy.io.read_d3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_d3d</span></code></a>(fnames)</p></td>
 <td><p>Read WRC D3D product.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_sounding" title="kkpy.io.read_sounding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_sounding</span></code></a>(fnames)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_r3d" title="kkpy.io.read_r3d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_r3d</span></code></a>(fnames[, kind])</p></td>
+<td><p>Read WRC R3D product.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_sounding" title="kkpy.io.read_sounding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_sounding</span></code></a>(fnames)</p></td>
 <td><p>Read sounding.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_lidar_wind" title="kkpy.io.read_lidar_wind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_lidar_wind</span></code></a>(fnames, ftimes[, dropna])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_lidar_wind" title="kkpy.io.read_lidar_wind"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_lidar_wind</span></code></a>(fnames, ftimes[, dropna])</p></td>
 <td><p>Read lidar wind profile.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_wpr_kma" title="kkpy.io.read_wpr_kma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_wpr_kma</span></code></a>(fnames, ftimes[, dropna])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_wpr_kma" title="kkpy.io.read_wpr_kma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_wpr_kma</span></code></a>(fnames, ftimes[, dropna])</p></td>
 <td><p>Read KMA wind profiler.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_pluvio_raw" title="kkpy.io.read_pluvio_raw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_pluvio_raw</span></code></a>(fnames[, dropna])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_pluvio_raw" title="kkpy.io.read_pluvio_raw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_pluvio_raw</span></code></a>(fnames[, dropna])</p></td>
 <td><p>Read pluvio raw data.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd" title="kkpy.io.read_2dvd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd</span></code></a>(fnames[, verbose])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_2dvd" title="kkpy.io.read_2dvd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_2dvd</span></code></a>(fnames[, verbose])</p></td>
 <td><p>Read 2DVD ascii file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kkpy.io.read_wxt520" title="kkpy.io.read_wxt520"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_wxt520</span></code></a>(fnames[, verbose])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kkpy.io.read_wxt520" title="kkpy.io.read_wxt520"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kkpy.io.read_wxt520</span></code></a>(fnames[, verbose])</p></td>
 <td><p>Read WXT520 ascii file.</p></td>
 </tr>
 </tbody>
@@ -507,7 +510,7 @@ Note that the time efficiency for ‘extensive’ is low when kind=’KMAbin’.
 <code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_hsr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_hsr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_hsr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read WRC HSR reflectivity.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds_vet</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_hsr</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds_hsr</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_hsr</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -537,6 +540,38 @@ Note that the time efficiency for ‘extensive’ is low when kind=’KMAbin’.
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>ds</strong> – Return WRC D3D product dataset.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xarray dataset object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kkpy.io.read_r3d">
+<code class="sig-prename descclassname"><span class="pre">kkpy.io.</span></code><code class="sig-name descname"><span class="pre">read_r3d</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nc'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kkpy/io.html#read_r3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kkpy.io.read_r3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read WRC R3D product.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds_r3d</span> <span class="o">=</span> <span class="n">kkpy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_r3d</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fnames</strong> (<em>str</em><em> or </em><em>array_like</em>) – Filename(s) of R3D product to read. Variables in all files must be of the same type.</p></li>
+<li><p><strong>kind</strong> (<em>str</em><em>, </em><em>optional</em>) – Data format. Possible options are ‘nc’ and ‘bin’. Default is ‘nc’.</p></li>
+<li><p><strong>---------</strong> – </p></li>
+<li><p><strong>ds_r3d = kkpy.io.read_r3d</strong><strong>(</strong><strong>'RDR_R3D_EXT_KD_202301011740.nc'</strong><strong>)</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>ds_r3d = kkpy.io.read_r3d</strong><strong>(</strong><strong>'RDR_R3D_EXT_HCI_202007010950.bin.gz'</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>kind='bin'</strong><strong>)</strong> – </p></li>
+<li><p><strong>ds_r3d = kkpy.io.read_r3d</strong><strong>(</strong><strong>[</strong><strong>'RDR_R3D_EXT_CZ_202007010740.bin.gz'</strong> (<em>&gt;&gt;&gt;</em>) – </p></li>
+<li><p><strong>'RDR_R3D_EXT_CZ_202007010745.bin.gz'</strong><strong>]</strong> – </p></li>
+<li><p><strong>kind='bin'</strong><strong>)</strong> – </p></li>
+<li><p><strong>fnames</strong> – Filename(s) of WISSDOM to read.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ds</strong> – Return WRC R3D product dataset.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>xarray dataset object</p>
