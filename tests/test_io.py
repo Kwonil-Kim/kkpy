@@ -115,6 +115,41 @@ def test_read_d3d():
         assert pd.to_datetime(ds['t'].values[0]) == datetime.datetime(2021,6,4,0,0)
         assert isinstance(ds.projection, ccrs.LambertConformal)
         
+def test_read_r3d():
+    list_fname = [
+        '/disk/STORAGE/OBS/Radar/CAPPI/3D_CAPPI/KMA/COMP/202302/10/RDR_R3D_EXT_RH_202302100300.nc',
+        '/disk/STORAGE/OBS/Radar/CAPPI/3D_CAPPI/KMA/COMP/202302/10/RDR_R3D_EXT_HCI_202302100300.nc',
+        '/disk/STORAGE/OBS/Radar/CAPPI/3D_CAPPI/KMA/COMP/201905/19/RDR_R3D_KMA_CZ_201905191400.bin.gz',
+        [
+            '/disk/STORAGE/OBS/Radar/CAPPI/3D_CAPPI/KMA/COMP/202302/10/RDR_R3D_EXT_RH_202302100300.nc',
+            '/disk/STORAGE/OBS/Radar/CAPPI/3D_CAPPI/KMA/COMP/202302/10/RDR_R3D_EXT_RH_202302100310.nc'
+        ]
+    ]
+    
+    expected = [
+        [2049, 2049, 210, 1, 'CopolarCorrelation'],
+        [2049, 2049, 210, 1, 'radar_echo_classification'],
+        [2049, 2049, 200, 1, 'reflectivity'],
+        [2049, 2049, 210, 2, 'CopolarCorrelation'],
+    ]
+    
+    for i_test, fname in enumerate(list_fname):
+        if i_test != 2:
+            ds = kkpy.io.read_r3d(fname)
+        else:
+            ds = kkpy.io.read_r3d(fname, kind='bin')
+        assert isinstance(ds, xr.core.dataset.Dataset)
+        assert ds.x.size == expected[i_test][0]
+        assert ds.y.size == expected[i_test][1]
+        assert ds.z.size == expected[i_test][2]
+        assert ds.t.size == expected[i_test][3]
+        assert list(ds.variables.keys())[0] == expected[i_test][4]
+        assert isinstance(ds[list(ds.variables.keys())[0]], xr.core.dataarray.DataArray)
+        assert isinstance(ds['t'].values[0], (datetime.date,np.datetime64))
+        if i_test != 2:
+            assert pd.to_datetime(ds['t'].values[0]) == datetime.datetime(2023,2,10,3,0)
+        assert isinstance(ds.projection, ccrs.LambertConformal)
+        
 def test_read_sounding():
     list_fname = [
         '/disk/STORAGE/OBS/SONDE/KMA/202108/20/UPP_RAW_47102_2021082000.txt',
