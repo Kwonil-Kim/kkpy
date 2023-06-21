@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='kkpy',
-    version='0.7.0',
+    version='0.7.1',
     packages=['kkpy'],
     package_dir={'kkpy': 'kkpy'},
     package_data={'kkpy': ['SHP/*']},

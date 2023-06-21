@@ -59,6 +59,11 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.7.1
+### Fixed
+ - util: Fix hard-coded format string in `stats`
+ - util: Fix to support pandas series with different indices in `stats`
+
 ## 0.7.0
 ### Added
  - io: `read_r3d`
