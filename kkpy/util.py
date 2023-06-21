@@ -829,10 +829,10 @@ def stats(x, y,
     bias = np.nanmean(y - x)
     rmse = np.nanmean((y - x) ** 2)**0.5
     std = np.nanstd(y - x)
-    corr = pd.Series(x).corr(pd.Series(y))
+    corr = pd.Series(x).reset_index(drop=True).corr(pd.Series(y).reset_index(drop=True))
     
     stats = [bias, rmse, std, corr]
-    str_stat = f'BIAS={bias:.3f}\nRMSE={rmse:.3f}\nSTD={std:.3f}\nCORR={corr:.3f}'
+    str_stat = f'BIAS={bias:{fmtbias}}\nRMSE={rmse:{fmtrmse}}\nSTD={std:{fmtstd}}\nCORR={corr:{fmtcorr}}'
     
     return stats, str_stat
 
