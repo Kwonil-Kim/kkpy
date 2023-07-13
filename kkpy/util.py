@@ -359,7 +359,7 @@ def dist_bearing(lonlat0, lonlat1, radians=False, ref=False):
     radians : boolean, optional
         If this is set to True, the unit of *bearing* is **radian**. The default is False (i.e. **degree**).
     ref     : boolean, optional
-        If this is set to True, lonlat is located at (0, 0). The default is False.
+        If this is set to True, lonlat0 is located at (0, 0). The default is False.
         
     Returns
     ---------
