@@ -342,7 +342,7 @@ def proj_icepop():
                                  globe=globe)
     return proj
 
-def dist_bearing(lonlat0, lonlat1, radians=False):
+def dist_bearing(lonlat0, lonlat1, radians=False, ref=False):
     """
     Get distance [km] and bearing [deg] between two lon/lat points.
     
@@ -358,6 +358,8 @@ def dist_bearing(lonlat0, lonlat1, radians=False):
         Array containing longitude and latitude of the second point. Longitude (latitude) should be at the first (second) element.
     radians : boolean, optional
         If this is set to True, the unit of *bearing* is **radian**. The default is False (i.e. **degree**).
+    ref     : boolean, optional
+        If this is set to True, lonlat0 is located at (0, 0). The default is False.
         
     Returns
     ---------
@@ -388,6 +390,18 @@ def dist_bearing(lonlat0, lonlat1, radians=False):
     if not radians:
         bearing = np.degrees(bearing)
     
+    if ref:
+        if bearing >= 0:
+            if lat0 <= lat1:
+                bearing = bearing
+            else:
+                bearing += 180
+        else:
+            if lat0 >= lat1:
+                bearing += 180
+            else:
+                bearing += 360                     
+            
     return dist, bearing
 
 def nanconvolve2d(slab, kernel, max_missing=0.99):
