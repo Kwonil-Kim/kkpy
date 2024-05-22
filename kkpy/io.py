@@ -34,7 +34,7 @@ import glob
 import os
 import sys
 
-def read_aws(time, date_range=True, datadir='/disk/STORAGE/OBS/AWS/', stnid=None, dask=True):
+def read_aws(time, date_range=True, datadir='/disk/STORAGE/OBS/AWS/', stnid=None, dask=True, **kwargs_read_csv):
     """
     Read AWS (AWS_MIN).
     
@@ -59,6 +59,8 @@ def read_aws(time, date_range=True, datadir='/disk/STORAGE/OBS/AWS/', stnid=None
         List of station id you want to read. Read all site if None.
     dask : boolean, optional
         Return a dask dataframe if True, otherwise return a pandas dataframe.
+    **kwargs_read_csv : dict, optional
+        Keyword arguments for dask.dataframe.read_csv
         
     Returns
     ---------
@@ -120,7 +122,7 @@ def read_aws(time, date_range=True, datadir='/disk/STORAGE/OBS/AWS/', stnid=None
              'R60mAcc', 'R1d', 'R15m', 'R60m',
              'WDS', 'WSS', 'dummy']
     
-    df_aws = dd.read_csv(filearr.tolist(), delimiter='#', names=names, header=None, na_values=[-999,-997])
+    df_aws = dd.read_csv(filearr.tolist(), delimiter='#', names=names, header=None, na_values=[-999,-997], **kwargs_read_csv)
     df_aws = df_aws.drop('dummy', axis=1)
     df_aws.WD      = df_aws.WD/10.
     df_aws.WS      = df_aws.WS/10.
