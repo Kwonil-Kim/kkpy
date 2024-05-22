@@ -9,6 +9,7 @@ Colormaps for my research
 wind
 
 .. autosummary::
+    kkpy.cm.load_rdr_colorbar
     kkpy.cm.refl
     kkpy.cm.doppler
     kkpy.cm.zdr
@@ -24,6 +25,106 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as col
 import copy
+
+def load_rdr_colorbar(varname):
+    """
+    Load radar colorbar by varname.
+    
+    Examples
+    ---------
+    >>> cmap = kkpy.cm.load_rdr_colorbar('reflectivity') # equivalent to kkpy.cm.refl()
+    >>> # cmap = kkpy.cm.load_rdr_colorbar('equivalent_reflectivity') # equivalent to kkpy.cm.refl()
+    >>> # cmap = kkpy.cm.load_rdr_colorbar('reflectivity_factor') # equivalent to kkpy.cm.refl()
+    >>> # cmap = kkpy.cm.load_rdr_colorbar('ZH') # equivalent to kkpy.cm.refl()
+    >>> # cmap = kkpy.cm.load_rdr_colorbar('zh') # equivalent to kkpy.cm.refl()
+    >>> # cmap = kkpy.cm.load_rdr_colorbar('ZHH') # equivalent to kkpy.cm.refl()
+    >>> # cmap = kkpy.cm.load_rdr_colorbar('DBZ') # equivalent to kkpy.cm.refl()
+    >>> pm = ax.pcolormesh(lon2d, lat2d, ref2d.T, cmap=cmap['cmap'], norm=cmap['norm'])
+    >>> plt.colorbar(pm, ticks=cmap['ticks'])
+    
+    Parameters
+    ----------
+    varname : str
+        Radar variable name (case-insensitive).
+
+    Returns
+    ---------
+    dict_cmap : dictionary
+        'cmap': matplotlib colormap
+        'norm': color tick levels for plot
+        'ticks': color tick levels for colorbar
+    """
+
+    refl_varnames = [
+        'zhh', 'zh', 'zhv', 'zvh', 'zvv', 'zv', 'dbzh', 'dbzv', 'dbzhv', 'dbzc',
+        'reflectivity', 'reflectivity_factor', 'equivalent_reflectivity',
+        'reflectivity_h', 'reflectivity_v', 'reflectivity_hv', 'reflectivity_vh',
+        'reflectivity_horizontal', 'reflectivity_vertical',
+        # CfRadial v1.5 standard names
+        'equivalent_reflectivity_factor', 'dbz',
+        'corrected_equivalent_reflectivity_factor', 'dbzc'
+    ]
+    if varname.lower() in refl_varnames:
+        return refl()
+
+    doppler_varnames = [
+        'vr', 'vd', 'velh', 'velv', 'vh', 'vv', 'v_h', 'v_v',
+        'velocity', 'doppler_velocity', 'doppler',
+        'radial_velocity', 'radial_doppler_velocity',
+        # CfRadial v1.5 standard names
+        'radial_velocity_of_scatters_away_from_instrument', 'vel'
+        'corrected_radial_velocity_of_scatters_away_from_instrument', 'velc'
+    ]
+    if varname.lower() in doppler_varnames:
+        return doppler()
+    
+    sw_varnames = [
+        'sw', 'spectrum_width', 'widthh', 'widthv', 'spectral_width'
+        # CfRadial v1.5 standard names
+        'doppler_spectrum_width', 'width'
+    ]
+    if varname.lower() in sw_varnames:
+        return sw()
+    
+    zdr_varnames = [
+        'dr',
+        'differential_reflectivity', 'differential_reflectivity_hv', 
+        # CfRadial v1.5 standard names
+        'log_differential_reflectivity_hv', 'zdr'
+        'corrected_log_differential_reflectivity_hv', 'zdrc'
+    ]
+    if varname.lower() in zdr_varnames:
+        return zdr()
+
+    # phidp_varnames = [
+    #     'pdp', 'ph', 'phihx',
+    #     'differential_phase', 'cross_polar_differential_phase',
+    #     # CfRadial v1.5 standard names
+    #     'differential_phase_hv', 'phidp'
+    # ]
+    # if varname.lower() in phidp_varnames:
+    #     return phidp()
+
+    kdpdp_varnames = [
+        'kd',
+        'specific_differential_phase',
+        # CfRadial v1.5 standard names
+        'specific_differential_phase_hv', 'kdp'
+    ]
+    if varname.lower() in kdp_varnames:
+        return kdp()
+
+    rhohv_varnames = [
+        'rh', 'rhv',
+        'cross_correlation_ratio',
+        # CfRadial v1.5 standard names
+        'cross_correlation_ratio_hv', 'rhohv'
+        'co_to_cross_polar_correlation_ratio_h', 'rhohx'
+        'co_to_cross_polar_correlation_ratio_v', 'rhoxv'
+    ]
+    if varname.lower() in rhohv_varnames:
+        return rhohv()
+
 
 def refl(levels=None, snow=False):
     """
