@@ -1014,7 +1014,8 @@ def _read_wissdom_KMAbin(fname, degree='essential'):
         ds['div'] = (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(div,0,2),0,1),0))
         ds['vor'] = (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(vor,0,2),0,1),0))
     if degree in ['debug']:
-        pass
+        ds['dbz'] = (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(dbz,0,2),0,1),0))
+        ds['vt'] = (["NT","ny","nx","nz"], np.expand_dims(np.swapaxes(np.swapaxes(vt,0,2),0,1),0))
     
     ds['proj'] = _get_proj_from_KMAwissdom()
     
