@@ -59,6 +59,13 @@ pip install --upgrade git+https://github.com/Kwonil-Kim/kkpy
 ![list_cmaps](https://kwonil-kim.github.io/kkpy/_images/sphx_glr_plot_cmap_001.png)
 
 # Changelog
+## 0.7.2
+### Added
+ - cm: `load_rdr_colorbar`
+### Fixed
+ - io: Add `**kwargs_read_csv` option in `read_aws`
+ - io: Fix to read dbz and vt when kind=debug in `_read_wissdom_KMAbin`
+
 ## 0.7.1
 ### Fixed
  - util: Fix hard-coded format string in `stats`
